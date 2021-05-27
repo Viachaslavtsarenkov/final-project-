@@ -14,8 +14,6 @@ public class GoToIndexPage implements Command {
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-
         HttpSession session = request.getSession();
-
     }
 }

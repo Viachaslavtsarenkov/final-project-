@@ -1,4 +1,4 @@
-package by.tsarenkov.shop.dao;
+package by.tsarenkov.shop.dao.db;
 
 public class DBParameter {
 

@@ -1,4 +1,4 @@
-package by.tsarenkov.shop.dao;
+package by.tsarenkov.shop.dao.db;
 
 import java.sql.*;
 import java.util.Locale;
@@ -43,7 +43,7 @@ public final class ConnectionPool {
         return instance;
     }
 
-    public void initPoolData() throws ConnectionPoolException {
+    private void initPoolData() throws ConnectionPoolException {
         Locale.setDefault(Locale.ENGLISH);
 
         try {
@@ -78,6 +78,9 @@ public final class ConnectionPool {
     public Connection takeConnection() throws ConnectionPoolException {
         Connection connection = null;
         try {
+            if (connectionQueue == null) {
+                initPoolData();
+            }
             connection = connectionQueue.take();
         } catch (InterruptedException e) {
             throw new ConnectionPoolException("Error connecting to the source");

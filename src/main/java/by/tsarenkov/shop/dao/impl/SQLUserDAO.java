@@ -1,12 +1,12 @@
 package by.tsarenkov.shop.dao.impl;
 
 import by.tsarenkov.shop.bean.User;
-import by.tsarenkov.shop.dao.ConnectionPoolException;
-import by.tsarenkov.shop.dao.DBParameter;
+import by.tsarenkov.shop.bean.UserRegistrationInfo;
+import by.tsarenkov.shop.bean.UserRole;
+import by.tsarenkov.shop.dao.db.ConnectionPoolException;
 import by.tsarenkov.shop.dao.UserDAO;
-import by.tsarenkov.shop.dao.ConnectionPool;
+import by.tsarenkov.shop.dao.db.ConnectionPool;
 
-import java.io.File;
 import java.sql.*;
 
 public class SQLUserDAO implements UserDAO {
@@ -21,26 +21,25 @@ public class SQLUserDAO implements UserDAO {
     }
 
     @Override
-    public boolean registration() {
-        return false;
-    }
-
-    @Override
-    public String check() {
-        String result = null;
+    public boolean registration(UserRegistrationInfo user) {
         Connection con = null;
-        Statement st = null;
-        ResultSet res;
         try {
             Connection connection  = ConnectionPool.getInstance().takeConnection();
-            result = connection.getMetaData().getURL();
+            String query = "INSERT INTO users(name, surname, email, password, role) VALUES(?,?,?,?,?)";
+            PreparedStatement ps = connection.prepareStatement(query);
+            ps.setString(1, user.getName());
+            ps.setString(2, user.getSurname());
+            ps.setString(3, user.getEmail());
+            ps.setString(4, user.getPassword());
+            ps.setString(5, UserRole.CUSTOMER.toString());
+            ps.executeUpdate();
+
         } catch (ConnectionPoolException e) {
 
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
 
         }
-
-        return result;
+        return true;
     }
+
 }

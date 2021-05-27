@@ -1,4 +1,4 @@
-package by.tsarenkov.shop.dao;
+package by.tsarenkov.shop.dao.db;
 
 import java.util.ResourceBundle;
 
