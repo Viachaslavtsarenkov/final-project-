@@ -1,15 +1,15 @@
 package by.tsarenkov.shop.bean;
 
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Product implements Serializable {
     private int id;
     private String name;
     private double price;
 
-    public Product() {
-
-    }
+    public Product() {}
 
     public int getId() {
         return id;
@@ -34,4 +34,5 @@ public class Product implements Serializable {
     public void setPrice(double price) {
         this.price = price;
     }
+
 }

@@ -8,8 +8,7 @@ public class UserRegistrationInfo {
     private String surname;
     private String email;
     private String password;
-    private String status;
-    private Date dateOfBirth;
+    private String phoneNumber;
 
     public UserRegistrationInfo() {
 
@@ -47,19 +46,11 @@ public class UserRegistrationInfo {
         this.password = password;
     }
 
-    public String getStatus() {
-        return status;
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public Date getDateOfBirth() {
-        return dateOfBirth;
-    }
-
-    public void setDateOfBirth(Date dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
+    public void setPhoneNumber(String phoneNumber){
+        this.phoneNumber = phoneNumber;
     }
 }

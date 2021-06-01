@@ -5,12 +5,14 @@
   Time: 20:12
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <html>
 <head>
     <title>Title</title>
+    <meta charset="UTF-8" />
 </head>
 <body>
+    <jsp:include page="../html/inf.html"/>
     <form action="controller?command=go_to_registration_page" method="post">
         <label>Login</label><br>
         <input type="text" name="login"/><br>

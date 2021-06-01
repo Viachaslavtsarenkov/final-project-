@@ -2,6 +2,9 @@ package by.tsarenkov.shop.controller.impl;
 
 import by.tsarenkov.shop.bean.UserRegistrationInfo;
 import by.tsarenkov.shop.controller.Command;
+import by.tsarenkov.shop.dao.DAOException;
+import by.tsarenkov.shop.dao.UserDAO;
+import by.tsarenkov.shop.dao.impl.SQLUserDAO;
 import by.tsarenkov.shop.service.UserService;
 import by.tsarenkov.shop.service.impl.UserServiceImpl;
 
@@ -27,10 +30,14 @@ public class SaveNewUser implements Command {
         user.setName(request.getParameter("name"));
         user.setSurname(request.getParameter("surname"));
         user.setEmail(request.getParameter("email"));
-        //user.setDateOfBirth(request.getParameter("dateOfBirth"));
         user.setPassword(request.getParameter("password"));
-        service.registration(user);
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/main.jsp");
+        user.setPhoneNumber(request.getParameter("phoneNumber"));
+        RequestDispatcher dispatcher;
+        if (service.registration(user)){
+            dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/main.jsp");
+        } else {
+           dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/registration.jsp");
+        }
         dispatcher.forward(request, response);
     }
 }

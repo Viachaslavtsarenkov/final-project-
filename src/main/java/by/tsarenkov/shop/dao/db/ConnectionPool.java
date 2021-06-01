@@ -10,8 +10,6 @@ import java.util.concurrent.Executor;
 
 public final class ConnectionPool {
 
-    private static final ConnectionPool instance;
-
     private BlockingQueue<Connection> connectionQueue;
     private BlockingQueue<Connection> givenAwayConQueue;
 
@@ -21,11 +19,8 @@ public final class ConnectionPool {
     private String password;
     private int poolSize;
 
-    static {
-        instance = new ConnectionPool();
-    }
 
-    private ConnectionPool() {
+    public ConnectionPool() {
         DBResourceManager dbResourceManager = DBResourceManager.getInstance();
         this.driverName = dbResourceManager.getValue(DBParameter.DB_DRIVER);
         this.url = dbResourceManager.getValue(DBParameter.DB_URL);
@@ -37,13 +32,11 @@ public final class ConnectionPool {
         } catch (NumberFormatException e) {
             poolSize = 5;
         }
+        initPoolData();
     }
 
-    public static ConnectionPool getInstance() {
-        return instance;
-    }
 
-    private void initPoolData() throws ConnectionPoolException {
+    private void initPoolData() {
         Locale.setDefault(Locale.ENGLISH);
 
         try {
@@ -56,9 +49,9 @@ public final class ConnectionPool {
                 connectionQueue.add(pooledConnection);
             }
         } catch (SQLException e) {
-            throw new ConnectionPoolException("SQLException in ConnectionPool", e);
+            //throw new ConnectionPoolException("SQLException in ConnectionPool", e);
         } catch (ClassNotFoundException e) {
-            throw new ConnectionPoolException("Can't find database driver class", e);
+            //throw new ConnectionPoolException("Can't find database driver class", e);
         }
     }
 
@@ -71,7 +64,7 @@ public final class ConnectionPool {
             closeConnectionsQueue(givenAwayConQueue);
             closeConnectionsQueue(connectionQueue);
         } catch (SQLException e) {
-            //********
+
         }
     }
 
@@ -92,19 +85,17 @@ public final class ConnectionPool {
         try {
             conn.close();
         } catch (SQLException e) {
-            //************
         }
 
         try {
             rs.close();
         } catch (SQLException e) {
-            //************
         }
 
         try {
             st.close();
         } catch (SQLException e) {
-            //************
+
         }
     }
 

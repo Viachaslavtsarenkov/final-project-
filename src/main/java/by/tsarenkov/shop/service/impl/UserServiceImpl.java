@@ -6,6 +6,9 @@ import by.tsarenkov.shop.dao.DAOException;
 import by.tsarenkov.shop.dao.UserDAO;
 import by.tsarenkov.shop.dao.impl.SQLUserDAO;
 import by.tsarenkov.shop.service.UserService;
+import by.tsarenkov.shop.service.UserInfoValidator;
+
+import java.util.Map;
 
 public class UserServiceImpl implements UserService {
 
@@ -21,13 +24,21 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean registration(UserRegistrationInfo user) {
         UserDAO userDAO = new SQLUserDAO();
-        try {
-            boolean result = userDAO.registration(user);
-        } catch (DAOException e) {
-            //*
+        UserInfoValidator validator = new UserInfoValidator(user);
+        Map<String, String> validation = validator.validate();
+        if (validation == null | validation.size() == 0) {
+            //EmailService.sendRegistrationMessage(user.getEmail());
+            try {
+                userDAO.registration(user);
+            } catch (DAOException e) {
+                System.out.println(e);
+            }
+
+            return true;
+        } else {
+            return false;
         }
 
-        return true;
     }
 
 

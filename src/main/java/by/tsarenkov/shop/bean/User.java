@@ -2,17 +2,19 @@ package by.tsarenkov.shop.bean;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Objects;
 
 public class User implements Serializable {
 
     public int userId;
     private String name;
     private String surname;
-    private String role;
+    private UserRole role;
     private String email;
     private String password;
     private String status;
     private Date dateOfBirth;
+    private String phoneNumber;
 
     public User() {
 
@@ -42,11 +44,11 @@ public class User implements Serializable {
         this.surname = surname;
     }
 
-    public String getRole() {
+    public UserRole getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(UserRole role) {
         this.role = role;
     }
 
@@ -80,5 +82,23 @@ public class User implements Serializable {
 
     public void setDateOfBirth(Date dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(userId, name, surname, password, email, role, password, status);
+    }
+
+    @Override
+    public String toString() {
+        return  "";
     }
 }

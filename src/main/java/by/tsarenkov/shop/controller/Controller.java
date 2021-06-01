@@ -1,6 +1,7 @@
 package by.tsarenkov.shop.controller;
 
 import java.io.*;
+import java.util.HashMap;
 import javax.servlet.Servlet;
 import javax.servlet.ServletException;
 import javax.servlet.http.*;
@@ -18,7 +19,6 @@ public class Controller extends HttpServlet {
     }
 
     public void init() {
-
     }
 
     @Override
@@ -38,6 +38,5 @@ public class Controller extends HttpServlet {
         name = request.getParameter("command");
         command = provider.takeCommand(name);
         command.execute(request, response);
-
     }
 }

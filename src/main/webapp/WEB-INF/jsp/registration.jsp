@@ -24,7 +24,8 @@
         <title>Title</title>
     </head>
     <body>
-        <form action="controller?command=savenewuser" method="post">
+        <form action="controller" method="post">
+            <input type="hidden" name="command" value="savenewuser"/>
             <label>Имя</label><br>
             <input type="text" name="name"/><br>
             <label>Фамилия</label><br>
@@ -35,6 +36,8 @@
             <input type="text" name="password"/><br>
             <label>Повторите пароль</label><br>
             <input type="text" name="repeated-password"/><br>
+            <label>Номер телефона</label><br>
+            <input type="text" name="phoneNumber"/><br>
             <label>Дата рождения</label><br>
             <input type="text" name="dateOfBirth"/><br>
             <input type="submit" value="Зарегистрироваться" >
