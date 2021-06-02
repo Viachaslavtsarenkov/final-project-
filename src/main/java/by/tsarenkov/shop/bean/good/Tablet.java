@@ -94,10 +94,10 @@ public class Tablet extends Product implements Serializable {
                 && RAM == tablet.RAM
                 && ROM == tablet.ROM
                 && threeGModem == tablet.threeGModem
-                && Objects.equals(model, tablet.model)
-                && Objects.equals(operationSystem, tablet.operationSystem)
-                && Objects.equals(typeUSB, tablet.typeUSB)
-                && Objects.equals(processor, tablet.processor);
+                && model.equals(tablet.model)
+                && operationSystem.equals(tablet.operationSystem)
+                && typeUSB.equals(tablet.typeUSB)
+                && processor.equals(tablet.processor);
     }
 
     @Override

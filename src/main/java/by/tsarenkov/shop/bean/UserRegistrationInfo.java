@@ -73,13 +73,13 @@ public class UserRegistrationInfo implements Serializable {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        UserRegistrationInfo that = (UserRegistrationInfo) o;
-        return Objects.equals(name, that.name)
-                && Objects.equals(surname, that.surname)
-                && Objects.equals(email, that.email)
-                && Objects.equals(password, that.password)
-                && Objects.equals(phoneNumber, that.phoneNumber)
-                && Objects.equals(dateOfBirth, that.dateOfBirth);
+        UserRegistrationInfo user = (UserRegistrationInfo) o;
+        return Objects.equals(name, user.name)
+                && surname.equals(user.surname)
+                && email.equals(user.email)
+                && password.equals(user.password)
+                && phoneNumber.equals(user.phoneNumber)
+                && dateOfBirth.equals(user.dateOfBirth);
     }
 
     @Override

@@ -47,7 +47,7 @@ public class Product implements Serializable {
         Product product = (Product) o;
         return id == product.id
                 && Double.compare(product.price, price) == 0
-                && Objects.equals(brand, product.brand);
+                && brand.equals(product.brand);
     }
 
     @Override

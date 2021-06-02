@@ -118,8 +118,8 @@ public class Smartphone extends Product implements Serializable {
                 && countCores == phone.countCores
                 && countPixelFrontCamera == phone.countPixelFrontCamera
                 && countPixelBackCamera == phone.countPixelBackCamera
-                && Objects.equals(model, phone.model)
-                && Objects.equals(operationSystem, phone.operationSystem);
+                && model.equals(phone.model)
+                && operationSystem.equals(phone.operationSystem);
     }
 
     @Override

@@ -104,11 +104,11 @@ public class User implements Serializable {
         return userId == user.userId && Objects.equals(name, user.name)
                 && Objects.equals(surname, user.surname)
                 && role == user.role
-                && Objects.equals(email, user.email)
-                && Objects.equals(password, user.password)
-                && Objects.equals(status, user.status)
-                && Objects.equals(dateOfBirth, user.dateOfBirth)
-                && Objects.equals(phoneNumber, user.phoneNumber);
+                && email.equals(user.email)
+                && password.equals(user.password)
+                && status.equals(user.status)
+                && dateOfBirth.equals(user.dateOfBirth)
+                && phoneNumber.equals(user.phoneNumber);
     }
 
     @Override

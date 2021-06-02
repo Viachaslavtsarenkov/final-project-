@@ -111,10 +111,10 @@ public class EBook implements Serializable {
                 && batteryCapacity == eBook.batteryCapacity
                 && Double.compare(eBook.diagonal, diagonal) == 0
                 && WiFi == eBook.WiFi && bluetooth == eBook.bluetooth
-                && Objects.equals(model, eBook.model)
-                && Objects.equals(typeCardMemory, eBook.typeCardMemory)
-                && Objects.equals(typeScreen, eBook.typeScreen)
-                && Objects.equals(formats, eBook.formats);
+                && model.equals(eBook.model)
+                && typeCardMemory.equals(eBook.typeCardMemory)
+                && typeScreen.equals(eBook.typeScreen)
+                && formats.equals(eBook.formats);
     }
 
     @Override

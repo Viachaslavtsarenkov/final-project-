@@ -142,13 +142,13 @@ public class Laptop extends Product implements Serializable {
                 && ROM == laptop.ROM && RAM == laptop.RAM
                 && Double.compare(laptop.bluetoothVersion, bluetoothVersion) == 0
                 && countUSBPort == laptop.countUSBPort
-                && Objects.equals(model, laptop.model)
-                && Objects.equals(type, laptop.type)
-                && Objects.equals(typeProcessor, laptop.typeProcessor)
-                && Objects.equals(serialProcessor, laptop.serialProcessor)
-                && Objects.equals(typeGraphicsCard, laptop.typeGraphicsCard)
-                && Objects.equals(graphicsCard, laptop.graphicsCard)
-                && Objects.equals(screenExtension, laptop.screenExtension);
+                && model.equals(laptop.model)
+                && type.equals(laptop.type)
+                && typeProcessor.equals(laptop.typeProcessor)
+                && serialProcessor.equals(laptop.serialProcessor)
+                && typeGraphicsCard.equals(laptop.typeGraphicsCard)
+                && graphicsCard.equals(laptop.graphicsCard)
+                && screenExtension.equals(laptop.screenExtension);
     }
 
     @Override
