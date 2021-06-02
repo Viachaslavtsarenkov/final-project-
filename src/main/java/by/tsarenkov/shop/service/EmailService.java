@@ -14,6 +14,8 @@ public class EmailService {
     private static final String email;
     private static final String password;
     private static final Session session;
+    private static final String contentMessage = "";
+    private static final String subjectMessage = "";
 
     static {
         properties = new Properties();
@@ -48,8 +50,8 @@ public class EmailService {
             message.setFrom(new InternetAddress(to));
             message.setRecipients(Message.RecipientType.TO,
                     InternetAddress.parse(to));
-            message.setSubject("Регистрация");
-            message.setText("message");
+            message.setSubject(subjectMessage);
+            message.setText(contentMessage);
             Transport.send(message);
         } catch (MessagingException e) {
             System.out.println(e);

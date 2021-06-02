@@ -11,7 +11,7 @@ public class UserRegistrationInfo implements Serializable {
     private String email;
     private String password;
     private String phoneNumber;
-    private String dateOfBirth;
+    private Date dateOfBirth;
 
     public UserRegistrationInfo() {
 
@@ -57,11 +57,11 @@ public class UserRegistrationInfo implements Serializable {
         this.phoneNumber = phoneNumber;
     }
 
-    public String getDateOfBirth() {
+    public Date getDateOfBirth() {
         return dateOfBirth;
     }
 
-    public void setDateOfBirth(String dateOfBirth) {
+    public void setDateOfBirth(Date dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
 
