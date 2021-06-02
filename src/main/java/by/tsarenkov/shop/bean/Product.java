@@ -3,10 +3,11 @@ package by.tsarenkov.shop.bean;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class Product implements Serializable {
     private int id;
-    private String name;
+    private String brand;
     private double price;
 
     public Product() {}
@@ -19,12 +20,12 @@ public class Product implements Serializable {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getBrand() {
+        return brand;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setBrand(String brand) {
+        this.brand = brand;
     }
 
     public double getPrice() {
@@ -35,4 +36,31 @@ public class Product implements Serializable {
         this.price = price;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Product product = (Product) o;
+        return id == product.id
+                && Double.compare(product.price, price) == 0
+                && Objects.equals(brand, product.brand);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, brand, price);
+    }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "id=" + id +
+                ", brand='" + brand + '\'' +
+                ", price=" + price +
+                '}';
+    }
 }

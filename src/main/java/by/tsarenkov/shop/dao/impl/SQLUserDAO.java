@@ -13,8 +13,9 @@ import java.util.SimpleTimeZone;
 
 public class SQLUserDAO implements UserDAO {
 
-    private static final String query = "INSERT INTO store.users (username, surname, email, status, password, user_role)"
-            + "VALUES (?,?,?,?,? ?)";
+    private static final String query = "INSERT INTO store.users (username, surname, email, "
+            + "status, password, user_role, phone)"
+            + "VALUES (?, ?, ?, ?, ?, ?, ?)";
     private static final String queryGettingUser = "SELECT username FROM users WHERE email = ?";
 
     public SQLUserDAO(){
@@ -29,40 +30,80 @@ public class SQLUserDAO implements UserDAO {
     @Override
     public boolean registration(UserRegistrationInfo user) {
         Connection connection = null;
+        PreparedStatement ps = null;
+        ConnectionPool pool = null;
+
         try {
-            ConnectionPool pool = new ConnectionPool();
+            pool = ConnectionPool.getInstance();
             connection = pool.takeConnection();
-            PreparedStatement ps = connection.prepareStatement(query);
+            ps = connection.prepareStatement(query);
             ps.setString(1, user.getName());
             ps.setString(2, user.getSurname());
             ps.setString(3, user.getEmail());
             ps.setString(4, UserStatus.NO_ACTIVATED.toString());
             ps.setString(5, user.getPassword());
             ps.setString(6, UserRole.CUSTOMER.toString());
+            ps.setString(7, user.getPhoneNumber());
+            // date
             ps.executeUpdate();
             pool.closeConnection(connection, ps);
         } catch (ConnectionPoolException e) {
-            System.out.println(e);
+           //
         } catch (SQLException e) {
-            System.out.println(e);
+            //
+        } finally {
+            try {
+                if (connection != null) {
+                    connection.close();
+                }
+
+            } catch (SQLException e) {
+                // to do
+            }
+            try {
+                if (ps != null) {
+                    ps.close();
+                }
+            } catch (SQLException e) {
+                // to do
+            }
         }
         return true;
     }
 
     @Override
     public boolean findUser(String login) {
+        Connection connection = null;
+        PreparedStatement ps = null;
+        ConnectionPool pool = null;
         try {
-            ConnectionPool pool = new ConnectionPool();
-            Connection connection = pool.takeConnection();
-            PreparedStatement ps = connection.prepareStatement(queryGettingUser);
+            pool = ConnectionPool.getInstance();
+            connection = pool.takeConnection();
+            ps = connection.prepareStatement(queryGettingUser);
             ps.setString(1, login);
             ps.executeQuery();
             ResultSet resultSet = ps.getResultSet();
             return resultSet.next();
         } catch (SQLException e) {
-
+            // to do
         } catch (ConnectionPoolException e) {
+            // to do
+        } finally {
+            try {
+                if (connection != null) {
+                    connection.close();
+                }
 
+            } catch (SQLException e) {
+                // to do
+            }
+            try {
+                if (ps != null) {
+                    ps.close();
+                }
+            } catch (SQLException e) {
+                // to do
+            }
         }
         return false;
     }

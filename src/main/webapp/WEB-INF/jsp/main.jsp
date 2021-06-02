@@ -12,7 +12,7 @@
     <meta charset="UTF-8" />
 </head>
 <body>
-    <jsp:include page="../html/inf.html"/>
+
     <form action="controller?command=go_to_registration_page" method="post">
         <label>Login</label><br>
         <input type="text" name="login"/><br>

@@ -22,9 +22,13 @@
 <html>
     <head>
         <title>Title</title>
+        <style>
+            <%@include file='../styles/style.css' %>
+        </style>
     </head>
     <body>
-        <form action="controller" method="post">
+
+        <form class="form" action="controller" method="post">
             <input type="hidden" name="command" value="savenewuser"/>
             <label>Имя</label><br>
             <input type="text" name="name"/><br>
@@ -39,7 +43,7 @@
             <label>Номер телефона</label><br>
             <input type="text" name="phoneNumber"/><br>
             <label>Дата рождения</label><br>
-            <input type="text" name="dateOfBirth"/><br>
+            <input type="date" name="dateOfBirth"/><br>
             <input type="submit" value="Зарегистрироваться" >
         </form>
     </body>

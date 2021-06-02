@@ -10,17 +10,17 @@ import java.util.concurrent.Executor;
 
 public final class ConnectionPool {
 
+    private static ConnectionPool pool = new ConnectionPool();
     private BlockingQueue<Connection> connectionQueue;
     private BlockingQueue<Connection> givenAwayConQueue;
 
-    private String driverName;
-    private String url;
-    private String user;
-    private String password;
+    private final String driverName;
+    private final String url;
+    private final String user;
+    private final String password;
     private int poolSize;
 
-
-    public ConnectionPool() {
+    private ConnectionPool() {
         DBResourceManager dbResourceManager = DBResourceManager.getInstance();
         this.driverName = dbResourceManager.getValue(DBParameter.DB_DRIVER);
         this.url = dbResourceManager.getValue(DBParameter.DB_URL);
@@ -33,6 +33,10 @@ public final class ConnectionPool {
             poolSize = 5;
         }
         initPoolData();
+    }
+
+    public static ConnectionPool getInstance() {
+        return pool;
     }
 
 
@@ -85,6 +89,7 @@ public final class ConnectionPool {
         try {
             conn.close();
         } catch (SQLException e) {
+            // to do log
         }
 
         try {

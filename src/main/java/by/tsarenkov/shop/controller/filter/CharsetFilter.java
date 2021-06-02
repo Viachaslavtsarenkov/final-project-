@@ -1,4 +1,4 @@
-package by.tsarenkov.shop.filter;
+package by.tsarenkov.shop.controller.filter;
 
 import javax.servlet.*;
 import java.io.IOException;

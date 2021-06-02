@@ -93,12 +93,41 @@ public class User implements Serializable {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        User user = (User) o;
+        return userId == user.userId && Objects.equals(name, user.name)
+                && Objects.equals(surname, user.surname)
+                && role == user.role
+                && Objects.equals(email, user.email)
+                && Objects.equals(password, user.password)
+                && Objects.equals(status, user.status)
+                && Objects.equals(dateOfBirth, user.dateOfBirth)
+                && Objects.equals(phoneNumber, user.phoneNumber);
+    }
+
+    @Override
     public int hashCode() {
         return Objects.hash(userId, name, surname, password, email, role, password, status);
     }
 
     @Override
     public String toString() {
-        return  "";
+        return "User{" +
+                "userId=" + userId +
+                ", name='" + name + '\'' +
+                ", surname='" + surname + '\'' +
+                ", role=" + role +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", status='" + status + '\'' +
+                ", dateOfBirth=" + dateOfBirth +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                '}';
     }
 }
