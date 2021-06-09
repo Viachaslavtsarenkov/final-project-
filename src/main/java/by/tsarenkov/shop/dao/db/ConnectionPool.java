@@ -72,7 +72,7 @@ public final class ConnectionPool {
         }
     }
 
-    public Connection takeConnection() throws ConnectionPoolException {
+    public Connection takeConnection()  {
         Connection connection = null;
         try {
             if (connectionQueue == null) {
@@ -80,7 +80,7 @@ public final class ConnectionPool {
             }
             connection = connectionQueue.take();
         } catch (InterruptedException e) {
-            throw new ConnectionPoolException("Error connecting to the source");
+            //throw new ConnectionPoolException("Error connecting to the source");
         }
         return connection;
     }

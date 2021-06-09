@@ -5,7 +5,7 @@ import by.tsarenkov.shop.bean.Product;
 import java.io.Serializable;
 import java.util.Objects;
 
-public class Laptop extends Product implements Serializable {
+public class Laptop implements Serializable {
     private String model;
     private String type;
     private double diagonal;
@@ -19,6 +19,7 @@ public class Laptop extends Product implements Serializable {
     private String typeGraphicsCard;
     private String graphicsCard;
     private String screenExtension;
+    private static final int idCategory = 1;
 
     public Laptop() {
     }

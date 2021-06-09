@@ -1,13 +1,28 @@
 $text-color: #FFFFAF;
 
+
+* {
+    margin: 0;
+}
+
+body {
+    background-color: gray;
+}
 .wrapper {
     margin: 0 auto;
+    width: 1200px;
+}
+
+
+.user {
+    height: 30px;
+    background-color: #FFFFAF;
+    width: 100%;
 }
 
 header {
     display: flex;
-    flex-direction: column;
-    width: 1200px;
+    flex-direction: column;   
     
 }
 
@@ -20,7 +35,7 @@ nav {
 .menu_list {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: space-around;
 }
 
 .menu_list > li {
@@ -29,6 +44,22 @@ nav {
     display: inline;
     height: 90px;
     color: gray;
+}
+
+.menu_list > li > ul {
+    position:absolute;
+    top:20px;
+    left: 10px;
+    display:none;
+    background-color: bisque;
+    border-radius: 5px;
+    width: 185px;
+    font-size: 14px;
+    padding: 10 0 10 10;
+}
+
+.menu_list > li:hover > ul {
+    display:block;  
 }
 
 .shop_about {

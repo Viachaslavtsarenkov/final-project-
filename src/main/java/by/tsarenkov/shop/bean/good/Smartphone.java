@@ -17,6 +17,7 @@ public class Smartphone extends Product implements Serializable {
     private int countCores;
     private int countPixelFrontCamera;
     private int countPixelBackCamera;
+    private static final int idCategory = 3;
 
     public Smartphone() {
     }

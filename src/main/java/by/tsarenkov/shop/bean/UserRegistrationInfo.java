@@ -11,7 +11,7 @@ public class UserRegistrationInfo implements Serializable {
     private String email;
     private String password;
     private String phoneNumber;
-    private Date dateOfBirth;
+    private String repeatedPassword;
 
     public UserRegistrationInfo() {
 
@@ -57,12 +57,12 @@ public class UserRegistrationInfo implements Serializable {
         this.phoneNumber = phoneNumber;
     }
 
-    public Date getDateOfBirth() {
-        return dateOfBirth;
+    public String getRepeatedPassword() {
+        return repeatedPassword;
     }
 
-    public void setDateOfBirth(Date dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
+    public void setRepeatedPassword(String repeatedPassword) {
+        this.repeatedPassword = repeatedPassword;
     }
 
     @Override
@@ -78,13 +78,12 @@ public class UserRegistrationInfo implements Serializable {
                 && surname.equals(user.surname)
                 && email.equals(user.email)
                 && password.equals(user.password)
-                && phoneNumber.equals(user.phoneNumber)
-                && dateOfBirth.equals(user.dateOfBirth);
+                && phoneNumber.equals(user.phoneNumber);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, surname, email, password, phoneNumber, dateOfBirth);
+        return Objects.hash(name, surname, email, password, phoneNumber);
     }
 
     @Override
@@ -95,7 +94,6 @@ public class UserRegistrationInfo implements Serializable {
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
-                ", dateOfBirth='" + dateOfBirth + '\'' +
                 '}';
     }
 }

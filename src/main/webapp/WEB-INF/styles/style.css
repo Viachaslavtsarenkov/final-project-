@@ -1,5 +1,20 @@
+* {
+  margin: 0;
+}
+
+body {
+  background-color: gray;
+}
+
 .wrapper {
   margin: 0 auto;
+  width: 1200px;
+}
+
+.user {
+  height: 30px;
+  background-color: #FFFFAF;
+  width: 100%;
 }
 
 header {
@@ -10,7 +25,6 @@ header {
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
-  width: 1200px;
 }
 
 nav {
@@ -27,9 +41,8 @@ nav {
   -webkit-box-direction: normal;
       -ms-flex-direction: row;
           flex-direction: row;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
 }
 
 .menu_list > li {
@@ -38,6 +51,22 @@ nav {
   display: inline;
   height: 90px;
   color: gray;
+}
+
+.menu_list > li > ul {
+  position: absolute;
+  top: 20px;
+  left: 10px;
+  display: none;
+  background-color: bisque;
+  border-radius: 5px;
+  width: 185px;
+  font-size: 14px;
+  padding: 10 0 10 10;
+}
+
+.menu_list > li:hover > ul {
+  display: block;
 }
 
 .shop_about {

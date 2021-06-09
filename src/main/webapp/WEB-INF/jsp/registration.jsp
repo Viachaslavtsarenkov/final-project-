@@ -42,8 +42,6 @@
             <input type="text" name="repeated-password"/><br>
             <label>Номер телефона</label><br>
             <input type="text" name="phoneNumber"/><br>
-            <label>Дата рождения</label><br>
-            <input type="date" name="dateOfBirth"/><br>
             <input type="submit" value="Зарегистрироваться" >
         </form>
     </body>

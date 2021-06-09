@@ -1,5 +1,8 @@
 package by.tsarenkov.shop.dao;
 
+import by.tsarenkov.shop.dao.impl.SQLBasketDAO;
+import by.tsarenkov.shop.dao.impl.SQLOrderDAO;
+import by.tsarenkov.shop.dao.impl.SQLProductDAO;
 import by.tsarenkov.shop.dao.impl.SQLUserDAO;
 import by.tsarenkov.shop.service.UserService;
 
@@ -8,6 +11,9 @@ public class DAOProvider {
     private static final DAOProvider instance = new DAOProvider();
 
     private final UserDAO userDAO = new SQLUserDAO();
+    private final ProductDAO productDAO = new SQLProductDAO();
+    private final BasketDAO basketDAO = new SQLBasketDAO();
+    private final OrderDAO orderDAO = new SQLOrderDAO();
 
     private DAOProvider() {}
 
@@ -17,5 +23,17 @@ public class DAOProvider {
 
     public UserDAO getUserDAO() {
         return userDAO;
+    }
+
+    public ProductDAO getProductDAO() {
+        return productDAO;
+    }
+
+    public BasketDAO getBasketDAO() {
+        return basketDAO;
+    }
+
+    public OrderDAO getOrderDAO() {
+        return orderDAO;
     }
 }

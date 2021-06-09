@@ -13,7 +13,6 @@ public class User implements Serializable {
     private String email;
     private String password;
     private String status;
-    private Date dateOfBirth;
     private String phoneNumber;
 
     public User() {
@@ -76,13 +75,6 @@ public class User implements Serializable {
         this.status = status;
     }
 
-    public Date getDateOfBirth() {
-        return dateOfBirth;
-    }
-
-    public void setDateOfBirth(Date dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
-    }
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
@@ -107,7 +99,6 @@ public class User implements Serializable {
                 && email.equals(user.email)
                 && password.equals(user.password)
                 && status.equals(user.status)
-                && dateOfBirth.equals(user.dateOfBirth)
                 && phoneNumber.equals(user.phoneNumber);
     }
 
@@ -126,7 +117,6 @@ public class User implements Serializable {
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", status='" + status + '\'' +
-                ", dateOfBirth=" + dateOfBirth +
                 ", phoneNumber='" + phoneNumber + '\'' +
                 '}';
     }

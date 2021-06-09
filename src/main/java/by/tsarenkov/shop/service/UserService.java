@@ -4,6 +4,7 @@ import by.tsarenkov.shop.bean.User;
 import by.tsarenkov.shop.bean.UserRegistrationInfo;
 
 public interface UserService {
-    User authorization(String login, String password);
-    boolean registration(UserRegistrationInfo user);
+    User authorization(String login, String password) throws ServiceException;
+    boolean registration(UserRegistrationInfo user) throws ServiceException;
+    boolean activateAccount(String login, String code) throws ServiceException;
 }

@@ -14,6 +14,7 @@ public class Tablet extends Product implements Serializable {
     private boolean threeGModem;
     private String typeUSB;
     private String processor;
+    private static final int idCategory = 4;
 
     public Tablet() {}
 

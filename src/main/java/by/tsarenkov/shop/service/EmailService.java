@@ -16,6 +16,10 @@ public class EmailService {
     private static final Session session;
     private static final String contentMessage = "";
     private static final String subjectMessage = "";
+    private static final String activationLink = "http://127.0.1.1:8080/shop_war_exploded/controller?" +
+            "command=activation&" +
+            "login=lg&" +
+            "code=12";
 
     static {
         properties = new Properties();
@@ -51,7 +55,7 @@ public class EmailService {
             message.setRecipients(Message.RecipientType.TO,
                     InternetAddress.parse(to));
             message.setSubject(subjectMessage);
-            message.setText(contentMessage);
+            message.setText(activationLink.replace("lg", to));
             Transport.send(message);
         } catch (MessagingException e) {
             System.out.println(e);

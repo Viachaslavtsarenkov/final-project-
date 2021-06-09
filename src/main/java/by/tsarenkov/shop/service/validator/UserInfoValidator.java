@@ -80,11 +80,6 @@ public class UserInfoValidator {
         return result;
     }
 
-    private boolean isDateOfBirthValid() {
-        // to do mail validation
-        return false;
-    }
-
     private boolean isPhoneNumberValid(String phoneNumber) {
         boolean result = false;
         Matcher phoneNumberMatcher = validPhoneNumber.matcher(phoneNumber);

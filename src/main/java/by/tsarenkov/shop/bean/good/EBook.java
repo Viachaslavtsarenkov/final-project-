@@ -1,9 +1,11 @@
 package by.tsarenkov.shop.bean.good;
 
+import by.tsarenkov.shop.bean.Product;
+
 import java.io.Serializable;
 import java.util.Objects;
 
-public class EBook implements Serializable {
+public class EBook extends Product implements Serializable {
 
     private String model;
     private int ROM;
@@ -15,8 +17,22 @@ public class EBook implements Serializable {
     private boolean WiFi;
     private boolean bluetooth;
     private String formats;
+    private double price;
+    private static final int idCategory = 2;
 
     public EBook(){}
+
+    public static int getIdCategory() {
+        return idCategory;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
 
     public String getModel() {
         return model;

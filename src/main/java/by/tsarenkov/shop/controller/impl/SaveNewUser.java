@@ -5,17 +5,15 @@ import by.tsarenkov.shop.controller.Command;
 import by.tsarenkov.shop.dao.DAOException;
 import by.tsarenkov.shop.dao.UserDAO;
 import by.tsarenkov.shop.dao.impl.SQLUserDAO;
+import by.tsarenkov.shop.service.ServiceException;
 import by.tsarenkov.shop.service.ServiceProvider;
 import by.tsarenkov.shop.service.UserService;
-import by.tsarenkov.shop.service.impl.UserServiceImpl;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 public class SaveNewUser implements Command {
 
@@ -24,8 +22,9 @@ public class SaveNewUser implements Command {
     private static final String email = "email";
     private static final String password = "password";
     private static final String phoneNumber = "phoneNumber";
-    private static final String dateOfBirth = "dateOfBirth";
     private static final String loginPage = "/WEB-INF/jsp/main.jsp";
+    private static final ServiceProvider provider = ServiceProvider.getInstance();
+    private static final UserService userService = provider.getUserService();
     //private static final String registrationPage = "/WEB-INF/jsp/registration.jsp";
 
     public SaveNewUser() {}
@@ -33,8 +32,6 @@ public class SaveNewUser implements Command {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response)
             throws IOException, ServletException {
-        ServiceProvider provider = ServiceProvider.getInstance();
-        UserService userService = provider.getUserService();
         UserRegistrationInfo user;
         user = new UserRegistrationInfo();
         user.setName(request.getParameter(name));
@@ -42,14 +39,18 @@ public class SaveNewUser implements Command {
         user.setEmail(request.getParameter(email));
         user.setPassword(request.getParameter(password));
         user.setPhoneNumber(request.getParameter(phoneNumber));
-        user.setDateOfBirth(request.getParameter(dateOfBirth));
         RequestDispatcher dispatcher;
 
-        if (userService.registration(user)){
-            dispatcher = request.getRequestDispatcher(loginPage);
-            dispatcher.forward(request, response);
-        } else {
-           //dispatcher = request.getRequestDispatcher(registrationPage);
+        try {
+            if (userService.registration(user)){
+                dispatcher = request.getRequestDispatcher(loginPage);
+                dispatcher.forward(request, response);
+            } else {
+                //dispatcher = request.getRequestDispatcher(registrationPage);
+            }
+        } catch (ServiceException e) {
+
         }
+
     }
 }
