@@ -10,6 +10,7 @@ import by.tsarenkov.shop.service.ServiceException;
 import by.tsarenkov.shop.service.UserService;
 import by.tsarenkov.shop.service.validator.UserInfoValidator;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class UserServiceImpl implements UserService {
@@ -27,30 +28,29 @@ public class UserServiceImpl implements UserService {
         try {
             user =  userDAO.authorization(login, password);
         } catch (DAOException e) {
-            // to do msg
-            throw new ServiceException();
+            throw new ServiceException(e.getMessage());
         }
 
         return user;
     }
 
     @Override
-    public boolean registration(UserRegistrationInfo user) {
+    public Map<String, String> registration(UserRegistrationInfo user) throws ServiceException {
         UserInfoValidator validator = new UserInfoValidator(user);
-        Map<String, String> validation = validator.validate();
+        Map<String, String> validation = validator.validate() ;
 
         // add checking user
         if (validation == null | validation.size() == 0 ) {
-            EmailService.sendRegistrationMessage(user.getEmail());
             try {
                 userDAO.registration(user);
             } catch (DAOException e) {
-                // throw new ServiceException();
+                 throw new ServiceException();
             }
-            return true;
+            EmailService.sendRegistrationMessage(user.getEmail());
+            return validation;
         } else {
-            //
-            return false;
+            System.out.println(validation.size());
+            return validation;
         }
 
     }

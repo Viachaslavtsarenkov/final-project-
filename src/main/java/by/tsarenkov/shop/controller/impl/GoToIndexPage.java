@@ -13,7 +13,8 @@ public class GoToIndexPage implements Command {
     public GoToIndexPage() {}
 
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+    public void execute(HttpServletRequest request, HttpServletResponse response)
+            throws IOException, ServletException {
         //**
     }
 }

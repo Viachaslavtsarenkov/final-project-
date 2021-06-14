@@ -1,7 +1,8 @@
 package by.tsarenkov.shop.bean.characteristic;
 
 public enum EBookCharacteristic {
-    BRAND,
+    ID,
+    NAME,
     MODEL,
     ROM,
     RAM,
@@ -11,5 +12,6 @@ public enum EBookCharacteristic {
     DIAGONAL,
     WIFI,
     BLUETOOTH,
-    FORMATS
+    FORMATS,
+    PRICE
 }

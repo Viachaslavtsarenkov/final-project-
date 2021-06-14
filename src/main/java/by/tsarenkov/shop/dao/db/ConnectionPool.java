@@ -1,5 +1,7 @@
 package by.tsarenkov.shop.dao.db;
 
+import org.apache.log4j.Logger;
+
 import java.sql.*;
 import java.util.Locale;
 import java.util.Map;
@@ -9,6 +11,8 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Executor;
 
 public final class ConnectionPool {
+
+    private static final Logger log = Logger.getLogger(ConnectionPool.class);
 
     private static ConnectionPool pool = new ConnectionPool();
     private BlockingQueue<Connection> connectionQueue;
@@ -42,7 +46,6 @@ public final class ConnectionPool {
 
     private void initPoolData() {
         Locale.setDefault(Locale.ENGLISH);
-
         try {
             Class.forName(driverName);
             givenAwayConQueue = new ArrayBlockingQueue<>(poolSize);
@@ -68,7 +71,7 @@ public final class ConnectionPool {
             closeConnectionsQueue(givenAwayConQueue);
             closeConnectionsQueue(connectionQueue);
         } catch (SQLException e) {
-
+            log.debug("Connection wasn't closed");
         }
     }
 
@@ -87,34 +90,33 @@ public final class ConnectionPool {
 
     public void closeConnection(Connection conn, Statement st, ResultSet rs) {
         try {
-            conn.close();
+            st.close();
         } catch (SQLException e) {
-            // to do log
+            log.debug("Statement wasn't closed");
         }
-
         try {
             rs.close();
         } catch (SQLException e) {
+            log.debug("Prepared statement wasn't closed");
         }
-
         try {
-            st.close();
+            conn.close();
         } catch (SQLException e) {
-
+            log.debug("Connection wasn't closed");
         }
     }
 
     public void closeConnection(Connection conn, Statement st) {
         try {
-            conn.close();
+            st.close();
         } catch (SQLException e) {
-
+            log.debug("Statement wasn't closed");
         }
 
         try {
             conn.close();
         } catch (SQLException e) {
-
+            log.debug("Connection wasn't closed");
         }
     }
 
@@ -318,7 +320,8 @@ public final class ConnectionPool {
         }
 
         @Override
-        public CallableStatement prepareCall(String sql, int resultSetType, int resultSetConcurrency, int resultSetHoldability) throws SQLException {
+        public CallableStatement prepareCall(String sql, int resultSetType,
+                                             int resultSetConcurrency, int resultSetHoldability) throws SQLException {
             return connection.prepareCall(sql, resultSetType, resultSetConcurrency, resultSetHoldability);
         }
 
@@ -418,13 +421,13 @@ public final class ConnectionPool {
         }
 
         @Override
-        public <T> T unwrap(Class<T> iface) throws SQLException {
-            return connection.unwrap(iface);
+        public <T> T unwrap(Class<T> iFace) throws SQLException {
+            return connection.unwrap(iFace);
         }
 
         @Override
-        public boolean isWrapperFor(Class<?> iface) throws SQLException {
-            return connection.isWrapperFor(iface);
+        public boolean isWrapperFor(Class<?> iFace) throws SQLException {
+            return connection.isWrapperFor(iFace);
         }
     }
 }

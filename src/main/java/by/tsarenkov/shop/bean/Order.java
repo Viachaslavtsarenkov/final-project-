@@ -1,6 +1,9 @@
 package by.tsarenkov.shop.bean;
 
+import by.tsarenkov.shop.bean.status.StatusOrder;
+
 import java.io.Serializable;
+import java.util.Objects;
 
 public class Order implements Serializable {
 
@@ -14,6 +17,20 @@ public class Order implements Serializable {
     private int goodID;
 
     public Order() {}
+
+    public Order(int idOrder, int userID,
+                 int goodID, String delivery_option,
+                 StatusOrder statusOrder, String address,
+                 int count, double price) {
+        this.idOrder = idOrder;
+        this.userID = userID;
+        this.goodID = goodID;
+        this.delivery_option = delivery_option;
+        this.statusOrder = statusOrder;
+        this.address = address;
+        this.count = count;
+        this.price = price;
+    }
 
     public int getIdOrder() {
         return idOrder;
@@ -77,5 +94,29 @@ public class Order implements Serializable {
 
     public void setGoodID(int goodID) {
         this.goodID = goodID;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Order order = (Order) o;
+        return idOrder == order.idOrder &&
+                count == order.count &&
+                Double.compare(order.price, price) == 0 &&
+                userID == order.userID &&
+                goodID == order.goodID &&
+                Objects.equals(delivery_option, order.delivery_option) &&
+                statusOrder == order.statusOrder &&
+                Objects.equals(address, order.address);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(idOrder, count, price, delivery_option, statusOrder, address, userID, goodID);
     }
 }

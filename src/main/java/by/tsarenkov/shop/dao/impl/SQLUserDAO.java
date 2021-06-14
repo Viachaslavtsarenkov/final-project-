@@ -3,19 +3,32 @@ package by.tsarenkov.shop.dao.impl;
 import by.tsarenkov.shop.bean.User;
 import by.tsarenkov.shop.bean.UserRegistrationInfo;
 import by.tsarenkov.shop.bean.UserRole;
-import by.tsarenkov.shop.bean.UserStatus;
+import by.tsarenkov.shop.bean.status.UserStatus;
+import by.tsarenkov.shop.dao.DAOException;
 import by.tsarenkov.shop.dao.UserDAO;
 import by.tsarenkov.shop.dao.db.ConnectionPool;
+import org.apache.log4j.Logger;
+
 import java.sql.*;
 
 public class SQLUserDAO implements UserDAO {
 
-    private static final String newUserQuery = "INSERT INTO store.users (username, surname, email, "
+    private static final Logger log = Logger.getLogger(SQLUserDAO.class);
+
+    private static final String idColumn = "id_user";
+    private static final String usernameColumn = "username";
+    private static final String surnameColumn = "surname";
+    private static final String emailColumn = "email";
+    private static final String passwordColumn = "password";
+    private static final String roleColumn = "user_role";
+    private static final String phoneColumn = "phone";
+
+    private static final String newUserQuery = "INSERT INTO store.user (username, surname, email, "
             + "status, password, user_role, phone)"
             + "VALUES (?, ?, ?, ?, ?, ?, ?)";
-    private static final String queryGettingUser = "SELECT username FROM users WHERE email = ?";
-    private static final String activationQuery = "UPDATE users SET status = ? WHERE email = ?";
-    private static final String authorizationQuery = "SELECT * FROM users WHERE email = ? AND password = ?";
+    private static final String queryGettingUser = "SELECT username FROM user WHERE email = ?";
+    private static final String activationQuery = "UPDATE user SET status = ? WHERE email = ?";
+    private static final String authorizationQuery = "SELECT * FROM user WHERE email = ? AND password = ?";
 
     private final static ConnectionPool pool = ConnectionPool.getInstance();
     public SQLUserDAO(){
@@ -23,7 +36,7 @@ public class SQLUserDAO implements UserDAO {
     }
 
     @Override
-    public User authorization(String login, String password) {
+    public User authorization(String login, String password) throws DAOException {
         User user = null;
         Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -37,33 +50,33 @@ public class SQLUserDAO implements UserDAO {
             resultSet = preparedStatement.executeQuery();
             resultSet.next();
             user = new User();
-            user.setUserId(resultSet.getInt("id_user"));
-            user.setName(resultSet.getString("username"));
-            user.setSurname(resultSet.getString("surname"));
-            user.setEmail(resultSet.getString("email"));
-            user.setPassword(resultSet.getString("password"));
-            user.setPhoneNumber(resultSet.getString("phone"));
-            user.setRole(UserRole.valueOf(resultSet.getString("user_role")));
-            return user;
+            user.setUserId(resultSet.getInt(idColumn));
+            user.setName(resultSet.getString(usernameColumn));
+            user.setSurname(resultSet.getString(surnameColumn));
+            user.setEmail(resultSet.getString(emailColumn));
+            user.setPassword(resultSet.getString(passwordColumn));
+            user.setPhoneNumber(resultSet.getString(phoneColumn));
+            user.setRole(UserRole.valueOf(resultSet.getString(roleColumn)));
         } catch (SQLException e) {
-            System.out.println(e);
+            log.info("User isn't found");
+            throw new DAOException("err1");
         } finally {
-            try {
-                connection.close();
-            } catch (SQLException e) {
-
-            }
             try {
                 preparedStatement.close();
             } catch (SQLException e) {
-
+                log.error("Prepared statement isn't closed");
+            }
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                log.error("Connection isn't closed");
             }
         }
-        return null;
+        return user;
     }
 
     @Override
-    public boolean registration(UserRegistrationInfo user) {
+    public boolean registration(UserRegistrationInfo user) throws DAOException {
         Connection connection = null;
         PreparedStatement ps = null;
 
@@ -77,26 +90,23 @@ public class SQLUserDAO implements UserDAO {
             ps.setString(5, user.getPassword());
             ps.setString(6, UserRole.CUSTOMER.toString());
             ps.setString(7, user.getPhoneNumber());
-            // date
             ps.executeUpdate();
             pool.closeConnection(connection, ps);
         }  catch (SQLException e) {
-            //
+            log.info("User wasn't registered");
+            throw new DAOException("");
         } finally {
-            try {
-                if (connection != null) {
-                    connection.close();
-                }
-
-            } catch (SQLException e) {
-                // to do
-            }
             try {
                 if (ps != null) {
                     ps.close();
                 }
             } catch (SQLException e) {
-                // to do
+                log.error("Prepared statement isn't closed");
+            }
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                log.error("Connection isn't closed");
             }
         }
         return true;
@@ -114,22 +124,18 @@ public class SQLUserDAO implements UserDAO {
             ResultSet resultSet = ps.getResultSet();
             return resultSet.next();
         } catch (SQLException e) {
-            // to do
         } finally {
-            try {
-                if (connection != null) {
-                    connection.close();
-                }
-
-            } catch (SQLException e) {
-                // to do
-            }
             try {
                 if (ps != null) {
                     ps.close();
                 }
             } catch (SQLException e) {
-                // to do
+                log.debug("Prepared statement isn't closed");
+            }
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                log.debug("Connection isn't closed");
             }
         }
         return false;
@@ -149,16 +155,17 @@ public class SQLUserDAO implements UserDAO {
             System.out.println(e);
         } finally {
             try {
-                connection.close();
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
             } catch (SQLException e) {
-                // to do log
+                log.debug("Prepared statement isn't closed");
             }
             try {
-                preparedStatement.close();
+                connection.close();
             } catch (SQLException e) {
-                // to do log
+                log.debug("Connection isn't closed");
             }
-
         }
         return false;
     }

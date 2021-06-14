@@ -14,6 +14,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class SaveNewUser implements Command {
 
@@ -25,7 +27,8 @@ public class SaveNewUser implements Command {
     private static final String loginPage = "/WEB-INF/jsp/main.jsp";
     private static final ServiceProvider provider = ServiceProvider.getInstance();
     private static final UserService userService = provider.getUserService();
-    //private static final String registrationPage = "/WEB-INF/jsp/registration.jsp";
+    private static final String registrationPage = "/WEB-INF/jsp/registration.jsp";
+    private Map<String, String > errorValidation;
 
     public SaveNewUser() {}
 
@@ -39,18 +42,22 @@ public class SaveNewUser implements Command {
         user.setEmail(request.getParameter(email));
         user.setPassword(request.getParameter(password));
         user.setPhoneNumber(request.getParameter(phoneNumber));
-        RequestDispatcher dispatcher;
+        RequestDispatcher dispatcher = null;
 
         try {
-            if (userService.registration(user)){
-                dispatcher = request.getRequestDispatcher(loginPage);
-                dispatcher.forward(request, response);
+            errorValidation = userService.registration(user);
+            if(errorValidation == null || errorValidation.size() == 0){
+                response.sendRedirect(loginPage);
+                return;
             } else {
-                //dispatcher = request.getRequestDispatcher(registrationPage);
+                request.setAttribute("errorValidation", errorValidation);
+                dispatcher = request.getRequestDispatcher(registrationPage);
+                dispatcher.forward(request, response);
             }
+
         } catch (ServiceException e) {
 
         }
-
+        dispatcher.forward(request, response);
     }
 }

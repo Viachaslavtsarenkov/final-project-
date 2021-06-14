@@ -4,13 +4,11 @@ import by.tsarenkov.shop.bean.Product;
 import by.tsarenkov.shop.bean.ProductName;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public interface ProductService {
-    //ArrayList<Product> getAllProducts(ProductName category);
-     //ArrayList<Product> getProductsByCharacteristics(ProductName productName);
-
-   //boolean addNewTablet();
-     boolean addNewEBook();
-    // boolean addNewLaptop();
-    // boolean addNewSmartPhone();
+     List<Product> getAllProducts() throws ServiceException;
+     List<Product> getProductsByCharacteristics(ProductName productName) throws ServiceException;
+     boolean addNewProduct(Map<String, String> productCharacteristic) throws ServiceException;
 }

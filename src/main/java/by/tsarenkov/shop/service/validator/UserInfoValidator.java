@@ -64,7 +64,7 @@ public class UserInfoValidator {
         if (passwordMatcher.matches()) {
             result = true;
         } else {
-            resultValidation.put("password", "msg");
+            resultValidation.put("password", "password is not valid");
         }
         return result;
     }

@@ -12,6 +12,9 @@ import java.io.IOException;
 
 public class ActivationAccount implements Command {
 
+    private static final String loginActivation = "login";
+    private static final String codeActivation = "code";
+
     private static final ServiceProvider provider = ServiceProvider.getInstance();
     private static final UserService user = provider.getUserService();
 
@@ -19,8 +22,8 @@ public class ActivationAccount implements Command {
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        String login = request.getParameter("login");
-        String code = request.getParameter("code");
+        String login = request.getParameter(loginActivation);
+        String code = request.getParameter(codeActivation);
         try {
             user.activateAccount(login, code);
         } catch (ServiceException e) {

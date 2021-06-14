@@ -10,7 +10,7 @@ public class ServiceProvider {
     private static final ServiceProvider instance = new ServiceProvider();
 
     private final UserService userService = new UserServiceImpl();
-    private final ProductService productService = new ProductServiceImpl();
+    private final ProductService eBookService = new ProductServiceImpl();
     private final BasketService basketService = new BasketServiceImpl();
     private final OrderService orderService = new OrderServiceImpl();
 
@@ -25,8 +25,8 @@ public class ServiceProvider {
         return userService;
     }
 
-    public ProductService getProductService() {
-        return productService;
+    public ProductService getEBookService() {
+        return eBookService;
     }
 
     public OrderService getOrderService() {

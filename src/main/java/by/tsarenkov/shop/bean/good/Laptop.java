@@ -1,11 +1,13 @@
 package by.tsarenkov.shop.bean.good;
 
 import by.tsarenkov.shop.bean.Product;
+import by.tsarenkov.shop.bean.characteristic.LaptopCharacteristic;
 
 import java.io.Serializable;
+import java.util.Map;
 import java.util.Objects;
 
-public class Laptop implements Serializable {
+public class Laptop extends Product implements Serializable {
     private String model;
     private String type;
     private double diagonal;
@@ -19,9 +21,13 @@ public class Laptop implements Serializable {
     private String typeGraphicsCard;
     private String graphicsCard;
     private String screenExtension;
-    private static final int idCategory = 1;
+    private static final int idCategory = 3;
 
     public Laptop() {
+    }
+
+    public Laptop(LaptopBuilder builder) {
+
     }
 
     public String getModel() {
@@ -177,6 +183,33 @@ public class Laptop implements Serializable {
                 ", graphicsCard='" + graphicsCard + '\'' +
                 ", screenExtension='" + screenExtension + '\'' +
                 "} " + super.toString();
+    }
+
+    public static class LaptopBuilder {
+        private int id;
+        private String brand;
+        private String model;
+        private String type;
+        private double diagonal;
+        private String typeProcessor;
+        private String serialProcessor;
+        private int countCores;
+        private int ROM;
+        private int RAM;
+        private double bluetoothVersion;
+        private int countUSBPort;
+        private String typeGraphicsCard;
+        private String graphicsCard;
+        private String screenExtension;
+
+        public LaptopBuilder(int id, Map<String, String> characteristics) {
+            this.id = id;
+            this.brand = characteristics.get(LaptopCharacteristic.BRAND.toString());
+        }
+
+        public Laptop getInstance() {
+            return new Laptop(this);
+        }
     }
 }
 

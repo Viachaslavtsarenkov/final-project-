@@ -8,9 +8,13 @@ import java.util.Objects;
 public class Product implements Serializable {
     private int id;
     private String brand;
-    private double price;
 
     public Product() {}
+
+    public Product(int id, String brand) {
+        this.id = id;
+        this.brand = brand;
+    }
 
     public int getId() {
         return id;
@@ -28,14 +32,6 @@ public class Product implements Serializable {
         this.brand = brand;
     }
 
-    public double getPrice() {
-        return price;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -46,13 +42,12 @@ public class Product implements Serializable {
         }
         Product product = (Product) o;
         return id == product.id
-                && Double.compare(product.price, price) == 0
                 && brand.equals(product.brand);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, brand, price);
+        return Objects.hash(id, brand);
     }
 
     @Override
@@ -60,7 +55,6 @@ public class Product implements Serializable {
         return "Product{" +
                 "id=" + id +
                 ", brand='" + brand + '\'' +
-                ", price=" + price +
                 '}';
     }
 }
