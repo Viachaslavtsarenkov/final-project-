@@ -13,11 +13,10 @@ public class LogOut implements Command {
     private static final String mainPageCommand = "Controller?command=gotomainpage&message=logout ok";
 
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    HttpSession session = request.getSession();
-
-    if(session != null) {
-        session.removeAttribute(roleAttr);
-    }
-    response.sendRedirect(mainPageCommand);
+        HttpSession session = request.getSession();
+        if(session != null) {
+            session.removeAttribute(roleAttr);
+        }
+        response.sendRedirect(mainPageCommand);
     }
 }

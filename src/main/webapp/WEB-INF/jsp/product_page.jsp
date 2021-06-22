@@ -22,6 +22,5 @@
         </c:otherwise>
     </c:choose>
 
-    <c:import url="ebook_page.jsp"/>
 </body>
 </html>

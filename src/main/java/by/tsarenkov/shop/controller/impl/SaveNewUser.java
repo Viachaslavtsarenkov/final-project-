@@ -19,30 +19,37 @@ import java.util.Map;
 
 public class SaveNewUser implements Command {
 
-    private static final String name = "name";
-    private static final String surname = "surname";
-    private static final String email = "email";
-    private static final String password = "password";
-    private static final String phoneNumber = "phoneNumber";
-    private static final String loginPage = "/WEB-INF/jsp/main.jsp";
     private static final ServiceProvider provider = ServiceProvider.getInstance();
     private static final UserService userService = provider.getUserService();
+
+    private static final String NAME = "name";
+    private static final String SURNAME = "surname";
+    private static final String EMAIL = "email";
+    private static final String PASSWORD = "password";
+    private static final String PHONE_NUMBER = "phoneNumber";
+    private static final String REPEATED_PASSWORD = "repeated-password";
+
+
     private static final String registrationPage = "/WEB-INF/jsp/registration.jsp";
-    private Map<String, String > errorValidation;
+    private static final String loginPage = "/WEB-INF/jsp/main.jsp";
+
 
     public SaveNewUser() {}
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response)
             throws IOException, ServletException {
+        Map<String, String > errorValidation = null;
+        RequestDispatcher dispatcher = null;
+
         UserRegistrationInfo user;
         user = new UserRegistrationInfo();
-        user.setName(request.getParameter(name));
-        user.setSurname(request.getParameter(surname));
-        user.setEmail(request.getParameter(email));
-        user.setPassword(request.getParameter(password));
-        user.setPhoneNumber(request.getParameter(phoneNumber));
-        RequestDispatcher dispatcher = null;
+        user.setName(request.getParameter(NAME));
+        user.setSurname(request.getParameter(SURNAME));
+        user.setEmail(request.getParameter(EMAIL));
+        user.setPassword(request.getParameter(PASSWORD));
+        user.setPhoneNumber(request.getParameter(PHONE_NUMBER));
+        user.setRepeatedPassword(request.getParameter(REPEATED_PASSWORD));
 
         try {
             errorValidation = userService.registration(user);
@@ -50,14 +57,17 @@ public class SaveNewUser implements Command {
                 response.sendRedirect(loginPage);
                 return;
             } else {
+                System.out.println(errorValidation);
                 request.setAttribute("errorValidation", errorValidation);
                 dispatcher = request.getRequestDispatcher(registrationPage);
                 dispatcher.forward(request, response);
             }
 
         } catch (ServiceException e) {
-
+            request.setAttribute("error", "Something went wrong");
         }
-        dispatcher.forward(request, response);
+
+
+      //  dispatcher.forward(request, response);
     }
 }

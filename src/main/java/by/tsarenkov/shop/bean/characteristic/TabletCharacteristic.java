@@ -9,5 +9,5 @@ public enum TabletCharacteristic {
     ROM,
     THREE_G_MODEM,
     TYPE_USB,
-    PROCESSOR,
+    PROCESSOR
 }

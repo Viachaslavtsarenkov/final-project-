@@ -2,6 +2,7 @@ package by.tsarenkov.shop.bean.good;
 
 import by.tsarenkov.shop.bean.Product;
 import by.tsarenkov.shop.bean.characteristic.LaptopCharacteristic;
+import by.tsarenkov.shop.bean.status.ProductStatus;
 
 import java.io.Serializable;
 import java.util.Map;
@@ -21,13 +22,26 @@ public class Laptop extends Product implements Serializable {
     private String typeGraphicsCard;
     private String graphicsCard;
     private String screenExtension;
-    private static final int idCategory = 3;
 
     public Laptop() {
     }
 
     public Laptop(LaptopBuilder builder) {
-
+        super(builder.id, builder.brand,
+                builder.count, builder.price,
+                builder.status, builder.path);
+        this.model = builder.model;
+        this.type = builder.type;
+        this.diagonal = builder.diagonal;
+        this.typeProcessor = builder.typeProcessor;
+        this.serialProcessor = builder.serialProcessor;
+        this.ROM = builder.ROM;
+        this.RAM = builder.RAM;
+        this.bluetoothVersion = builder.bluetoothVersion;
+        this.countUSBPort = builder.countUSBPort;
+        this.typeGraphicsCard = builder.typeGraphicsCard;
+        this.graphicsCard = builder.graphicsCard;
+        this.screenExtension = builder.screenExtension;
     }
 
     public String getModel() {
@@ -193,7 +207,6 @@ public class Laptop extends Product implements Serializable {
         private double diagonal;
         private String typeProcessor;
         private String serialProcessor;
-        private int countCores;
         private int ROM;
         private int RAM;
         private double bluetoothVersion;
@@ -201,10 +214,49 @@ public class Laptop extends Product implements Serializable {
         private String typeGraphicsCard;
         private String graphicsCard;
         private String screenExtension;
+        private ProductStatus status;
+        private String path;
+        private double price;
+        private int count;
 
-        public LaptopBuilder(int id, Map<String, String> characteristics) {
+        public LaptopBuilder(int id, String brand,
+                                         int count, double price,
+                                         ProductStatus status, String path) {
             this.id = id;
-            this.brand = characteristics.get(LaptopCharacteristic.BRAND.toString());
+            this.brand = brand;
+            this.count = count;
+            this.path = path;
+            this.price = price;
+            this.status = status;
+        }
+
+        public LaptopBuilder setCharacteristics(Map<String, String> characteristics) {
+            System.out.println(characteristics);
+            this.model  = characteristics
+                    .get(LaptopCharacteristic.MODEL.toString());
+            this.type = characteristics
+                    .get(LaptopCharacteristic.TYPE.toString());
+            this.diagonal = Double.parseDouble(characteristics
+                    .get(LaptopCharacteristic.DIAGONAL.toString()));
+            this.typeProcessor = characteristics
+                    .get(LaptopCharacteristic.TYPE_PROCESSOR.toString());
+            this.serialProcessor = characteristics
+                    .get(LaptopCharacteristic.SERIAL_PROCESSOR.toString());
+            this.ROM = Integer.parseInt(characteristics
+                    .get(LaptopCharacteristic.ROM.toString()));
+            this.RAM = Integer.parseInt(characteristics
+                    .get(LaptopCharacteristic.RAM.toString()));
+            this.bluetoothVersion = Double.parseDouble(characteristics
+                    .get(LaptopCharacteristic.BLUETOOTH_VERSION.toString()));
+            this.countUSBPort = Integer.parseInt(characteristics
+                    .get(LaptopCharacteristic.COUNT_USB_PORT.toString()));
+            this.typeGraphicsCard = characteristics
+                    .get(LaptopCharacteristic.TYPE_GRAPHICS_CARD.toString());
+            this.graphicsCard = characteristics
+                    .get(LaptopCharacteristic.GRAPHICS_CARD.toString());
+            this.screenExtension = characteristics
+                    .get(LaptopCharacteristic.SCREEN_EXTENSION.toString());
+            return this;
         }
 
         public Laptop getInstance() {

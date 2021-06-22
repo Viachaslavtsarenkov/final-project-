@@ -1,7 +1,6 @@
 package by.tsarenkov.shop.service.impl;
 
 import by.tsarenkov.shop.bean.Order;
-import by.tsarenkov.shop.dao.BasketDAO;
 import by.tsarenkov.shop.dao.DAOProvider;
 import by.tsarenkov.shop.dao.OrderDAO;
 import by.tsarenkov.shop.service.OrderService;
@@ -13,7 +12,7 @@ public class OrderServiceImpl implements OrderService {
     private static final OrderDAO orderDAO = provider.getOrderDAO();
 
     @Override
-    public boolean addNewOrder(Order order) {
+    public boolean addNewOrder(int idUser) {
         return false;
     }
 
@@ -23,7 +22,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public boolean cancelOrder() {
+    public boolean cancelOrder(int id) {
         return false;
     }
 

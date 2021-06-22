@@ -19,6 +19,7 @@ public class GoToMainPage implements Command {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response)
             throws IOException, ServletException {
+        System.out.println("fff");
         RequestDispatcher dispatcher = request.getRequestDispatcher(mainPagePath);
         dispatcher.forward(request, response);
     }

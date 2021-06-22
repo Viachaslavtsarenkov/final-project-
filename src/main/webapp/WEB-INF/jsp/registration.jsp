@@ -43,32 +43,36 @@
                     <label>Имя</label><br>
                     <input type="text" name="name"/>
                     <c:if test="${requestScope.errorValidation.containsKey('name') == true}">
-                        <p class="validation_error">${requestScope.errorValidation.get('password')}</p>
+                        <p class="validation_error">${requestScope.errorValidation.get('name')}</p>
                     </c:if>
                     <br>
                     <label>Фамилия</label><br>
                     <input type="text" name="surname"/>
                     <c:if test="${requestScope.errorValidation.containsKey('surname') == true}">
-                        <p class="validation_error">${requestScope.errorValidation.get('password')}</p>
+                        <p class="validation_error">${requestScope.errorValidation.get('surname')}</p>
                     </c:if>
                     <br>
                     <label>Почтовый адрес</label><br>
                     <input type="text" name="email"/>
                     <c:if test="${requestScope.errorValidation.containsKey('email') == true}">
-                        <p class="validation_error">${requestScope.errorValidation.get('password')}</p>
+                        <p class="validation_error">${requestScope.errorValidation.get('email')}</p>
                     </c:if>
                     <br>
-                    <label>Пароль</label><br><input type="text" name="password"/>
+                    <label>Пароль</label><br>
+                    <input type="text" name="password"/>
                     <c:if test="${requestScope.errorValidation.containsKey('password') == true}">
                         <p class="validation_error">${requestScope.errorValidation.get('password')}</p>
                     </c:if>
                     <br>
                     <label>Повторите пароль</label><br>
                     <input type="text" name="repeated-password"/><br>
+                    <c:if test="${requestScope.errorValidation.containsKey('repeated') == true}">
+                        <p class="validation_error">${requestScope.errorValidation.get('repeated')}</p>
+                    </c:if>
                     <label>Номер телефона</label><br>
                     <input type="text" name="phoneNumber"/>
                     <c:if test="${requestScope.errorValidation.containsKey('phoneNumber') == true}">
-                        <p class="validation_error">${requestScope.errorValidation.get('password')}</p>
+                        <p class="validation_error">${requestScope.errorValidation.get('phoneNumber')}</p>
                     </c:if>
                     <br>
                     <input type="submit" value="Зарегистрироваться" >

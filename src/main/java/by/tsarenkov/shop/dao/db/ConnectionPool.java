@@ -12,9 +12,9 @@ import java.util.concurrent.Executor;
 
 public final class ConnectionPool {
 
-    private static final Logger log = Logger.getLogger(ConnectionPool.class);
+    private static final Logger LOGGER = Logger.getLogger(ConnectionPool.class);
 
-    private static ConnectionPool pool = new ConnectionPool();
+    private static final ConnectionPool pool = new ConnectionPool();
     private BlockingQueue<Connection> connectionQueue;
     private BlockingQueue<Connection> givenAwayConQueue;
 
@@ -71,7 +71,7 @@ public final class ConnectionPool {
             closeConnectionsQueue(givenAwayConQueue);
             closeConnectionsQueue(connectionQueue);
         } catch (SQLException e) {
-            log.debug("Connection wasn't closed");
+            LOGGER.error("Connection wasn't closed");
         }
     }
 
@@ -90,33 +90,66 @@ public final class ConnectionPool {
 
     public void closeConnection(Connection conn, Statement st, ResultSet rs) {
         try {
+            conn.close();
+        } catch (SQLException e) {
+            LOGGER.error("Connection wasn't closed", e);
+        }
+        try {
             st.close();
         } catch (SQLException e) {
-            log.debug("Statement wasn't closed");
+            LOGGER.error("Statement wasn't closed", e);
         }
         try {
             rs.close();
         } catch (SQLException e) {
-            log.debug("Prepared statement wasn't closed");
+            LOGGER.error("Prepared statement wasn't closed", e);
         }
+
+
+    }
+
+    public void returnConnectionToPool(Connection connection) {
         try {
-            conn.close();
-        } catch (SQLException e) {
-            log.debug("Connection wasn't closed");
+            givenAwayConQueue.remove(connection);
+            connectionQueue.add(connection);
+        } catch (IllegalStateException e) {
+            LOGGER.error("Error while returning the connection into the pool", e);
+
         }
     }
+
+    public void returnConnectionToPool(Connection connection, Statement statement) {
+        try {
+            statement.close();
+        } catch (SQLException e) {
+            LOGGER.error("Connection wasn't closed", e);
+        }
+
+        returnConnectionToPool(connection);
+    }
+
+    public void returnConnectionToPool(Connection connection, Statement statement, ResultSet resultSet) {
+        try {
+            resultSet.close();
+        } catch (SQLException e) {
+            LOGGER.error("Result set wasn't closed", e);
+        }
+
+        returnConnectionToPool(connection, statement);
+    }
+
 
     public void closeConnection(Connection conn, Statement st) {
         try {
             st.close();
         } catch (SQLException e) {
-            log.debug("Statement wasn't closed");
+            LOGGER.error("Statement wasn't closed");
         }
 
         try {
             conn.close();
         } catch (SQLException e) {
-            log.debug("Connection wasn't closed");
+            LOGGER.error("Connection wasn't closed");
         }
     }
 

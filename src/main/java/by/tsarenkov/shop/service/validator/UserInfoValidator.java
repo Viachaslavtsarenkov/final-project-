@@ -40,7 +40,7 @@ public class UserInfoValidator {
     public Map<String, String> validate() {
         resultValidation = new HashMap<>();
         isEmailValid(user.getEmail());
-        isPasswordValid(user.getPassword());
+        isPasswordValid(user.getPassword(), user.getRepeatedPassword());
         isSurnameValid(user.getSurname());
         isPhoneNumberValid(user.getPhoneNumber());
         return resultValidation;
@@ -53,18 +53,21 @@ public class UserInfoValidator {
         if (emailMatcher.matches()) {
             result = true;
         } else {
-            resultValidation.put("email", "msg");
+            resultValidation.put("email", "email is not valid");
         }
         return result;
     }
 
-    private boolean isPasswordValid(String password) {
+    private boolean isPasswordValid(String password, String repeatedPassword) {
         boolean result = false;
         Matcher passwordMatcher = validPassword.matcher(password);
         if (passwordMatcher.matches()) {
             result = true;
         } else {
             resultValidation.put("password", "password is not valid");
+        }
+        if (!password.equals(repeatedPassword)) {
+            resultValidation.put("repeated", "password is not equal");
         }
         return result;
     }

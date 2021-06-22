@@ -9,15 +9,15 @@ import java.io.IOException;
 
 public class ChangeLanguage implements Command {
 
-    private static final String mainPagePath = "/WEB-INF/jsp/main.jsp";
-    private static final String locale = "local";
+    private static final String MAIN_PAGE_PATH = "/WEB-INF/jsp/main.jsp";
+    private static final String LOCALE = "local";
 
     public ChangeLanguage() {};
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        request.getSession(true).setAttribute(locale,
-                request.getParameter(locale));
-        request.getRequestDispatcher(mainPagePath).forward(request, response);
+        request.getSession(true).setAttribute(LOCALE,
+                request.getParameter(LOCALE));
+        request.getRequestDispatcher(MAIN_PAGE_PATH).forward(request, response);
     }
 }

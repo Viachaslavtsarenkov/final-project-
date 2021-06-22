@@ -1,8 +1,13 @@
 package by.tsarenkov.shop.bean.good;
 
 import by.tsarenkov.shop.bean.Product;
+import by.tsarenkov.shop.bean.characteristic.EBookCharacteristic;
+import by.tsarenkov.shop.bean.characteristic.LaptopCharacteristic;
+import by.tsarenkov.shop.bean.characteristic.SmartphoneCharacteristic;
+import by.tsarenkov.shop.bean.status.ProductStatus;
 
 import java.io.Serializable;
+import java.util.Map;
 import java.util.Objects;
 
 public class Smartphone extends Product implements Serializable {
@@ -17,9 +22,26 @@ public class Smartphone extends Product implements Serializable {
     private int countCores;
     private int countPixelFrontCamera;
     private int countPixelBackCamera;
-    private static final int idCategory = 4;
 
     public Smartphone() {
+    }
+
+    public Smartphone(SmartphoneBuilder builder) {
+        super(builder.id, builder.brand,
+                builder.count, builder.price,
+                builder.status, builder.path);
+
+        this.model = builder.model;
+        this.operationSystem = builder.operationSystem;
+        this.diagonal = builder.diagonal;
+        this.ROM = builder.ROM;
+        this.RAM = builder.RAM;
+        this.countSimCard = builder.countSimCard;
+        this.CPU = builder.CPU;
+        this.countCores = builder.countCores;
+        this.countPixelFrontCamera = builder.countPixelFrontCamera;
+        this.countPixelBackCamera = builder.countPixelBackCamera;
+
     }
 
     public String getModel() {
@@ -145,6 +167,65 @@ public class Smartphone extends Product implements Serializable {
                 ", countPixelFrontCamera=" + countPixelFrontCamera +
                 ", countPixelBackCamera=" + countPixelBackCamera +
                 "} " + super.toString();
+    }
+
+    public static class SmartphoneBuilder {
+        private int id;
+        private String brand;
+        private double price;
+        private int count;
+        private ProductStatus status;
+        private String path;
+        private String model;
+        private String operationSystem;
+        private double diagonal;
+        private int RAM;
+        private int ROM;
+        private int countSimCard;
+        private int CPU;
+        private int countCores;
+        private int countPixelFrontCamera;
+        private int countPixelBackCamera;
+
+
+        public SmartphoneBuilder(int id, String brand,
+                                 int count, double price,
+                                 ProductStatus status, String path) {
+            this.id = id;
+            this.brand = brand;
+            this.count = count;
+            this.path = path;
+            this.price = price;
+            this.status = status;
+        }
+
+        public SmartphoneBuilder setCharacteristics(Map<String, String> characteristics) {
+            this.model = characteristics
+                    .get(SmartphoneCharacteristic.MODEL.toString());
+            this.ROM = Integer.parseInt(characteristics
+                    .get(SmartphoneCharacteristic.ROM.toString()));
+            this.RAM = Integer.parseInt(characteristics
+                    .get(SmartphoneCharacteristic.RAM.toString()));
+            this.operationSystem = characteristics
+                    .get(SmartphoneCharacteristic.OPERATION_SYSTEM.toString());
+            this.diagonal = Double.parseDouble(characteristics
+                    .get(SmartphoneCharacteristic.DIAGONAL.toString()));
+            this.CPU = Integer.parseInt(characteristics
+                    .get(SmartphoneCharacteristic.CPU.toString()));
+            this.countSimCard = Integer.parseInt(characteristics
+                    .get(SmartphoneCharacteristic.COUNT_SIM_CARD.toString()));
+            this.countCores = Integer.parseInt(characteristics
+                    .get(SmartphoneCharacteristic.COUNT_CORES.toString()));
+            this.countPixelFrontCamera = Integer.parseInt(characteristics
+                    .get(SmartphoneCharacteristic.FRONT_CAMERA.toString()));
+            this.countPixelBackCamera = Integer.parseInt(characteristics
+                    .get(SmartphoneCharacteristic.CAMERA.toString()));
+
+            return this;
+        }
+        public Smartphone getInstance() {
+            return new Smartphone(this);
+        }
     }
 }
 

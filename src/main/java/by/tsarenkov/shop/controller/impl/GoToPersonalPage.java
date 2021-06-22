@@ -15,6 +15,7 @@ public class GoToPersonalPage implements Command {
 
     private static final String loginPagePath = "/WEB-INF/jsp/login.jsp";
     private static final String personalPagePath = "/WEB-INF/jsp/personalpage.jsp";
+    private static final String ROLE_ATTR = "role";
 
 
     public GoToPersonalPage() {
@@ -25,13 +26,15 @@ public class GoToPersonalPage implements Command {
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession(false);
         RequestDispatcher requestDispatcher = null;
-        if (session.getAttribute("role") == UserRole.ADMIN.toString() ||
-                session.getAttribute("role") == UserRole.CUSTOMER.toString()){
+        String role = session.getAttribute(ROLE_ATTR).toString();
+        System.out.println(role);
+        if (role.equals(UserRole.ADMIN.toString())||
+                role.equals(UserRole.CUSTOMER.toString())){
             requestDispatcher = request.getRequestDispatcher(personalPagePath);
-            requestDispatcher.forward(request, response);
         } else {
             requestDispatcher = request.getRequestDispatcher(loginPagePath);
-            requestDispatcher.forward(request, response);
+
         }
+        requestDispatcher.forward(request, response);
     }
 }

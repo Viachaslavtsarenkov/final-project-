@@ -1,5 +1,7 @@
 package by.tsarenkov.shop.bean;
 
+import by.tsarenkov.shop.bean.status.UserStatus;
+
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
@@ -12,7 +14,7 @@ public class User implements Serializable {
     private UserRole role;
     private String email;
     private String password;
-    private String status;
+    private UserStatus status;
     private String phoneNumber;
 
     public User() {
@@ -67,11 +69,11 @@ public class User implements Serializable {
         this.password = password;
     }
 
-    public String getStatus() {
+    public UserStatus getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(UserStatus status) {
         this.status = status;
     }
 

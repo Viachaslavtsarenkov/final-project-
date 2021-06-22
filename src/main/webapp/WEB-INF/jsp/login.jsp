@@ -17,7 +17,7 @@
 </head>
 <body>
     <c:choose>
-        <c:when test="${sessionScope.role == null}">
+        <c:when test="${sessionScope.role == 'GUEST'}">
             <c:import url="header.jsp"/>
         </c:when>
         <c:otherwise>

@@ -2,6 +2,7 @@ package by.tsarenkov.shop.service.impl;
 
 import by.tsarenkov.shop.bean.User;
 import by.tsarenkov.shop.bean.UserRegistrationInfo;
+import by.tsarenkov.shop.bean.status.UserStatus;
 import by.tsarenkov.shop.dao.DAOException;
 import by.tsarenkov.shop.dao.DAOProvider;
 import by.tsarenkov.shop.dao.UserDAO;
@@ -9,9 +10,8 @@ import by.tsarenkov.shop.service.EmailService;
 import by.tsarenkov.shop.service.ServiceException;
 import by.tsarenkov.shop.service.UserService;
 import by.tsarenkov.shop.service.validator.UserInfoValidator;
-
-import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 public class UserServiceImpl implements UserService {
 
@@ -28,30 +28,37 @@ public class UserServiceImpl implements UserService {
         try {
             user =  userDAO.authorization(login, password);
         } catch (DAOException e) {
-            throw new ServiceException(e.getMessage());
+            throw new ServiceException(e);
         }
-
+        if (user.getStatus() == UserStatus.NO_ACTIVATED) {
+            throw new ServiceException("User is not activated");
+        }
+        if (user.getStatus() == UserStatus.BLOCKED) {
+            throw new ServiceException("User is blocked");
+        }
         return user;
     }
 
     @Override
     public Map<String, String> registration(UserRegistrationInfo user) throws ServiceException {
+        String code = null;
         UserInfoValidator validator = new UserInfoValidator(user);
         Map<String, String> validation = validator.validate() ;
 
-        // add checking user
-        if (validation == null | validation.size() == 0 ) {
+        if (validation == null || validation.size() == 0 ) {
             try {
-                userDAO.registration(user);
+                code = generateCode();
+                if (userDAO.findUser(user.getEmail())) {
+                    validation.put("email", "Email is already in use");
+                } else {
+                    userDAO.registration(user, code);
+                    EmailService.sendRegistrationMessage(user.getEmail(), code);
+                }
             } catch (DAOException e) {
-                 throw new ServiceException();
+                 throw new ServiceException(e);
             }
-            EmailService.sendRegistrationMessage(user.getEmail());
-            return validation;
-        } else {
-            System.out.println(validation.size());
-            return validation;
         }
+        return validation;
 
     }
 
@@ -66,5 +73,13 @@ public class UserServiceImpl implements UserService {
         return true;
     }
 
-
+    private static String generateCode() {
+        String codeSymbols= "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        Random rnd = new Random();
+        final StringBuilder code = new StringBuilder();
+        for (int i = 0; i < 10; i++) {
+           code.append(codeSymbols.charAt(rnd.nextInt(codeSymbols.length())));
+        }
+        return code.toString();
+    }
 }

@@ -6,7 +6,7 @@
     </head>
     <body>
         <%
-        response.sendRedirect("controller?command=gotomainpage");
+            response.sendRedirect("controller?command=gotomainpage");
         %>
     </body>
 </html>

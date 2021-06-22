@@ -10,7 +10,7 @@ public enum SmartphoneCharacteristic {
     COUNT_SIM_CARD,
     CPU,
     COUNT_CORES,
-    COUNT_PIXEL_FRONT_CAMERA,
-    COUNT_PIXEL_BACK_CAMERA,
+    FRONT_CAMERA,
+    CAMERA
 
 }

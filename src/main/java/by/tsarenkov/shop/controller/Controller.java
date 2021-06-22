@@ -11,8 +11,9 @@ import javax.servlet.annotation.*;
 public class Controller extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
-    private String message;
     private final CommandProvider provider = new CommandProvider();
+    private static final String ROLE_ATTR = "role";
+    private static final String GUEST = "GUEST";
 
     public Controller() {
         super();
@@ -22,20 +23,29 @@ public class Controller extends HttpServlet {
     }
 
     @Override
-    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+    public void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws IOException, ServletException {
         Servlet s;
         process(request, response);
     }
 
     @Override
-    public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         process(request, response);
     }
 
-    public void process(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+    public void process(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException{
+
+        HttpSession session = request.getSession(true);
+        if (session.getAttribute(ROLE_ATTR) == null) {
+            session.setAttribute(ROLE_ATTR, GUEST);
+        }
         String name;
         Command command;
         name = request.getParameter("command");
+
         command = provider.takeCommand(name);
         command.execute(request, response);
     }

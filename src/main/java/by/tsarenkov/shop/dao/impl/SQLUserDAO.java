@@ -13,24 +13,28 @@ import java.sql.*;
 
 public class SQLUserDAO implements UserDAO {
 
-    private static final Logger log = Logger.getLogger(SQLUserDAO.class);
+    private final static ConnectionPool POOL = ConnectionPool.getInstance();
+    private static final Logger LOGGER = Logger.getLogger(SQLUserDAO.class);
 
-    private static final String idColumn = "id_user";
-    private static final String usernameColumn = "username";
-    private static final String surnameColumn = "surname";
-    private static final String emailColumn = "email";
-    private static final String passwordColumn = "password";
-    private static final String roleColumn = "user_role";
-    private static final String phoneColumn = "phone";
-
+    private static final String ID_COLUMN = "id_user";
+    private static final String USERNAME = "username";
+    private static final String SURNAME = "surname";
+    private static final String EMAIL = "email";
+    private static final String PASSWORD = "password";
+    private static final String ROLE = "user_role";
+    private static final String PHONE = "phone";
+    private static final String STATUS = "status";
+    //TODO RENAME FINAL FIELDS
     private static final String newUserQuery = "INSERT INTO store.user (username, surname, email, "
-            + "status, password, user_role, phone)"
-            + "VALUES (?, ?, ?, ?, ?, ?, ?)";
+            + "status, password, user_role, phone, code)"
+            + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+
     private static final String queryGettingUser = "SELECT username FROM user WHERE email = ?";
-    private static final String activationQuery = "UPDATE user SET status = ? WHERE email = ?";
+    private static final String activationQuery = "UPDATE user SET status = ? WHERE email = ? " +
+            "AND code = ? AND status = 'NO_ACTIVATED'";
     private static final String authorizationQuery = "SELECT * FROM user WHERE email = ? AND password = ?";
 
-    private final static ConnectionPool pool = ConnectionPool.getInstance();
+
     public SQLUserDAO(){
 
     }
@@ -43,45 +47,37 @@ public class SQLUserDAO implements UserDAO {
         ResultSet resultSet = null;
 
         try {
-            connection = pool.takeConnection();
+            connection =POOL.takeConnection();
             preparedStatement = connection.prepareStatement(authorizationQuery);
             preparedStatement.setString(1, login);
             preparedStatement.setString(2, password);
             resultSet = preparedStatement.executeQuery();
             resultSet.next();
             user = new User();
-            user.setUserId(resultSet.getInt(idColumn));
-            user.setName(resultSet.getString(usernameColumn));
-            user.setSurname(resultSet.getString(surnameColumn));
-            user.setEmail(resultSet.getString(emailColumn));
-            user.setPassword(resultSet.getString(passwordColumn));
-            user.setPhoneNumber(resultSet.getString(phoneColumn));
-            user.setRole(UserRole.valueOf(resultSet.getString(roleColumn)));
+            user.setUserId(resultSet.getInt(ID_COLUMN));
+            user.setName(resultSet.getString(USERNAME));
+            user.setSurname(resultSet.getString(SURNAME));
+            user.setEmail(resultSet.getString(EMAIL));
+            user.setPassword(resultSet.getString(PASSWORD));
+            user.setPhoneNumber(resultSet.getString(PHONE));
+            user.setRole(UserRole.valueOf(resultSet.getString(ROLE)));
+            user.setStatus(UserStatus.valueOf(resultSet.getString(STATUS)));
         } catch (SQLException e) {
-            log.info("User isn't found");
+            LOGGER.info("User isn't found");
             throw new DAOException("err1");
         } finally {
-            try {
-                preparedStatement.close();
-            } catch (SQLException e) {
-                log.error("Prepared statement isn't closed");
-            }
-            try {
-                connection.close();
-            } catch (SQLException e) {
-                log.error("Connection isn't closed");
-            }
+            POOL.returnConnectionToPool(connection, preparedStatement, resultSet);
         }
         return user;
     }
 
     @Override
-    public boolean registration(UserRegistrationInfo user) throws DAOException {
+    public boolean registration(UserRegistrationInfo user, String code) throws DAOException {
         Connection connection = null;
         PreparedStatement ps = null;
 
         try {
-            connection = pool.takeConnection();
+            connection = POOL.takeConnection();
             ps = connection.prepareStatement(newUserQuery);
             ps.setString(1, user.getName());
             ps.setString(2, user.getSurname());
@@ -90,83 +86,55 @@ public class SQLUserDAO implements UserDAO {
             ps.setString(5, user.getPassword());
             ps.setString(6, UserRole.CUSTOMER.toString());
             ps.setString(7, user.getPhoneNumber());
+            ps.setString(8, code);
             ps.executeUpdate();
-            pool.closeConnection(connection, ps);
+            POOL.closeConnection(connection, ps);
         }  catch (SQLException e) {
-            log.info("User wasn't registered");
+            //TODO
+            LOGGER.info("User wasn't registered");
             throw new DAOException("");
         } finally {
-            try {
-                if (ps != null) {
-                    ps.close();
-                }
-            } catch (SQLException e) {
-                log.error("Prepared statement isn't closed");
-            }
-            try {
-                connection.close();
-            } catch (SQLException e) {
-                log.error("Connection isn't closed");
-            }
+            POOL.returnConnectionToPool(connection, ps);
         }
         return true;
     }
 
     @Override
-    public boolean findUser(String login) {
+    public boolean findUser(String login) throws DAOException {
         Connection connection = null;
         PreparedStatement ps = null;
         try {
-            connection = pool.takeConnection();
+            connection = POOL.takeConnection();
             ps = connection.prepareStatement(queryGettingUser);
             ps.setString(1, login);
             ps.executeQuery();
             ResultSet resultSet = ps.getResultSet();
             return resultSet.next();
         } catch (SQLException e) {
+            throw new DAOException(e);
+            //TODO log
         } finally {
-            try {
-                if (ps != null) {
-                    ps.close();
-                }
-            } catch (SQLException e) {
-                log.debug("Prepared statement isn't closed");
-            }
-            try {
-                connection.close();
-            } catch (SQLException e) {
-                log.debug("Connection isn't closed");
-            }
+            POOL.returnConnectionToPool(connection, ps);
         }
-        return false;
     }
 
     @Override
-    public boolean activateAccount(String login, String code) {
+    public boolean activateAccount(String login, String code) throws DAOException{
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         try {
-            connection = pool.takeConnection();
+            connection = POOL.takeConnection();
             preparedStatement = connection.prepareStatement(activationQuery);
             preparedStatement.setString(1, UserStatus.ACTIVATED.toString());
             preparedStatement.setString(2, login);
+            preparedStatement.setString(3, code);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            System.out.println(e);
+            //TODO log
+            throw new DAOException(e);
         } finally {
-            try {
-                if (preparedStatement != null) {
-                    preparedStatement.close();
-                }
-            } catch (SQLException e) {
-                log.debug("Prepared statement isn't closed");
-            }
-            try {
-                connection.close();
-            } catch (SQLException e) {
-                log.debug("Connection isn't closed");
-            }
+          POOL.returnConnectionToPool(connection, preparedStatement);
         }
-        return false;
+        return true;
     }
 }

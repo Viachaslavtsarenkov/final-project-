@@ -14,6 +14,5 @@ public enum LaptopCharacteristic {
     COUNT_USB_PORT,
     TYPE_GRAPHICS_CARD,
     GRAPHICS_CARD,
-    SCREEN_EXTENSION,
-
-    }
+    SCREEN_EXTENSION
+}

@@ -10,22 +10,22 @@ public class Order implements Serializable {
     private int idOrder;
     private int count;
     private double price;
-    private String delivery_option;
+    private String deliveryOption;
     private StatusOrder statusOrder;
     private String address;
-    private int userID;
-    private int goodID;
+    private int userId;
+    private int goodId;
 
     public Order() {}
 
-    public Order(int idOrder, int userID,
-                 int goodID, String delivery_option,
+    public Order(int idOrder, int userId,
+                 int goodId, String deliveryOption,
                  StatusOrder statusOrder, String address,
                  int count, double price) {
         this.idOrder = idOrder;
-        this.userID = userID;
-        this.goodID = goodID;
-        this.delivery_option = delivery_option;
+        this.userId = userId;
+        this.goodId = goodId;
+        this.deliveryOption = deliveryOption;
         this.statusOrder = statusOrder;
         this.address = address;
         this.count = count;
@@ -56,12 +56,12 @@ public class Order implements Serializable {
         this.price = price;
     }
 
-    public String getDelivery_option() {
-        return delivery_option;
+    public String getDeliveryOption() {
+        return deliveryOption;
     }
 
     public void setDelivery_option(String delivery_option) {
-        this.delivery_option = delivery_option;
+        this.deliveryOption = delivery_option;
     }
 
     public StatusOrder getStatusOrder() {
@@ -80,20 +80,20 @@ public class Order implements Serializable {
         this.address = address;
     }
 
-    public int getUserID() {
-        return userID;
+    public int getUserId() {
+        return userId;
     }
 
     public void setUserID(int userID) {
-        this.userID = userID;
+        this.userId= userID;
     }
 
-    public int getGoodID() {
-        return goodID;
+    public int getGoodId() {
+        return goodId;
     }
 
     public void setGoodID(int goodID) {
-        this.goodID = goodID;
+        this.goodId = goodID;
     }
 
     @Override
@@ -108,15 +108,15 @@ public class Order implements Serializable {
         return idOrder == order.idOrder &&
                 count == order.count &&
                 Double.compare(order.price, price) == 0 &&
-                userID == order.userID &&
-                goodID == order.goodID &&
-                Objects.equals(delivery_option, order.delivery_option) &&
+                userId == order.userId &&
+                goodId == order.goodId &&
+                Objects.equals(deliveryOption, order.deliveryOption) &&
                 statusOrder == order.statusOrder &&
                 Objects.equals(address, order.address);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idOrder, count, price, delivery_option, statusOrder, address, userID, goodID);
+        return Objects.hash(idOrder, count, price, deliveryOption, statusOrder, address, userId, goodId);
     }
 }

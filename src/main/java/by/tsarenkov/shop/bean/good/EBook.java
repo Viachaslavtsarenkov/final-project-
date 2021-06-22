@@ -2,6 +2,7 @@ package by.tsarenkov.shop.bean.good;
 
 import by.tsarenkov.shop.bean.Product;
 import by.tsarenkov.shop.bean.characteristic.EBookCharacteristic;
+import by.tsarenkov.shop.bean.status.ProductStatus;
 
 import java.io.Serializable;
 import java.util.Locale;
@@ -20,13 +21,12 @@ public class EBook extends Product implements Serializable {
     private boolean WiFi;
     private boolean bluetooth;
     private String formats;
-    private double price;
 
 
     public EBook(){}
 
     public EBook(EBookBuilder builder) {
-        super(builder.id, builder.brand);
+        super(builder.id, builder.brand, builder.count, builder.price, builder.status, builder.path);
         this.model = builder.model;
         this.ROM = builder.ROM;
         this.RAM = builder.RAM;
@@ -34,18 +34,9 @@ public class EBook extends Product implements Serializable {
         this.typeScreen = builder.typeScreen;
         this.batteryCapacity = builder.batteryCapacity;
         this.diagonal = builder.diagonal;
-        this.formats = builder.brand;
-        this.price = builder.price;
-                // wifi
-        // bluethooth
-    }
-
-    public double getPrice() {
-        return price;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
+        this.formats = builder.formats;
+        this.bluetooth = builder.bluetooth;
+        this.WiFi = builder.WiFi;
     }
 
     public String getModel() {
@@ -172,6 +163,10 @@ public class EBook extends Product implements Serializable {
 
     public static class EBookBuilder {
         private int id;
+        private double price;
+        private int count;
+        private ProductStatus status;
+        private String path;
         private String brand;
         private String model;
         private int ROM;
@@ -183,24 +178,44 @@ public class EBook extends Product implements Serializable {
         private boolean WiFi;
         private boolean bluetooth;
         private String formats;
-        private double price;
 
-        public EBookBuilder(int id, Map<String, String> characteristics) {
+        public EBookBuilder(int id, String brand,
+                            int count, double price,
+                            ProductStatus status, String path) {
+
             this.id = id;
-            this.brand = characteristics.get("NAME"); // change column in bd
-            this.model = characteristics.get(EBookCharacteristic.MODEL.toString());
-            this.ROM = Integer.parseInt(characteristics.get(EBookCharacteristic.ROM.toString().trim()));
-            System.out.println(characteristics.get(EBookCharacteristic.RAM.toString()));
-            //this.RAM = Integer.parseInt(characteristics.get(EBookCharacteristic.RAM.toString()));
-            this.typeCardMemory = characteristics.get(EBookCharacteristic.TYPE_CARD_MEMORY.toString());
-            this.typeScreen = characteristics.get(EBookCharacteristic.TYPE_SCREEN.toString());
+            this.brand = brand;
+            this.count = count;
+            this.path = path;
+            this.price = price;
+            this.status = status;
+        }
+
+        public EBookBuilder setCharacteristics(Map<String, String> characteristics) {
+            System.out.println(characteristics);
+            this.model = characteristics
+                    .get(EBookCharacteristic.MODEL.toString());
+            this.ROM = Integer.parseInt(characteristics
+                    .get(EBookCharacteristic.ROM.toString()));
+            this.RAM = Integer.parseInt(characteristics
+                    .get(EBookCharacteristic.RAM.toString()));
+            System.out.println(characteristics
+                          .get(EBookCharacteristic.RAM.toString()));
+            this.typeCardMemory = characteristics
+                    .get(EBookCharacteristic.TYPE_CARD_MEMORY.toString());
+            this.typeScreen = characteristics
+                    .get(EBookCharacteristic.TYPE_SCREEN.toString());
             this.batteryCapacity = Integer.parseInt(characteristics
                     .get(EBookCharacteristic.BATTERY_CAPACITY.toString()));
-            this.diagonal = Double.parseDouble(characteristics.get(EBookCharacteristic.DIAGONAL.toString()));
-            //this.WiFi = Integer.parseInt(characteristics.get(EBookCharacteristic.RAM.toString()));
-            //this.bluetooth = Integer.parseInt(characteristics.get(EBookCharacteristic.RAM.toString()));
-            this.formats = characteristics.get(EBookCharacteristic.FORMATS.toString());
-            //this.price = Double.parseDouble(characteristics.get(EBookCharacteristic.PRICE));
+            this.diagonal = Double.parseDouble(characteristics
+                    .get(EBookCharacteristic.DIAGONAL.toString()));
+            this.WiFi = characteristics
+                    .get(EBookCharacteristic.WIFI.toString()).equals("yes");
+            this.bluetooth = "yes".equals(characteristics
+                    .get(EBookCharacteristic.BLUETOOTH.toString()));
+            this.formats = characteristics
+                    .get(EBookCharacteristic.FORMATS.toString());
+            return this;
         }
 
         public EBook getInstance() {
