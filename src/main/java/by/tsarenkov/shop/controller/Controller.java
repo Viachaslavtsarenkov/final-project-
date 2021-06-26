@@ -8,12 +8,14 @@ import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 
 @WebServlet(name = "controller", value = "/controller")
+@MultipartConfig
 public class Controller extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
     private final CommandProvider provider = new CommandProvider();
     private static final String ROLE_ATTR = "role";
     private static final String GUEST = "GUEST";
+    private static final String COMMAND = "command";
 
     public Controller() {
         super();
@@ -42,9 +44,10 @@ public class Controller extends HttpServlet {
         if (session.getAttribute(ROLE_ATTR) == null) {
             session.setAttribute(ROLE_ATTR, GUEST);
         }
+
         String name;
         Command command;
-        name = request.getParameter("command");
+        name = request.getParameter(COMMAND);
 
         command = provider.takeCommand(name);
         command.execute(request, response);

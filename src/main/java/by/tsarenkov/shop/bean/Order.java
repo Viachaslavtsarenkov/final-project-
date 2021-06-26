@@ -1,35 +1,37 @@
 package by.tsarenkov.shop.bean;
 
 import by.tsarenkov.shop.bean.status.StatusOrder;
+import by.tsarenkov.shop.service.ProductService;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class Order implements Serializable {
 
     private int idOrder;
-    private int count;
     private double price;
     private String deliveryOption;
     private StatusOrder statusOrder;
     private String address;
     private int userId;
-    private int goodId;
+    private List<Product> products;
 
-    public Order() {}
+    public Order() {
+        products = new ArrayList<>();
+    }
 
-    public Order(int idOrder, int userId,
-                 int goodId, String deliveryOption,
-                 StatusOrder statusOrder, String address,
-                 int count, double price) {
+    public Order(int idOrder, int userId, String address,
+                 String deliveryOption,
+                  double amount, StatusOrder statusOrder) {
         this.idOrder = idOrder;
         this.userId = userId;
-        this.goodId = goodId;
         this.deliveryOption = deliveryOption;
         this.statusOrder = statusOrder;
         this.address = address;
-        this.count = count;
         this.price = price;
+        products = new ArrayList<>();
     }
 
     public int getIdOrder() {
@@ -38,14 +40,6 @@ public class Order implements Serializable {
 
     public void setIdOrder(int idOrder) {
         this.idOrder = idOrder;
-    }
-
-    public int getCount() {
-        return count;
-    }
-
-    public void setCount(int count) {
-        this.count = count;
     }
 
     public double getPrice() {
@@ -88,12 +82,8 @@ public class Order implements Serializable {
         this.userId= userID;
     }
 
-    public int getGoodId() {
-        return goodId;
-    }
-
-    public void setGoodID(int goodID) {
-        this.goodId = goodID;
+    public void addProduct(Product product) {
+        products.add(product);
     }
 
     @Override
@@ -105,11 +95,10 @@ public class Order implements Serializable {
             return false;
         }
         Order order = (Order) o;
+
         return idOrder == order.idOrder &&
-                count == order.count &&
                 Double.compare(order.price, price) == 0 &&
                 userId == order.userId &&
-                goodId == order.goodId &&
                 Objects.equals(deliveryOption, order.deliveryOption) &&
                 statusOrder == order.statusOrder &&
                 Objects.equals(address, order.address);
@@ -117,6 +106,21 @@ public class Order implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(idOrder, count, price, deliveryOption, statusOrder, address, userId, goodId);
+        return Objects.hash(idOrder,
+                price, deliveryOption,
+                statusOrder, address, userId, products);
+    }
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                "idOrder=" + idOrder +
+                ", price=" + price +
+                ", deliveryOption='" + deliveryOption + '\'' +
+                ", statusOrder=" + statusOrder +
+                ", address='" + address + '\'' +
+                ", userId=" + userId +
+                ", products=" + products +
+                '}';
     }
 }

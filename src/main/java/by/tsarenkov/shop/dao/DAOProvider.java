@@ -8,6 +8,7 @@ public class DAOProvider {
 
     private static final DAOProvider instance = new DAOProvider();
 
+
     private final UserDAO userDAO = new SQLUserDAO();
     private final ProductDAO productDAO = new SQLProductDAO();
     private final OrderDAO orderDAO = new SQLOrderDAO();

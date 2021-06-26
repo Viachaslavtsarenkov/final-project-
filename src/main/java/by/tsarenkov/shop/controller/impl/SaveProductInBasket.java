@@ -16,8 +16,9 @@ import java.io.IOException;
 public class SaveProductInBasket implements Command{
     private static final String ID_PRODUCT_PARAMETER = "id";
     private static final String ID_USER_ATTR = "user";
-    private static final String COUNT_PARAMETER = "count";
     private static final String ROLE_ATTR = "role";
+    private static final String NAME = "name";
+    private static final String PRODUCT_PAGE = "controller?command=particularebookview&name=name_product&id=";
 
     private static final ServiceProvider PROVIDER = ServiceProvider.getInstance();
     private final ProductService SERVICE = PROVIDER.getProductService();
@@ -28,15 +29,14 @@ public class SaveProductInBasket implements Command{
     public void execute(HttpServletRequest request, HttpServletResponse response)
             throws IOException, ServletException {
         HttpSession session = request.getSession(false);
-        String currentPage = request.getRequestURI();
-        RequestDispatcher requestDispatcher = null;
+        String name = request.getParameter(NAME);
         try {
-
             if (UserRole.CUSTOMER.toString().equals(session.getAttribute(ROLE_ATTR).toString())) {
                 int idProduct = Integer.parseInt(request.getParameter(ID_PRODUCT_PARAMETER));
                 int idUser = Integer.parseInt(session.getAttribute(ID_USER_ATTR).toString());
                 int count = 2; //Integer.parseInt(request.getParameter(countParameter));
                 SERVICE.addProduct(idProduct, idUser, count);
+                response.sendRedirect(PRODUCT_PAGE.replace("name_product",name) + idProduct);
             } else {
                 // add product in cookies
             }
@@ -44,7 +44,5 @@ public class SaveProductInBasket implements Command{
         } catch (ServiceException e) {
             // todo
         }
-        requestDispatcher = request.getRequestDispatcher(currentPage);
-        requestDispatcher.forward(request, response);
     }
 }

@@ -33,7 +33,6 @@ public class GoToPersonalPage implements Command {
             requestDispatcher = request.getRequestDispatcher(personalPagePath);
         } else {
             requestDispatcher = request.getRequestDispatcher(loginPagePath);
-
         }
         requestDispatcher.forward(request, response);
     }

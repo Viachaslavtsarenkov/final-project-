@@ -17,9 +17,10 @@ public class ActivationAccount implements Command {
     private static final String CODE_ACTIVATION = "code";
     private static final String MAIN_PAGE_PATH = "/WEB-INF/jsp/main.jsp";
     private static final String LOGIN_PAGE_PATH = "/WEB-INF/jsp/login.jsp";
+    private static final String ERROR_PAGE = "WEB-INF/jsp/error.jsp";
 
     private static final ServiceProvider provider = ServiceProvider.getInstance();
-    private static final UserService user = provider.getUserService();
+    private final UserService user = provider.getUserService();
 
     public ActivationAccount() {}
 
@@ -33,7 +34,7 @@ public class ActivationAccount implements Command {
                 requestDispatcher = request.getRequestDispatcher(LOGIN_PAGE_PATH);
             }
         } catch (ServiceException e) {
-            requestDispatcher = request.getRequestDispatcher(MAIN_PAGE_PATH);
+            requestDispatcher = request.getRequestDispatcher(ERROR_PAGE);
         }
         requestDispatcher.forward(request, response);
 

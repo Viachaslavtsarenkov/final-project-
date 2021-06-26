@@ -15,6 +15,15 @@
     </style>
 </head>
     <body>
+    <jsp:useBean id="product" scope="request" beanName="by.tsarenkov.shop.bean.good.Tablet"
+                 type="by.tsarenkov.shop.bean.good.Tablet">
+        <jsp:setProperty name="product" property="id" value="0"/>
+        <jsp:setProperty name="product" property="brand" value=""/>
+        <jsp:setProperty name="product" property="model" value=""/>
+        <jsp:setProperty name="product" property="operationSystem" value=""/>
+        <jsp:setProperty name="product" property="typeUSB" value=""/>
+        <jsp:setProperty name="product" property="processor" value=""/>
+    </jsp:useBean>
         <c:choose>
             <c:when test="${sessionScope.role == 'ADMIN'}">
                 <c:import url="header_admin.jsp"/>
@@ -22,45 +31,51 @@
             </c:choose>
         <main class="wrapper">
             <section class="section_data">
-                <form class="form_input" action="controller" method="post">
+                <form class="form_input" action="controller" method="post" enctype="multipart/form-data">
                     <c:choose>
-                        <c:when test="${requestScope.ebook == null}">
+                        <c:when test="${requestScope.product.id == 0}">
                             <input type="hidden" name="command" value="savenewproduct" />
                         </c:when>
                         <c:otherwise>
                             <input type="hidden" name="command" value="savechangedebook" />
                         </c:otherwise>
                     </c:choose>
-                    <input type="hidden" name="command" value="savenewproduct" />
                     <input type="hidden" name="id_category" value="2" />
                     <input type="hidden" name="name" value="tablet" />
+                    <input type="hidden" name="id" value="<jsp:getProperty name="product" property="id"/>" />
                     <label>Бренд</label>
-                    <input type="text" name="name"/>
+                    <input type="text" name="brand"
+                    value="<jsp:getProperty name="product" property="brand"/>"/>
                     <label>Модель</label>
-                    <input type="text" name="model"/>
+                    <input type="text" name="model"
+                           value="<jsp:getProperty name="product" property="model"/>"/>
                     <label>ОС</label>
-                    <input type="text" name="operation_system"/>
+                    <input type="text" name="operation_system"
+                           value="<jsp:getProperty name="product" property="operationSystem"/>"/>
                     <label> Диагональ</label>
-                    <input type="text" name="diagonal"/>
+                    <input type="text" name="diagonal"
+                           value="<jsp:getProperty name="product" property="diagonal"/>"/>
                     <label>ROM</label>
-                    <input type="text" name="rom"/>
+                    <input type="text" name="rom"
+                           value="<jsp:getProperty name="product" property="ROM"/>"/>
                     <label>RAM</label>
-                    <input type="text" name="ram"/>
-                    <label>Поддержка 3G</label>
-                    <select name="three_g_modem">
-                        <option value="yes">Да</option>
-                        <option value="no">Нет</option>
-                    </select>
+                    <input type="text" name="ram"
+                           value="<jsp:getProperty name="product" property="RAM"/>"/>
+
                     <label>Тип USB порта</label>
-                    <input type="text" name="type_usb"/>
+                    <input type="text" name="type_usb"
+                           value="<jsp:getProperty name="product" property="typeUSB"/>"/>
                     <label>Процессор</label>
-                    <input type="text" name="processor"/>
+                    <input type="text" name="processor"
+                           value="<jsp:getProperty name="product" property="processor"/>"/>
                     <label>Цена</label>
-                    <input type="text" name="price" value="${requestScope.tablet.price}" />
+                    <input type="text" name="price"
+                           value="<jsp:getProperty name="product" property="price"/>"/>
                     <label>Фото</label>
                     <input type="file" name="photo" />
                     <label>Количество</label>
-                    <input type="text" name="count" pattern="^[ 0-9]+$" value="${requestScope.tablet.count}"/>
+                    <input type="text" name="count" pattern="^[ 0-9]+$"
+                           value="<jsp:getProperty name="product" property="count"/>"/>
                     <label>Статус</label>
                     <select name="status">
                         <option value="EXPECTED">Ожидаем поступления</option>

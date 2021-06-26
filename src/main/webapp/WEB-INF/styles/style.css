@@ -159,25 +159,34 @@ ul > li > ul {
   width: 300px;
 }
 
-.form_input input.blubtn {
+input.action_btn {
   -ms-grid-column: 2;
   grid-column: 2;
-  margin: 0 auto;
   background: #eee;
   color: #088;
   text-decoration: none;
   display: block;
-  width: 160px;
   text-align: center;
-  margin: 0 auto;
   padding: 10px 10px;
   -webkit-transition: all 0.3s;
   transition: all 0.3s;
 }
 
-.form_input input.blubtn:hover {
+input.blubtn:hover {
   -webkit-box-shadow: 0px -5px 0 #088 inset;
           box-shadow: 0px -5px 0 #088 inset;
+}
+
+.login_form {
+  width: 300px;
+}
+
+.login_form input.action_btn {
+  width: 120px;
+}
+
+.login_form a {
+  color: black;
 }
 
 .validation_error {
@@ -353,16 +362,13 @@ tr td:last-child {
           box-shadow: 0px -5px 0 #088 inset;
 }
 
-.product_item:hover {
-  -webkit-transform: scale(1.03);
-          transform: scale(1.03);
-}
-
 .product_part {
+  padding: 40px;
+  width: 70%;
   border-radius: 3px;
   -webkit-box-shadow: 0 5px 15px #3C93D5;
           box-shadow: 0 5px 15px #3C93D5;
-  margin: 50px;
+  margin: 50px auto;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -370,13 +376,9 @@ tr td:last-child {
   -webkit-box-direction: normal;
       -ms-flex-direction: row;
           flex-direction: row;
-  -ms-flex-pack: distribute;
-      justify-content: space-around;
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  width: 900px;
-  height: 650px;
   text-align: center;
   background-color: #FFFFFF;
   -webkit-transition: 1s;
@@ -387,8 +389,6 @@ tr td:last-child {
   color: #088;
   font-family: 'Roboto';
   font-weight: 500;
-  height: 40px;
-  margin-top: 25px;
 }
 
 .product_part img {
@@ -396,6 +396,7 @@ tr td:last-child {
 }
 
 .product_part .characteristic {
+  margin-left: 100px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -405,17 +406,20 @@ tr td:last-child {
           flex-direction: row;
   -ms-flex-wrap: wrap;
       flex-wrap: wrap;
-  -ms-flex-pack: distribute;
-      justify-content: space-around;
-  margin-left: 100px;
 }
 
 .product_part .characteristic p {
+  width: 200px;
   text-align: left;
-  margin-top: 0px;
-  margin-bottom: 0px;
-  width: 180px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
   color: black;
+  margin: 10px;
 }
 
 .product_part a.show_product_btn {
@@ -446,7 +450,7 @@ tr td:last-child {
   border-radius: 3px;
   -webkit-box-shadow: 0 5px 15px #3C93D5;
           box-shadow: 0 5px 15px #3C93D5;
-  margin: 50px;
+  margin: 10px auto;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -478,35 +482,11 @@ tr td:last-child {
   margin-left: 40px;
 }
 
-.product_basket .characteristic {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: horizontal;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: row;
-          flex-direction: row;
-  -ms-flex-wrap: wrap;
-      flex-wrap: wrap;
-  -ms-flex-pack: distribute;
-      justify-content: space-around;
-  margin-left: 100px;
-}
-
-.product_basket .characteristic p {
-  text-align: left;
-  margin-top: 0px;
-  margin-bottom: 0px;
-  width: 180px;
-  color: black;
-}
-
 .product_basket a.show_product_btn {
   background: #eee;
   color: #088;
   text-decoration: none;
   display: block;
-  width: 160px;
   height: 25px;
   text-align: center;
   margin: 0 auto;
@@ -523,5 +503,25 @@ tr td:last-child {
 .product_item:hover {
   -webkit-transform: scale(1.03);
           transform: scale(1.03);
+}
+
+.pagination_btn {
+  margin: 20px auto;
+  width: 400px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.pagination_btn a {
+  margin-left: 5px;
+  margin-right: 5px;
 }
 /*# sourceMappingURL=style.css.map */

@@ -22,13 +22,13 @@ public interface ProductDAO {
                           ProductStatus status, String path,
                           Map<String, String> productCharacteristic)
             throws DAOException;
-    List<Product> getAllProducts(ProductName name) throws DAOException;
+    List<Product> getAllProducts(ProductName name,  int start, int end) throws DAOException;
+    int getCountAllProducts(ProductName name) throws DAOException;
+
     List<Product> getProductByCharacteristics() throws DAOException;
     Product getProduct(ProductName name, int idProduct) throws DAOException;
-
     List<Product> getAllProductsFromBasket(int idUser) throws DAOException;
     boolean deleteProduct(int idProduct, int idUser) throws DAOException;
     boolean addProduct(int idProduct, int idUser, int count) throws DAOException;
     boolean checkProduct(int idProduct, int idUser) throws DAOException;
-
 }

@@ -78,20 +78,19 @@ public class Product implements Serializable {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
         Product product = (Product) o;
-        return id == product.id
-                && brand.equals(product.brand);
+        return id == product.id && count == product.count
+                && Double.compare(product.price, price) == 0
+                && Objects.equals(brand, product.brand)
+                && status == product.status
+                && Objects.equals(path, product.path);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, brand);
+        return Objects.hash(id, brand, count, status, path, price);
     }
 
     @Override
@@ -99,6 +98,10 @@ public class Product implements Serializable {
         return "Product{" +
                 "id=" + id +
                 ", brand='" + brand + '\'' +
+                ", count=" + count +
+                ", status=" + status +
+                ", path='" + path + '\'' +
+                ", price=" + price +
                 '}';
     }
 }

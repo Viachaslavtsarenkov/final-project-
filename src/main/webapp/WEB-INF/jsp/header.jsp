@@ -23,20 +23,26 @@
                     <ul class="main_menu">
                         <li class="header_item" id="first">
                             <a href="controller?command=productview&name=ebook">
-                                Электронные книги
+                                <fmt:message bundle="${loc}" key="local.header.ebooks"/>
                             </a>
                         </li>
                         <li class="header_item">
-                            <a href="controller?command=productview&name=smartphone">Смартфоны</a></li>
+                            <a href="controller?command=productview&name=smartphone">
+                                <fmt:message bundle="${loc}" key="local.header.smartphone"/>
+                            </a></li>
                         <li class="header_item">
                             <a href="#">
                                 <img src="img/icon.svg" alt="header-logo" class="header-logo">
                             </a>
                         </li>
                         <li class="header_item">
-                            <a href="controller?command=productview&name=tablet">Планшеты</a></li>
+                            <a href="controller?command=productview&name=tablet">
+                                <fmt:message bundle="${loc}" key="local.header.tablets"/>
+                            </a></li>
                         <li class="header_item">
-                            <a href="controller?command=productview&name=laptop">Ноутбуки</a></li>
+                            <a href="controller?command=productview&name=laptop">
+                                <fmt:message bundle="${loc}" key="local.header.laptops"/>
+                            </a></li>
                         <li>
                             <a href="controller?command=gotopersonalpage">
                                 <img src="img/person.png" width="40px" height="40px">

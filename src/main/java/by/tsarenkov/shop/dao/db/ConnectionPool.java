@@ -114,13 +114,14 @@ public final class ConnectionPool {
             connectionQueue.add(connection);
         } catch (IllegalStateException e) {
             LOGGER.error("Error while returning the connection into the pool", e);
-
         }
     }
 
     public void returnConnectionToPool(Connection connection, Statement statement) {
         try {
-            statement.close();
+            if (statement != null) {
+                statement.close();
+            }
         } catch (SQLException e) {
             LOGGER.error("Connection wasn't closed", e);
         }
@@ -130,7 +131,10 @@ public final class ConnectionPool {
 
     public void returnConnectionToPool(Connection connection, Statement statement, ResultSet resultSet) {
         try {
-            resultSet.close();
+            if (resultSet != null) {
+                resultSet.close();
+            }
+
         } catch (SQLException e) {
             LOGGER.error("Result set wasn't closed", e);
         }
@@ -141,7 +145,9 @@ public final class ConnectionPool {
 
     public void closeConnection(Connection conn, Statement st) {
         try {
-            st.close();
+            if (st != null) {
+                st.close();
+            }
         } catch (SQLException e) {
             LOGGER.error("Statement wasn't closed");
         }

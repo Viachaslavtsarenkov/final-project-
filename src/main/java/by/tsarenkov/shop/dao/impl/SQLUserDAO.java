@@ -24,7 +24,7 @@ public class SQLUserDAO implements UserDAO {
     private static final String ROLE = "user_role";
     private static final String PHONE = "phone";
     private static final String STATUS = "status";
-    //TODO RENAME FINAL FIELDS
+
     private static final String newUserQuery = "INSERT INTO store.user (username, surname, email, "
             + "status, password, user_role, phone, code)"
             + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
@@ -35,9 +35,7 @@ public class SQLUserDAO implements UserDAO {
     private static final String authorizationQuery = "SELECT * FROM user WHERE email = ? AND password = ?";
 
 
-    public SQLUserDAO(){
-
-    }
+    public SQLUserDAO(){}
 
     @Override
     public User authorization(String login, String password) throws DAOException {
@@ -63,8 +61,9 @@ public class SQLUserDAO implements UserDAO {
             user.setRole(UserRole.valueOf(resultSet.getString(ROLE)));
             user.setStatus(UserStatus.valueOf(resultSet.getString(STATUS)));
         } catch (SQLException e) {
+            //todo
             LOGGER.info("User isn't found");
-            throw new DAOException("err1");
+            throw new DAOException(e);
         } finally {
             POOL.returnConnectionToPool(connection, preparedStatement, resultSet);
         }
@@ -111,8 +110,8 @@ public class SQLUserDAO implements UserDAO {
             ResultSet resultSet = ps.getResultSet();
             return resultSet.next();
         } catch (SQLException e) {
+            LOGGER.error("Exception was thrown: " + e);
             throw new DAOException(e);
-            //TODO log
         } finally {
             POOL.returnConnectionToPool(connection, ps);
         }
@@ -130,7 +129,7 @@ public class SQLUserDAO implements UserDAO {
             preparedStatement.setString(3, code);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            //TODO log
+            LOGGER.error("Exception was thrown: " + e);
             throw new DAOException(e);
         } finally {
           POOL.returnConnectionToPool(connection, preparedStatement);

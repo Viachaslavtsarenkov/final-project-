@@ -231,7 +231,6 @@ public class Laptop extends Product implements Serializable {
         }
 
         public LaptopBuilder setCharacteristics(Map<String, String> characteristics) {
-            System.out.println(characteristics);
             this.model  = characteristics
                     .get(LaptopCharacteristic.MODEL.toString());
             this.type = characteristics

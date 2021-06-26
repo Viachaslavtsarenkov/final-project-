@@ -18,12 +18,12 @@ import java.io.IOException;
 public class ChangeProduct implements Command {
 
     private static final ServiceProvider PROVIDER = ServiceProvider.getInstance();
-    private static final ProductService SERVICE = PROVIDER.getProductService();
+    private final ProductService SERVICE = PROVIDER.getProductService();
     private static final String ID_PRODUCT = "id";
     private static final String NAME = "name";
-
-
+    private static final String PRODUCT = "product";
     private static final String PRODUCT_INPUT_PAGE = "/WEB-INF/jsp/?_input_page.jsp";
+    private static final String ERROR_PAGE = "WEB-INF/jsp/error.jsp";
 
     public ChangeProduct() {}
     @Override
@@ -31,24 +31,15 @@ public class ChangeProduct implements Command {
             throws IOException, ServletException {
         int id = Integer.parseInt(request.getParameter(ID_PRODUCT));
         ProductName name = ProductName.valueOf(request.getParameter(NAME).toUpperCase());
-        RequestDispatcher requestDispatcher = request
-                .getRequestDispatcher(PRODUCT_INPUT_PAGE.replace("?", name.toString().toLowerCase()));
+        RequestDispatcher requestDispatcher = null;
         try {
             Product product = SERVICE.getProduct(name, id);
-            switch (name) {
-                case EBOOK:
-                    request.setAttribute(name.toString().toLowerCase(), (EBook) product);
-                    break;
-                case TABLET:
-                    request.setAttribute(name.toString().toLowerCase(), (Tablet) product);
-                    break;
-                case LAPTOP:
-                    break;
-                case SMARTPHONE:
-                    break;
-            }
+            request.setAttribute(PRODUCT , product);
+            requestDispatcher = request
+                    .getRequestDispatcher(PRODUCT_INPUT_PAGE.replace("?", name.toString().toLowerCase()));
         } catch (ServiceException e) {
-            //TODO ADD LOG
+            requestDispatcher = request
+                    .getRequestDispatcher(ERROR_PAGE);
         }
         requestDispatcher.forward(request, response);
     }

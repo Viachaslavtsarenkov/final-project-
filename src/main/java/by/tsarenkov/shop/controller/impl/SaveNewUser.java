@@ -20,7 +20,7 @@ import java.util.Map;
 public class SaveNewUser implements Command {
 
     private static final ServiceProvider provider = ServiceProvider.getInstance();
-    private static final UserService userService = provider.getUserService();
+    private final UserService userService = provider.getUserService();
 
     private static final String NAME = "name";
     private static final String SURNAME = "surname";
@@ -28,10 +28,12 @@ public class SaveNewUser implements Command {
     private static final String PASSWORD = "password";
     private static final String PHONE_NUMBER = "phoneNumber";
     private static final String REPEATED_PASSWORD = "repeated-password";
+    private static final String ERROR_VALIDATION = "errorValidation";
 
 
-    private static final String registrationPage = "/WEB-INF/jsp/registration.jsp";
-    private static final String loginPage = "/WEB-INF/jsp/main.jsp";
+    private static final String REGISTRATION_PAGE = "/WEB-INF/jsp/registration.jsp";
+    private static final String ERROR_PAGE_PATH = "/WEB-INF/jsp/error.jsp";
+    private static final String LOGIN_PAGE_PATH = "/WEB-INF/jsp/main.jsp";
 
 
     public SaveNewUser() {}
@@ -54,20 +56,18 @@ public class SaveNewUser implements Command {
         try {
             errorValidation = userService.registration(user);
             if(errorValidation == null || errorValidation.size() == 0){
-                response.sendRedirect(loginPage);
+                response.sendRedirect(LOGIN_PAGE_PATH);
                 return;
             } else {
                 System.out.println(errorValidation);
-                request.setAttribute("errorValidation", errorValidation);
-                dispatcher = request.getRequestDispatcher(registrationPage);
+                request.setAttribute(ERROR_VALIDATION, errorValidation);
+                dispatcher = request.getRequestDispatcher(REGISTRATION_PAGE);
                 dispatcher.forward(request, response);
             }
 
         } catch (ServiceException e) {
-            request.setAttribute("error", "Something went wrong");
+            dispatcher = request.getRequestDispatcher(ERROR_PAGE_PATH);
         }
-
-
-      //  dispatcher.forward(request, response);
+       dispatcher.forward(request, response);
     }
 }

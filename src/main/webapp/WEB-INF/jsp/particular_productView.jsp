@@ -10,6 +10,9 @@
 <html>
 <head>
     <title>Title</title>
+    <style>
+        <%@include file='../styles/style.css' %>
+    </style>
 </head>
 <body>
     <c:choose>
@@ -27,11 +30,11 @@
         <c:when test="${requestScope.type == 'TABLET'}">
             <c:import url="tablet_item_view.jsp"/>
         </c:when>
-        <c:when test="${requestScope.type == 'SMARTPHONE'}">
-
+        <c:when test="${requestScope.type == 'LAPTOP'}">
+            <c:import url="laptop_item_view.jsp"/>
         </c:when>
         <c:otherwise >
-
+            <c:import url="smartphone_item_view.jsp"/>
         </c:otherwise>
     </c:choose>
 </body>

@@ -20,9 +20,10 @@ import java.util.Locale;
 
 public class ParticularProductView implements Command {
     private static final ServiceProvider PROVIDER = ServiceProvider.getInstance();
-    private static final ProductService SERVICE = PROVIDER.getProductService();
+    private final ProductService SERVICE = PROVIDER.getProductService();
 
     private static final String PRODUCT_PAGE = "/WEB-INF/jsp/particular_productView.jsp";
+    private static final String ERROR_PAGE = "WEB-INF/jsp/error.jsp";
     private static final String ID_PRODUCT = "id";
     private static final String PRODUCT_ATTR = "product";
     private static final String TYPE_ATTR = "type";
@@ -46,14 +47,12 @@ public class ParticularProductView implements Command {
                 int idUser = Integer.parseInt(session.getAttribute(ID_USER_ATTR).toString());
                 request.setAttribute(BASKET_ATTR, SERVICE.checkProduct(id, idUser));
             } else if (!UserRole.ADMIN.toString().equals(session.getAttribute(ROLE_ATTR).toString())) {
-                // add product in cookies
+                // todo   checking product in cookies
             }
-
-
+            requestDispatcher = request.getRequestDispatcher(PRODUCT_PAGE);
         } catch (ServiceException e) {
-            // TODO
+            requestDispatcher = request.getRequestDispatcher(ERROR_PAGE);
         }
-        requestDispatcher = request.getRequestDispatcher(PRODUCT_PAGE);
         requestDispatcher.forward(request, response);
     }
 }

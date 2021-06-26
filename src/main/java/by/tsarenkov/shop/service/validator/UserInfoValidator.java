@@ -13,7 +13,7 @@ public class UserInfoValidator {
 
     private static final String emailPattern = "^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$";
     private static final String passwordPattern = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$";
-    private static final String surnamePattern = "^[a-zA-Z]{2,}$";;
+    private static final String surnamePattern = "^[a-zA-ZА-Яа-я]{2,}$";;
     private static final String phoneNumberPattern = "^(\\+375)((29)|(33)|(44))\\d{7}$";
 
     private static final Pattern validEmailRegex;

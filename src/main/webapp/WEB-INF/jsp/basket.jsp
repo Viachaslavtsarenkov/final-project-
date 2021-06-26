@@ -14,6 +14,8 @@
     <style>
         <%@include file='../styles/style.css' %>
     </style>
+    <fmt:setLocale value="en" scope="session"/>
+    <fmt:setBundle basename="locale" var="loc" scope="session"/>
 </head>
 <body>
     <c:choose>
@@ -24,19 +26,23 @@
 
         </c:otherwise>
     </c:choose>
-
     <c:forEach var="i" begin="0" end="${requestScope.basketList.size() - 1}" step="1">
     <section class="products wrapper">
         <div class="product_basket">
-            <img src="img/phone.jpg" width="120px" height="120px">
+            <img src="${requestScope.basketList.get(i).path}" width="120px" height="120px">
             <div>
-                <p>${requestScope.basketList.get(i).brand}</p>
+                <p>${requestScope.basketList.get(i).brand} ${requestScope.basketList.get(i).model}</p>
                 <p color="red">${requestScope.basketList.get(i).price}</p>
-                <a class="show_product_btn" href="">Оформить</a><br>
-                <a class="show_product_btn" href="">Удалить</a>
+                <a class="show_product_btn" href="">
+                    <fmt:message bundle="${loc}" key="local.basket.delete"/>
+                </a>
             </div>
         </div>
     </section>
     </c:forEach>
+    <form action="controller" method="post">
+        <input type="hidden" name="command" value="gotoorderpage"/>
+        <input type="submit" value="<fmt:message bundle="${loc}" key="local.basket.order"/>"/>
+    </form>
 </body>
 </html>

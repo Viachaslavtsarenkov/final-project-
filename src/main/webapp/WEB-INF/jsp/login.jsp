@@ -26,17 +26,19 @@
     </c:choose>
     <main class="wrapper">
         <section class="section_data">
-            <form class="form" action="controller?command=login" method="post">
+            <form class="form_input login_form" action="controller?command=login" method="post">
                 <label>Login</label><br>
                 <input type="text" name="login"/><br>
                 <label>Password</label><br>
                 <input type="text" name="password"/><br>
-                <input type="submit" name = "Войти"/>
-            </form><br>
-            <c:if test="${requestScope.loginError != null}">
-                <p class="validation_error">Логин или пароль введен не верно</p>
-            </c:if><br>
-            <a href="controller?command=gotoregistrationpage">Загеристрироваться</a>
+                <input type="submit" class="action_btn" name = "Войти"/>
+                <br>
+                <c:if test="${requestScope.loginError != null}">
+                    <p class="validation_error">Логин или пароль введен не верно</p>
+                </c:if><br>
+                <a href="controller?command=gotoregistrationpage">Загеристрироваться</a>
+            </form>
+
         </section>
     </main>
 

@@ -9,27 +9,30 @@ import by.tsarenkov.shop.bean.characteristic.TabletCharacteristic;
 import by.tsarenkov.shop.bean.good.Tablet;
 import by.tsarenkov.shop.bean.status.ProductStatus;
 import by.tsarenkov.shop.controller.Command;
+import by.tsarenkov.shop.controller.CommandName;
 import by.tsarenkov.shop.service.ProductService;
 import by.tsarenkov.shop.service.ServiceException;
 import by.tsarenkov.shop.service.ServiceProvider;
 
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.PipedReader;
+import javax.servlet.http.Part;
+import java.io.*;
+import java.net.URL;
+import java.nio.file.Paths;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class SaveNewProduct implements Command {
+public class SaveProduct implements Command {
 
     private static final ServiceProvider provider = ServiceProvider.getInstance();
-    private static final ProductService service = provider.getProductService();
+    private final ProductService service = provider.getProductService();
 
-    private static final String PRODUCT_ATTR = "products";
     private static final String CATEGORY = "id_category";
     private static final String BRAND  = "brand";
     private static final String COUNT = "count";
@@ -37,22 +40,30 @@ public class SaveNewProduct implements Command {
     private static final String STATUS = "status";
     private static final String PATH = "path";
     private static final String NAME = "name";
+    private static final String COMMAND = "command";
+    private static final String ID_PRODUCT = "id";
+    private static final String PHOTO = "photo";
+    private static final String PRODUCT_NAME = "product_name";
 
-    private static final String PRODUCTS_PAGE = "controller?command=gotomainpage"; // change
+    private static final String PRODUCTS_PAGE = "controller?command=gotomainpage";
+    private static final String PRODUCT_PAGE = "controller?command=particularebookview&name=product_name&id=";
     private static final String ERROR_PAGE = "WEB-INF/jsp/error.jsp";
-    public SaveNewProduct() {};
+
+    public SaveProduct() {};
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response)
             throws IOException, ServletException {
         RequestDispatcher requestDispatcher = null;
+        Part photo = request.getPart(PHOTO);
+        InputStream fileContent = photo.getInputStream();
+
         int idCategory = Integer.parseInt(request.getParameter(CATEGORY));
         String brand = request.getParameter(BRAND);
         int count = Integer.parseInt(request.getParameter(COUNT));
         double price = Double.parseDouble(request.getParameter(PRICE));
-        ProductStatus status = ProductStatus.EXPECTED;
-        //ProductStatus.valueOf(request.getParameter(STATUS).toUpperCase());
-        String path = PATH;
+        ProductStatus status = ProductStatus.valueOf(request.getParameter(STATUS).toUpperCase());
+
         ProductName name = ProductName.valueOf(request.getParameter(NAME).toUpperCase());
         Map<String, String> characteristics = new HashMap<>();
         switch (name) {
@@ -94,17 +105,25 @@ public class SaveNewProduct implements Command {
                 break;
         }
         try {
-            if (service.addNewProduct(idCategory, brand, count, price, status, path, characteristics)) {
-                response.sendRedirect(PRODUCTS_PAGE);
+            ServletContext context = request.getServletContext();
+            String path = context.getRealPath("");
+            CommandName command = CommandName.valueOf(request.getParameter(COMMAND).toUpperCase());
+            if (command == CommandName.SAVENEWPRODUCT) {
+                if (service.addNewProduct(idCategory, brand, count,
+                        price, status, fileContent,
+                        path, characteristics)) {
+                    response.sendRedirect(PRODUCTS_PAGE);
+                }
+            } else {
+                int idProduct = Integer.parseInt(request.getParameter(ID_PRODUCT));
+                if (service.changeProduct(idProduct, brand, count, price, status, path, characteristics)) {
+                    response.sendRedirect(PRODUCT_PAGE
+                            .replace(PRODUCT_NAME, name.toString()) + idProduct);
+                }
             }
         } catch (ServiceException e) {
             requestDispatcher = request.getRequestDispatcher(ERROR_PAGE);
             requestDispatcher.forward(request, response);
         }
-
-
-
-
     }
-
 }

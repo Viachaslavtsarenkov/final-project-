@@ -15,7 +15,7 @@
             <%@include file='../styles/style.css' %>
         </style>
         <meta charset="UTF-8" />
-        <fmt:setLocale value="en" scope="session"/>
+        <fmt:setLocale value="ru" scope="session"/>
         <fmt:setBundle basename="locale" var="loc" scope="session"/>
     </head>
     <body>
@@ -31,5 +31,8 @@
             <section class="description">
             </section>
         </main>
+      <fmt:message bundle="${loc}" key="local.basket"/>
+
+        <a href="controller?command=orderview">sddsd</a>
     </body>
 </html>

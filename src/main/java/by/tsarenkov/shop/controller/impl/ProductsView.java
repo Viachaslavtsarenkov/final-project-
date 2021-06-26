@@ -8,26 +8,33 @@ import by.tsarenkov.shop.bean.characteristic.TabletCharacteristic;
 import by.tsarenkov.shop.bean.good.EBook;
 import by.tsarenkov.shop.bean.good.Tablet;
 import by.tsarenkov.shop.controller.Command;
+import by.tsarenkov.shop.service.PaginationTag;
 import by.tsarenkov.shop.service.ProductService;
 import by.tsarenkov.shop.service.ServiceException;
 import by.tsarenkov.shop.service.ServiceProvider;
 
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
 public class ProductsView implements Command {
-    // TODO RENAME
+
     private static final ServiceProvider PROVIDER = ServiceProvider.getInstance();
-    private static final ProductService EBOOK_SERVICE = PROVIDER.getProductService();
+    private final ProductService PRODUCT_SERVICE = PROVIDER.getProductService();
     private static final String PRODUCTS_PAGE_PATH = "/WEB-INF/jsp/products_page.jsp";
+    private static final String ERROR_PAGE_PATH = "/WEB-INF/jsp/error.jsp";
+
     private static final String PRODUCT_ATTR = "products";
     private static final String NAME = "name";
+    private static final String CURRENT_PAGE = "page";
+    private static final String COUNT_PAGE = "countPage";
 
     public ProductsView() {}
     @Override
@@ -35,15 +42,26 @@ public class ProductsView implements Command {
             throws IOException, ServletException {
         RequestDispatcher requestDispatcher = null;
         ProductName name = ProductName.valueOf(request
-                .getParameter(NAME).toString().toUpperCase());
+                .getParameter(NAME).toUpperCase());
+
+        int page = 1;
+        int countElements = 8;
+        double countAll = 0;
+        if (request.getParameter(CURRENT_PAGE) != null) {
+            page = Integer.parseInt(request.getParameter(CURRENT_PAGE));
+        }
         try {
-            List<? extends Product> products = EBOOK_SERVICE.getAllProducts(name);
+            countAll = PRODUCT_SERVICE.getCountAllProducts(name);
+            List<Product> products = PRODUCT_SERVICE.getAllProducts(name,
+                    (page - 1) * countElements + 1, countElements * page);
+            request.setAttribute(CURRENT_PAGE, page);
             request.setAttribute(NAME, name.toString().toLowerCase());
             request.setAttribute(PRODUCT_ATTR, products);
+            request.setAttribute(COUNT_PAGE, Math.ceil(countAll / countElements));
             requestDispatcher = request.getRequestDispatcher(PRODUCTS_PAGE_PATH);
-            requestDispatcher.forward(request, response);
         } catch (ServiceException e) {
-            //TODO ADD LOG
+            requestDispatcher = request.getRequestDispatcher(ERROR_PAGE_PATH);
         }
+        requestDispatcher.forward(request, response);
     }
 }

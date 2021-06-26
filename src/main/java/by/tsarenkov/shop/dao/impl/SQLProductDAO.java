@@ -39,16 +39,20 @@ public class SQLProductDAO implements ProductDAO {
     private static final String SAVE_CHARACTERISTIC_QUERY = "INSERT INTO goods_characteristic" +
             "(goods_goods_id, characteristic, value) values(?,?,?)";
 
-    private static final String GET_PRODUCT_QUERY = " SELECT goods_id, name, count, price, status, characteristic, value  \n" +
-            " FROM store.goods\n" +
-            " INNER JOIN store.GOODS_CHARACTERISTIC\n" +
-            " ON GOODS_ID = GOODS_GOODS_ID\n" +
-            " INNER JOIN store.categories\n" +
-            " on categories_id_category = id_category\n" +
-            " where name_category = ? \n" +
-            "  ORDER BY goods_id";
+    private static final String GET_PRODUCT_QUERY = "SELECT goods_id, categories_id_category, rownumber\n" +
+            "from (SELECT *, row_number() over(ORDER BY goods_id) AS RowNumber FROM store.goods\n" +
+            "inner join store.categories\n" +
+            "on id_category = categories_id_category\n" +
+            "where name_category = ?\n" +
+            ") as k\n" +
+            "where k.rownumber between ? and ?";
 
-    private static final String GET_PRODUCT_QUERY_BY_ID = "SELECT name, count, price, status, characteristic, value " +
+    private static final String COUNT_PRODUCTS = "SELECT COUNT(*) AS count from store.GOODS\n" +
+            "INNER JOIN store.categories\n" +
+            "ON categories_id_category = id_category\n" +
+            "WHERE name_category = ?";
+
+    private static final String GET_PRODUCT_QUERY_BY_ID = "SELECT name, count, price, status, characteristic, value, path\n" +
             "FROM store.GOODS\n" +
             "INNER JOIN store.GOODS_CHARACTERISTIC\n" +
             "ON GOODS_ID = GOODS_GOODS_ID\n" +
@@ -112,11 +116,12 @@ public class SQLProductDAO implements ProductDAO {
             }
 
         } catch (SQLException e) {
+            LOGGER.error("Exception was thrown: " + e);
             throw new DAOException(e);
         } finally {
             POOL.closeConnection(connection, preparedStatement);
         }
-        return false;
+        return true;
     }
 
     @Override
@@ -139,7 +144,6 @@ public class SQLProductDAO implements ProductDAO {
             preparedStatement.executeUpdate();
             for (Map.Entry<String,String> entry : productCharacteristic.entrySet()) {
                 String key = entry.getKey();
-                System.out.println(key);
                 String value = entry.getValue();
                 preparedStatement = connection.prepareStatement(UPDATE_CHARACTERISTICS_QUERY);
                 preparedStatement.setString(1, value);
@@ -148,7 +152,8 @@ public class SQLProductDAO implements ProductDAO {
                 preparedStatement.executeUpdate();
             }
         } catch (SQLException e) {
-            throw new DAOException();
+            LOGGER.error("Exception was thrown: " + e);
+            throw new DAOException(e);
         } finally {
             POOL.returnConnectionToPool(connection, preparedStatement);
         }
@@ -157,7 +162,7 @@ public class SQLProductDAO implements ProductDAO {
 
 
     @Override
-    public List<Product> getAllProducts(ProductName type) throws DAOException {
+    public List<Product> getAllProducts(ProductName type, int start, int end) throws DAOException {
         Connection connection = null;
         ResultSet resultSet = null;
         PreparedStatement preparedStatement = null;
@@ -167,57 +172,48 @@ public class SQLProductDAO implements ProductDAO {
             connection = POOL.takeConnection();
             preparedStatement = connection.prepareStatement(GET_PRODUCT_QUERY);
             preparedStatement.setString(1, type.toString());
+            preparedStatement.setInt(2, start);
+            preparedStatement.setInt(3, end);
             resultSet = preparedStatement.executeQuery();
-            int current_good = 0;
-            String currentBrand = "";
-            int count = 0;
-            double price = 0;
-            String characteristic = null;
-            String value = null;
-            ProductStatus status = ProductStatus.EXPECTED;
+            System.out.println(type);
             while (resultSet.next()) {
                 int id = resultSet.getInt(GOOD_ID);
-                characteristic = resultSet.getString(CHARACTERISTIC);
-                value = resultSet.getString(VALUE);
-                if (current_good == 0) {
-                    current_good = id;
-                    count = resultSet.getInt(COUNT);
-                    price = resultSet.getDouble(PRICE);
-                    currentBrand = resultSet.getString(NAME);
-                    status = ProductStatus.valueOf(resultSet.getString(STATUS));
-
-                }
-                if (current_good != id) {
-                    Product product = ProductFactory
-                            .getProduct(type, current_good,
-                                    currentBrand, count, price,
-                                    status,"path", characteristics);
-                    products.add(product);
-                    characteristics.clear();
-                    current_good = id;
-                    count = resultSet.getInt(COUNT);
-                    price = resultSet.getDouble(PRICE);
-                    currentBrand = resultSet.getString(NAME);
-                    status = ProductStatus.valueOf(resultSet.getString(STATUS));
-                }
-                if (resultSet.isLast()) {
-                    characteristics.put(characteristic.toUpperCase(), value);
-                    characteristics.put(characteristic.toUpperCase(), value);
-                    Product product = ProductFactory
-                            .getProduct(type, current_good,
-                                    currentBrand, count, price,
-                                    status,"path", characteristics);
-                    products.add(product);
-
-                }
-                characteristics.put(characteristic.toUpperCase(), value);
+                Product product = getProduct(type, id);
+                products.add(product);
             }
         } catch (SQLException e) {
-            throw new DAOException(); //msg & log
+            LOGGER.error("Exception was thrown: " + e);
+            throw new DAOException(e);
+
         } finally {
-            POOL.returnConnectionToPool(connection, preparedStatement, resultSet);
+            POOL.returnConnectionToPool(connection);
+            if (preparedStatement != null) {
+                POOL.returnConnectionToPool(connection, preparedStatement);
+            }
         }
         return products;
+    }
+
+    @Override
+    public int getCountAllProducts(ProductName name) throws DAOException {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet  resultSet = null;
+        try {
+            connection = POOL.takeConnection();
+            preparedStatement = connection.prepareStatement(COUNT_PRODUCTS);
+            preparedStatement.setString(1, name.toString());
+            preparedStatement.executeQuery();
+            resultSet = preparedStatement.getResultSet();
+            resultSet.next();
+            return resultSet.getInt(COUNT);
+
+        } catch (SQLException e) {
+            LOGGER.error("Exception was thrown: " + e);
+            throw new DAOException(e);
+        } finally {
+            POOL.returnConnectionToPool(connection);
+        }
     }
 
     @Override
@@ -242,7 +238,8 @@ public class SQLProductDAO implements ProductDAO {
                 double price = 0;
                 String characteristic = null;
                 String value = null;
-                ProductStatus status = ProductStatus.EXPECTED;
+                ProductStatus status = null;
+                String path = null;
             while (resultSet.next()) {
                 characteristic = resultSet.getString(CHARACTERISTIC);
                 value = resultSet.getString(VALUE);
@@ -251,6 +248,7 @@ public class SQLProductDAO implements ProductDAO {
                     price = resultSet.getDouble(PRICE);
                     brand = resultSet.getString(NAME);
                     status = ProductStatus.valueOf(resultSet.getString(STATUS));
+                    path = resultSet.getString(PATH);
                 }
                 if (resultSet.isLast()) {
                     characteristic = resultSet.getString(CHARACTERISTIC);
@@ -258,14 +256,19 @@ public class SQLProductDAO implements ProductDAO {
                     product = ProductFactory
                             .getProduct(name, idProduct,
                                     brand, count, price,
-                                    status,"path", characteristics);
+                                    status, path, characteristics);
                 }
                 characteristics.put(characteristic.toUpperCase(), value);
             }
         } catch (SQLException e) {
-            throw new DAOException();
+            System.out.println(e);
+            LOGGER.error("Exception was thrown: " + e);
+            throw new DAOException(e);
         } finally {
-            POOL.returnConnectionToPool(connection, preparedStatement, resultSet);
+            if (resultSet != null) {
+                POOL.returnConnectionToPool(connection, preparedStatement, resultSet);
+            }
+            POOL.returnConnectionToPool(connection);
         }
         return product;
     }
@@ -329,7 +332,7 @@ public class SQLProductDAO implements ProductDAO {
             preparedStatement.setInt(3, count);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            //TODO ADD LOG
+            LOGGER.error("Exception was thrown: " + e);
             throw new DAOException(e);
         } finally {
             POOL.returnConnectionToPool(connection, preparedStatement);
@@ -352,7 +355,7 @@ public class SQLProductDAO implements ProductDAO {
             resultSet.next();
             return resultSet.getInt(1) != 0;
         } catch (SQLException e) {
-            //TODO ADD LOG
+            LOGGER.error("Exception was thrown: " + e);
             throw new DAOException(e);
         } finally {
             POOL.returnConnectionToPool(connection, preparedStatement, resultSet);

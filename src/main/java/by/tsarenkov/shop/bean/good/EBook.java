@@ -192,7 +192,6 @@ public class EBook extends Product implements Serializable {
         }
 
         public EBookBuilder setCharacteristics(Map<String, String> characteristics) {
-            System.out.println(characteristics);
             this.model = characteristics
                     .get(EBookCharacteristic.MODEL.toString());
             this.ROM = Integer.parseInt(characteristics

@@ -29,7 +29,7 @@
     </head>
     <body>
     <c:choose>
-        <c:when test="${sessionScope.role == null}">
+        <c:when test="${sessionScope.role == 'GUEST'}">
             <c:import url="header.jsp"/>
         </c:when>
         <c:otherwise>
@@ -38,7 +38,7 @@
     </c:choose>
         <main class="wrapper">
             <section class="section_data">
-                <form class="form" action="controller" method="post">
+                <form class="" action="controller" method="post">
                     <input type="hidden" name="command" value="savenewuser"/>
                     <label>Имя</label><br>
                     <input type="text" name="name"/>

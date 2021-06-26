@@ -15,18 +15,16 @@ import java.util.Random;
 
 public class UserServiceImpl implements UserService {
 
-    private final static DAOProvider provider = DAOProvider.getInstance();
-    private final static UserDAO userDAO = provider.getUserDAO();
+    private final static DAOProvider PROVIDER = DAOProvider.getInstance();
+    private final UserDAO USER_DAO = PROVIDER.getUserDAO();
 
-    public UserServiceImpl() {
-
-    }
+    public UserServiceImpl() {}
 
     @Override
     public User authorization(String login, String password) throws ServiceException{
         User user = null;
         try {
-            user =  userDAO.authorization(login, password);
+            user =  USER_DAO.authorization(login, password);
         } catch (DAOException e) {
             throw new ServiceException(e);
         }
@@ -48,10 +46,10 @@ public class UserServiceImpl implements UserService {
         if (validation == null || validation.size() == 0 ) {
             try {
                 code = generateCode();
-                if (userDAO.findUser(user.getEmail())) {
+                if (USER_DAO.findUser(user.getEmail())) {
                     validation.put("email", "Email is already in use");
                 } else {
-                    userDAO.registration(user, code);
+                    USER_DAO.registration(user, code);
                     EmailService.sendRegistrationMessage(user.getEmail(), code);
                 }
             } catch (DAOException e) {
@@ -65,7 +63,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean activateAccount(String login, String code) throws ServiceException {
         try {
-            userDAO.activateAccount(login, code);
+            USER_DAO.activateAccount(login, code);
         } catch (DAOException e) {
             throw new ServiceException();
         }

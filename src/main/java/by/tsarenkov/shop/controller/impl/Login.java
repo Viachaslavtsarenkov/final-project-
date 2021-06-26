@@ -22,9 +22,10 @@ public class Login implements Command {
     private static final String ACTION = "attr";
     private static final  String INDEX_PAGE_PATH = "index.jsp";
     private static final String LOGIN_PAGE_PATH = "/WEB-INF/jsp/login.jsp";
+    private static final String LOGIN_ERROR = "loginError";
 
     private static final ServiceProvider SERVICE = ServiceProvider.getInstance();
-    private static final UserService USER_SERVICE = SERVICE.getUserService();
+    private final UserService USER_SERVICE = SERVICE.getUserService();
     public Login() {}
 
     @Override
@@ -47,7 +48,7 @@ public class Login implements Command {
             session.setAttribute(ROLE, user.getRole());
             response.sendRedirect(INDEX_PAGE_PATH);
         } catch (ServiceException e) {
-            request.setAttribute("loginError", e);
+            request.setAttribute(LOGIN_ERROR, e);
             requestDispatcher = request.getRequestDispatcher(LOGIN_PAGE_PATH);
             requestDispatcher.forward(request, response);
         }

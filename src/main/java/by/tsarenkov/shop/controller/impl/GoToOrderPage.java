@@ -15,38 +15,38 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 
-public class GoToBasketPage implements Command {
+public class GoToOrderPage implements Command {
 
     private static final ServiceProvider PROVIDER = ServiceProvider.getInstance();
     private final ProductService SERVICE = PROVIDER.getProductService();
 
-    private static final String BASKET_PAGE_PATH = "/WEB-INF/jsp/basket.jsp";
     private static final String ERROR_PAGE = "WEB-INF/jsp/error.jsp";
+    private static final String ORDER_PAGE_PATH = "/WEB-INF/jsp/order_input.jsp";
+    private static final String LOGIN_PAGE_PATH = "/WEB-INF/jsp/login.jsp";
     private static final String ID_USER_ATTR = "user";
     private static final String ROLE_ATTR = "role";
-    private static final String BASKET_LIST = "basketList";
+    private static final String ORDER = "order";
 
-    public GoToBasketPage() {};
 
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void execute(HttpServletRequest request, HttpServletResponse response)
+            throws IOException, ServletException {
 
         HttpSession session = request.getSession(false);
-        RequestDispatcher requestDispatcher = null;
         List<Product> products= null;
+        RequestDispatcher dispatcher = null;
         try {
             if (UserRole.CUSTOMER.toString().equals(session.getAttribute(ROLE_ATTR).toString())) {
                 int idUser = Integer.parseInt(session.getAttribute(ID_USER_ATTR).toString());
                 products = SERVICE.getAllProductsFromBasket(idUser);
+                dispatcher = request.getRequestDispatcher(ORDER_PAGE_PATH);
+                request.setAttribute(ORDER, products);
             } else {
-                products = SERVICE.getAllProductsFromCookies();
-                //TODO GETTING products from cookies
+                dispatcher = request.getRequestDispatcher(LOGIN_PAGE_PATH);
             }
-            request.setAttribute(BASKET_LIST, products);
-            requestDispatcher = request.getRequestDispatcher(BASKET_PAGE_PATH);
         } catch (ServiceException e) {
-            requestDispatcher = request.getRequestDispatcher(ERROR_PAGE);
+            dispatcher = request.getRequestDispatcher(ERROR_PAGE);
         }
-        requestDispatcher.forward(request, response);
+        dispatcher.forward(request, response);
     }
 }

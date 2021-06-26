@@ -20,15 +20,19 @@ public class CommandProvider {
 
         commands.put(CommandName.GOTOPERSONALPAGE, new GoToPersonalPage());
         commands.put(CommandName.CHANGELANGUAGE, new ChangeLanguage());
-        commands.put(CommandName.SAVENEWPRODUCT, new SaveNewProduct());
+        commands.put(CommandName.SAVENEWPRODUCT, new SaveProduct());
         commands.put(CommandName.PRODUCTVIEW, new ProductsView());
         commands.put(CommandName.SAVEPRODUCTINBASKET, new SaveProductInBasket());
         commands.put(CommandName.GOTOPAGE, new GoToPage());
         commands.put(CommandName.PARTICULAREBOOKVIEW, new ParticularProductView());
         commands.put(CommandName.CHANGEEBOOK, new ChangeProduct());
-        commands.put(CommandName.SAVECHANGEDEBOOK, new SaveChangedProduct());
+        commands.put(CommandName.SAVECHANGEDEBOOK, new SaveProduct());
         commands.put(CommandName.DELETEPRODUCTFROMBASKET, new DeleteProductFromBasket());
         commands.put(CommandName.GOTOBASKETPAGE, new GoToBasketPage());
+
+        commands.put(CommandName.GOTOORDERPAGE, new GoToOrderPage());
+        commands.put(CommandName.ADDNEWORDER, new AddNewOrder());
+        commands.put(CommandName.ORDERVIEW, new OrderView());
     }
 
     public Command takeCommand(String name) {
