@@ -11,10 +11,10 @@ public class UserInfoValidator {
 
     private UserRegistrationInfo user;
 
-    private static final String emailPattern = "^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$";
-    private static final String passwordPattern = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$";
-    private static final String surnamePattern = "^[a-zA-ZА-Яа-я]{2,}$";;
-    private static final String phoneNumberPattern = "^(\\+375)((29)|(33)|(44))\\d{7}$";
+    private static final String EMAIL_PATTERN = "^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$";
+    private static final String PASSWORD_PATTERN = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$";
+    private static final String SURNAME_PATTERN = "^[a-zA-ZА-Яа-я]{2,}$";;
+    private static final String PHONE_NUMBER_PATTERN = "^(\\+375)((29)|(33)|(44))\\d{7}$";
 
     private static final Pattern validEmailRegex;
     private static final Pattern validPassword;
@@ -23,10 +23,10 @@ public class UserInfoValidator {
     private Map<String, String> resultValidation;
 
     static {
-        validEmailRegex = Pattern.compile(emailPattern, Pattern.CASE_INSENSITIVE);
-        validPassword = Pattern.compile(passwordPattern, Pattern.CASE_INSENSITIVE);
-        validSurname = Pattern.compile(surnamePattern);
-        validPhoneNumber = Pattern.compile(phoneNumberPattern);
+        validEmailRegex = Pattern.compile(EMAIL_PATTERN, Pattern.CASE_INSENSITIVE);
+        validPassword = Pattern.compile(PASSWORD_PATTERN, Pattern.CASE_INSENSITIVE);
+        validSurname = Pattern.compile(SURNAME_PATTERN);
+        validPhoneNumber = Pattern.compile(PHONE_NUMBER_PATTERN);
     }
 
     public UserInfoValidator() {
@@ -43,6 +43,9 @@ public class UserInfoValidator {
         isPasswordValid(user.getPassword(), user.getRepeatedPassword());
         isSurnameValid(user.getSurname());
         isPhoneNumberValid(user.getPhoneNumber());
+        if (!isSurnameValid(user.getName())) {
+           resultValidation.put("name", "error.validation.email");
+        }
         return resultValidation;
     }
 
@@ -53,7 +56,7 @@ public class UserInfoValidator {
         if (emailMatcher.matches()) {
             result = true;
         } else {
-            resultValidation.put("email", "email is not valid");
+            resultValidation.put("email", "error.validation.email");
         }
         return result;
     }
@@ -64,10 +67,10 @@ public class UserInfoValidator {
         if (passwordMatcher.matches()) {
             result = true;
         } else {
-            resultValidation.put("password", "password is not valid");
+            resultValidation.put("password", "error.validation.password");
         }
         if (!password.equals(repeatedPassword)) {
-            resultValidation.put("repeated", "password is not equal");
+            resultValidation.put("repeated", "error.validation.repeated");
         }
         return result;
     }
@@ -78,7 +81,7 @@ public class UserInfoValidator {
         if (surnameMatcher.matches()) {
             result = true;
         } else {
-            resultValidation.put("surname", "msg");
+            resultValidation.put("surname", "error.validation.surname");
         }
         return result;
     }
@@ -89,7 +92,7 @@ public class UserInfoValidator {
         if (phoneNumberMatcher.matches()) {
             result = true;
         } else {
-            resultValidation.put("phoneNumber", "msg");
+            resultValidation.put("phoneNumber", "error.validation.phoneNumber");
         }
         return result;
     }

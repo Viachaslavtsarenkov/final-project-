@@ -1,4 +1,4 @@
-package by.tsarenkov.shop.service;
+package by.tsarenkov.shop.tag;
 
 
 import by.tsarenkov.shop.bean.Product;
