@@ -2,9 +2,8 @@ package by.tsarenkov.shop.controller.impl;
 
 import by.tsarenkov.shop.bean.UserRegistrationInfo;
 import by.tsarenkov.shop.controller.Command;
-import by.tsarenkov.shop.dao.DAOException;
 import by.tsarenkov.shop.dao.UserDAO;
-import by.tsarenkov.shop.dao.impl.SQLUserDAO;
+import by.tsarenkov.shop.service.PageStorage;
 import by.tsarenkov.shop.service.ServiceException;
 import by.tsarenkov.shop.service.ServiceProvider;
 import by.tsarenkov.shop.service.UserService;
@@ -14,7 +13,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.Map;
 
 public class SaveNewUser implements Command {
@@ -29,11 +27,10 @@ public class SaveNewUser implements Command {
     private static final String PHONE_NUMBER = "phoneNumber";
     private static final String REPEATED_PASSWORD = "repeated-password";
     private static final String ERROR_VALIDATION = "errorValidation";
+    private static final String USER_DATA = "user";
 
-
-    private static final String REGISTRATION_PAGE = "/WEB-INF/jsp/registration.jsp";
-    private static final String ERROR_PAGE_PATH = "/WEB-INF/jsp/error.jsp";
-    private static final String LOGIN_PAGE_PATH = "/WEB-INF/jsp/main.jsp";
+    // todo redirect
+    private static final String LOGIN_PAGE_REDIRECT = "controller?command=gotopersonalpage";
 
 
     public SaveNewUser() {}
@@ -56,18 +53,16 @@ public class SaveNewUser implements Command {
         try {
             errorValidation = userService.registration(user);
             if(errorValidation == null || errorValidation.size() == 0){
-                response.sendRedirect(LOGIN_PAGE_PATH);
+                response.sendRedirect(LOGIN_PAGE_REDIRECT);
                 return;
             } else {
-                System.out.println(errorValidation);
                 request.setAttribute(ERROR_VALIDATION, errorValidation);
-                dispatcher = request.getRequestDispatcher(REGISTRATION_PAGE);
-                dispatcher.forward(request, response);
+                request.setAttribute(USER_DATA, user);
+                dispatcher = request.getRequestDispatcher(PageStorage.REGISTRATION_PAGE_PATH.getPATH());
             }
-
         } catch (ServiceException e) {
-            dispatcher = request.getRequestDispatcher(ERROR_PAGE_PATH);
+            dispatcher = request.getRequestDispatcher(PageStorage.ERROR_PAGE_PATH.getPATH());
         }
-       dispatcher.forward(request, response);
+        dispatcher.forward(request, response);
     }
 }

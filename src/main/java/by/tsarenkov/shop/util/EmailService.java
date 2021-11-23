@@ -1,5 +1,8 @@
-package by.tsarenkov.shop.service;
+package by.tsarenkov.shop.util;
 
+
+import by.tsarenkov.shop.dao.impl.SQLOrderDAO;
+import org.apache.log4j.Logger;
 
 import java.io.*;
 import java.util.Properties;
@@ -8,6 +11,8 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 public class EmailService {
+
+    private static Logger LOGGER = Logger.getLogger(EmailService.class);
 
     private static FileInputStream emailPropertiesFile;
     private static final Properties properties;
@@ -27,7 +32,7 @@ public class EmailService {
             emailPropertiesFile = new FileInputStream(
                     Thread.currentThread().getContextClassLoader().getResource("").getPath()
                             + "email.sender.properties");
-            System.out.println(emailPropertiesFile.available());
+
             properties.load(emailPropertiesFile);
         } catch (IOException e) {
         }
@@ -45,7 +50,6 @@ public class EmailService {
     }
 
     public EmailService() {
-
     }
 
     public static void sendRegistrationMessage(String to, String code) {
@@ -58,7 +62,7 @@ public class EmailService {
             message.setText(activationLink.replace("lg", to).replace("cd",code));
             Transport.send(message);
         } catch (MessagingException e) {
-            System.out.println(e);
+            LOGGER.error("Exception was thrown: " + e);
         }
     }
 

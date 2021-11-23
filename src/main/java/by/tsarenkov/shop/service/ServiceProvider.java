@@ -1,5 +1,6 @@
 package by.tsarenkov.shop.service;
 
+import by.tsarenkov.shop.service.impl.BasketServiceImpl;
 import by.tsarenkov.shop.service.impl.OrderServiceImpl;
 import by.tsarenkov.shop.service.impl.ProductServiceImpl;
 import by.tsarenkov.shop.service.impl.UserServiceImpl;
@@ -11,6 +12,7 @@ public class ServiceProvider {
     private final UserService userService = new UserServiceImpl();
     private final ProductService productService = new ProductServiceImpl();
     private final OrderService orderService = new OrderServiceImpl();
+    private final BasketService basketService = new BasketServiceImpl();
 
     private ServiceProvider() {}
 
@@ -29,5 +31,9 @@ public class ServiceProvider {
 
     public OrderService getOrderService() {
         return orderService;
+    }
+
+    public BasketService getBasketService() {
+        return basketService;
     }
 }

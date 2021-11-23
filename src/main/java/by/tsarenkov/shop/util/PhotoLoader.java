@@ -1,4 +1,6 @@
-package by.tsarenkov.shop.service;
+package by.tsarenkov.shop.util;
+
+import by.tsarenkov.shop.service.ServiceException;
 
 import javax.servlet.ServletContext;
 import java.io.*;

@@ -1,0 +1,60 @@
+* {
+  margin: 0;
+}
+
+body {
+  margin: 0 auto;
+  width: 1500px;
+  font-size: 18px;
+  font-style: normal;
+  font-family: 'Roboto';
+  font-weight: normal;
+  line-height: 140%;
+}
+
+.wrapper {
+  margin: 0 auto;
+  width: 1500px;
+}
+
+.personal {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  min-height: 500px;
+  width: 700px;
+  margin: 30px auto;
+  border-radius: 3px;
+  -webkit-box-shadow: 0 2px 17px #3C93D5;
+          box-shadow: 0 2px 17px #3C93D5;
+  padding: 40px;
+}
+
+.personal .personal_inf {
+  margin: 140px 100px;
+}
+
+.personal p {
+  padding: 5px;
+}
+
+.personal .orders {
+  margin-top: 60px;
+}
+
+.personal h3 {
+  margin: 20px auto;
+}
+
+.personal .goods {
+  color: red;
+  margin: 15px auto;
+}
+/*# sourceMappingURL=order.css.map */

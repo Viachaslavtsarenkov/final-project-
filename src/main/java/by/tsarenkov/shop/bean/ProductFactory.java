@@ -14,29 +14,60 @@ public class ProductFactory {
 
     public ProductFactory() {}
 
-    public static Product getProduct(ProductName name, int id, String brand,
-                                     int count, double price,
-                                     ProductStatus status, String path,
+    public static Product getProduct(ProductName name, Product product,
                                      Map<String, String> productCharacteristic) {
-        Product product = null;
+        Product currentProduct = null;
+
         switch (name) {
             case EBOOK:
-                product = new EBook.EBookBuilder(id, brand, count, price, status, path)
-                        .setCharacteristics(productCharacteristic).getInstance();
+                currentProduct  = new EBook.EBookBuilder()
+                        .setId(product.getId())
+                        .setBrand(product.getBrand())
+                        .setModel(product.getModel())
+                        .setCount(product.getCount())
+                        .setPrice(product.getPrice())
+                        .setStatus(product.getStatus())
+                        .setPath(product.getPath())
+                        .setCharacteristics(productCharacteristic)
+                        .getInstance();
                 break;
             case LAPTOP:
-                product = new Laptop.LaptopBuilder(id, brand, count, price, status, path)
-                       .setCharacteristics(productCharacteristic).getInstance();
+                currentProduct = new Laptop.LaptopBuilder()
+                        .setId(product.getId())
+                        .setBrand(product.getBrand())
+                        .setModel(product.getModel())
+                        .setCount(product.getCount())
+                        .setPrice(product.getPrice())
+                        .setStatus(product.getStatus())
+                        .setPath(product.getPath())
+                        .setCharacteristics(productCharacteristic)
+                        .getInstance();
                 break;
             case TABLET:
-                product = new Tablet.TabletBuilder(id, brand, count, price, status, path)
-                        .setCharacteristics(productCharacteristic).getInstance();
+                currentProduct = new Tablet.TabletBuilder()
+                          .setId(product.getId())
+                          .setBrand(product.getBrand())
+                          .setModel(product.getModel())
+                          .setCount(product.getCount())
+                          .setPrice(product.getPrice())
+                          .setStatus(product.getStatus())
+                          .setPath(product.getPath())
+                          .setCharacteristics(productCharacteristic)
+                          .getInstance();
                 break;
             case SMARTPHONE:
-                product = new Smartphone.SmartphoneBuilder(id, brand, count, price, status, path)
-                        .setCharacteristics(productCharacteristic).getInstance();
+                currentProduct = new Smartphone.SmartphoneBuilder()
+                          .setId(product.getId())
+                          .setBrand(product.getBrand())
+                          .setModel(product.getModel())
+                          .setCount(product.getCount())
+                          .setPrice(product.getPrice())
+                          .setStatus(product.getStatus())
+                          .setPath(product.getPath())
+                          .setCharacteristics(productCharacteristic)
+                          .getInstance();
             break;
         }
-        return product;
+        return currentProduct;
     }
 }

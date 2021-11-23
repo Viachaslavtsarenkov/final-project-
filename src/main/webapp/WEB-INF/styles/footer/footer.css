@@ -1,0 +1,38 @@
+body {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.wrapper {
+  margin: 0 auto;
+  width: 1350px;
+}
+
+footer {
+  color: white;
+  height: 150px;
+  background-image: url("img/footer.jpg");
+  bottom: 0;
+}
+
+.lang {
+  margin-left: 100px;
+  padding-top: 70px;
+}
+
+.lang a {
+  color: white;
+}
+
+.lang a:hover {
+  cursor: pointer;
+}
+/*# sourceMappingURL=footer.css.map */

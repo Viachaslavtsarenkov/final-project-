@@ -1,7 +1,6 @@
 package by.tsarenkov.shop.bean.characteristic;
 
 public enum EBookCharacteristic {
-    MODEL,
     ROM,
     RAM,
     TYPE_CARD_MEMORY,

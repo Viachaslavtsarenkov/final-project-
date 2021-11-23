@@ -1,0 +1,163 @@
+$background-dark-color: black;
+$background-light-color:#FFFFFF;
+$text-dark-color:black;
+$text-headline-light: #818181;
+$font-content: Arial Bold;
+
+* {
+    margin: 0;
+}
+
+body {
+    margin: 0 auto;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: normal;
+    line-height: 1.15;
+}
+
+.wrapper {
+    margin: 0 auto;
+    width: 1400px;
+}
+
+a {
+    color: $text-dark-color;
+    text-decoration: none;
+}
+
+h2 {
+    color: $text-dark-color;
+    font-family: $font-content;
+    font-weight: 500;
+}
+
+// join us
+
+
+
+.join_main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 70px;
+
+    h3 {
+        text-transform: uppercase;
+        font-size: smaller;
+        margin: 10px;
+    }
+
+    p {
+        width: 200px;
+        text-align: center;
+    }
+}
+
+
+a.action_btn {
+    border: 2px solid white;
+    color: white;
+    text-transform: uppercase;
+    padding: 5px 10px;
+    transition-duration: 0.5s;
+}
+
+a:hover.action_btn {
+    border: 2px solid rgb(161, 161, 161);
+    background-color: white;
+    color: black;
+}
+
+
+.join_us {
+    background-image: url("img/pic.jpg");
+    width: 550px;
+    height: 500px;
+    box-shadow:0 0 0 128px rgba(0, 0, 0, 0.33) inset;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+
+    h3 {
+        font-family: $font-content;
+        text-align: center;
+        font-size: 20px;
+        font-weight: 500;
+    }
+
+    a {
+        width: 200px;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: -250px;
+        text-decoration: none;
+    }
+   
+}
+
+main {
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
+
+.registration {
+    h2 {
+        margin: 30px 0;
+    }
+}
+
+.data {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+
+.input_field {
+    width: 500px;
+    height: 40px;
+    border: 0;
+    padding: 0;
+    z-index: 1;
+    background-color: transparent;
+    border-bottom: 1px solid #eee;
+    font: inherit;
+    font-size: 17px;
+    line-height: 30px;
+    margin-top: 40px;
+
+}
+
+.input_field::placeholder {
+    font-size: 18px;
+}
+
+
+.input_btn {
+    color: #088;
+    font-family: 'Roboto';
+    font-weight: 500;
+    background:#eee;
+    text-decoration:none;
+    display:block;
+    padding: 40px 5px;
+    height: 45px;
+    text-align:center;
+    margin: 40px auto;
+    padding:10px 10px;
+    border: none;
+}
+
+.input_btn:hover{
+    box-shadow:0px -5px 0 #088 inset;
+}
+
+.validation {
+    font-size: 14px;
+    color: red;
+    width: 100%;
+    text-align: center;
+}

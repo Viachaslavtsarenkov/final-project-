@@ -1,0 +1,201 @@
+* {
+  margin: 0;
+}
+
+body {
+  margin: 0 auto;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: normal;
+  line-height: 1.15;
+  letter-spacing: 0.15em;
+}
+
+h2, h3 {
+  color: black;
+  font-family: Arial Bold;
+  font-weight: 500;
+}
+
+.wrapper {
+  margin: 0 auto;
+  width: 1350px;
+}
+
+.inf {
+  background-image: url(img/main/header_bg.jpg);
+  width: 1350px;
+  height: 700px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.inf_content {
+  width: 500px;
+  height: 600px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  text-align: center;
+}
+
+h2 {
+  color: white;
+  font-size: 28pt;
+}
+
+.inf_action {
+  width: 160px;
+  height: 55px;
+  color: white;
+  font-size: 16pt;
+  border: 2px solid white;
+  background: transparent;
+  margin: 0 auto;
+}
+
+.inf_action:hover {
+  background: white;
+  -webkit-transition: 500ms;
+  transition: 500ms;
+  color: black;
+}
+
+.products {
+  margin-top: 30px;
+  margin-bottom: 30px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+}
+
+.products div {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  text-align: justify;
+  -webkit-box-align: end;
+      -ms-flex-align: end;
+          align-items: flex-end;
+}
+
+.products div h2 {
+  margin-top: 25px;
+  color: wheat;
+  text-align: center;
+  width: 100%;
+}
+
+.products .show_btn {
+  color: white;
+  margin: 40px;
+  padding: 10px;
+  border: 2px solid white;
+}
+
+.products .show_btn:hover {
+  background: white;
+  -webkit-transition: 500ms;
+  transition: 500ms;
+  color: black;
+}
+
+.mobile {
+  background-image: url(img/main/mobile.jpg);
+  width: 500px;
+  height: 500px;
+}
+
+.laptop {
+  background-image: url(img/main/laptop.png);
+  width: 800px;
+  height: 500px;
+}
+
+.tablet {
+  background-image: url(img/main/tablet.png);
+  width: 800px;
+  height: 500px;
+  margin-top: 30px;
+}
+
+.ebook {
+  margin-top: 30px;
+  background-image: url(img/main/ebook.jpg);
+  width: 500px;
+  height: 500px;
+}
+
+.about_store {
+  height: 400px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  text-align: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.about_store div {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  height: 120px;
+}
+
+.about_store div img {
+  width: 70px;
+  height: 70px;
+}
+
+.about_store h2 {
+  color: black;
+}
+/*# sourceMappingURL=style.css.map */

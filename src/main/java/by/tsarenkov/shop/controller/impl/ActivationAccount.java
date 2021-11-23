@@ -1,6 +1,7 @@
 package by.tsarenkov.shop.controller.impl;
 
 import by.tsarenkov.shop.controller.Command;
+import by.tsarenkov.shop.service.PageStorage;
 import by.tsarenkov.shop.service.ServiceException;
 import by.tsarenkov.shop.service.ServiceProvider;
 import by.tsarenkov.shop.service.UserService;
@@ -15,9 +16,6 @@ public class ActivationAccount implements Command {
 
     private static final String LOGIN_ACTIVATION = "login";
     private static final String CODE_ACTIVATION = "code";
-    private static final String MAIN_PAGE_PATH = "/WEB-INF/jsp/main.jsp";
-    private static final String LOGIN_PAGE_PATH = "/WEB-INF/jsp/login.jsp";
-    private static final String ERROR_PAGE = "WEB-INF/jsp/error.jsp";
 
     private static final ServiceProvider provider = ServiceProvider.getInstance();
     private final UserService user = provider.getUserService();
@@ -31,10 +29,10 @@ public class ActivationAccount implements Command {
         RequestDispatcher requestDispatcher = null;
         try {
             if (user.activateAccount(login, code)){
-                requestDispatcher = request.getRequestDispatcher(LOGIN_PAGE_PATH);
+                requestDispatcher = request.getRequestDispatcher(PageStorage.LOGIN_PAGE_PATH.getPATH());
             }
         } catch (ServiceException e) {
-            requestDispatcher = request.getRequestDispatcher(ERROR_PAGE);
+            response.sendRedirect(PageStorage.ERROR_PAGE_PATH.getPATH());
         }
         requestDispatcher.forward(request, response);
 

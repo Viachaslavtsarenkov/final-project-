@@ -4,6 +4,8 @@ import by.tsarenkov.shop.bean.*;
 import by.tsarenkov.shop.bean.status.ProductStatus;
 import by.tsarenkov.shop.bean.status.StatusOrder;
 import by.tsarenkov.shop.bean.status.UserStatus;
+import by.tsarenkov.shop.dao.impl.SQLProductDAO;
+import org.apache.log4j.Logger;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -12,7 +14,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ConstructorDAO {
+public class CreatorDAO {
+
+    private static final Logger LOGGER = Logger.getLogger(CreatorDAO.class);
 
     private static final String ID_COLUMN = "id_user";
     private static final String USERNAME_COLUMN  = "username";
@@ -22,6 +26,7 @@ public class ConstructorDAO {
     private static final String ROLE_COLUMN  = "user_role";
     private static final String PHONE_COLUMN  = "phone";
     private static final String STATUS_COLUMN  = "status";
+    private static final String STATUS  = "user.status";
 
     private static final String NAME = "name";
     private static final String[] GOODS_ID = new String[]{"good_id"};
@@ -30,6 +35,7 @@ public class ConstructorDAO {
     private static final String GOOD_ID = "goods_id";
     private static final String VALUE = "value";
     private static final String COUNT = "count";
+    private static final String MODEL = "model";
     private static final String PRICE = "price";
     private static final String PRODUCT_STATUS = "goods.status";
     private static final String PATH = "path";
@@ -37,31 +43,59 @@ public class ConstructorDAO {
     private static final String NAME_CATEGORY = "name_category";
 
     private static final String ORDER = "order";
-    private static final String ID_ORDER_COLUMN = "id_order";
-    private static final String ID_USER_COLUMN = "user_id_user";
-    private static final String ADDRESS_COLUMN = "address";
-    private static final String DELIVERY_COLUMN = "delivery_option";
-    private static final String AMOUNT_COLUMN = "sum";
-    private static final String DATE_COLUMN = "date";
+    private static final String STATUS_ORDER = "orders.status";
+    private static final String ID_ORDER_COLUMN = "orders.id_order";
+    private static final String ID_USER_COLUMN = "orders.user_id_user";
+    private static final String ADDRESS_COLUMN = "orders.address";
+    private static final String DELIVERY_COLUMN = "orders.delivery_option";
+    private static final String AMOUNT_COLUMN = "orders.sum";
+    private static final String DATE_COLUMN = "orders.date";
 
-    public ConstructorDAO() {}
+    public CreatorDAO() {}
 
     protected static User constructUser(ResultSet resultSet) {
-        User user = new User();
+        User user = null;
         try {
             resultSet.next();
-            user.setUserId(resultSet.getInt(ID_COLUMN));
-            user.setName(resultSet.getString(USERNAME_COLUMN));
-            user.setSurname(resultSet.getString(SURNAME_COLUMN));
-            user.setEmail(resultSet.getString(EMAIL_COLUMN));
-            user.setPassword(resultSet.getString(PASSWORD_COLUMN));
-            user.setPhoneNumber(resultSet.getString(PHONE_COLUMN));
-            user.setRole(UserRole.valueOf(resultSet.getString(ROLE_COLUMN)));
-            user.setStatus(UserStatus.valueOf(resultSet.getString(STATUS_COLUMN)));
+            user = new User.UserBuilder()
+                .setUserId(resultSet.getInt(ID_COLUMN))
+                .setName(resultSet.getString(USERNAME_COLUMN))
+                .setSurname(resultSet.getString(SURNAME_COLUMN))
+                .setEmail(resultSet.getString(EMAIL_COLUMN))
+                .setPassword(resultSet.getString(PASSWORD_COLUMN))
+                .setRole(UserRole.valueOf(resultSet.getString(ROLE_COLUMN)))
+                .setStatus(UserStatus.valueOf(resultSet.getString(STATUS_COLUMN)))
+                .setPhoneNumber(resultSet.getString(PHONE_COLUMN))
+                .getInstance();
         } catch (SQLException e) {
-            // todo
+            LOGGER.error("Exception was thrown: " + e);
         }
         return user;
+    }
+
+    protected static List<User>  constructAllUsers(ResultSet resultSet) {
+        List<User> userList = new ArrayList<>();
+        try {
+            while (resultSet.next()) {
+                User user = null;
+
+                user = new User.UserBuilder()
+                        .setUserId(resultSet.getInt(ID_COLUMN))
+                        .setName(resultSet.getString(USERNAME_COLUMN))
+                        .setSurname(resultSet.getString(SURNAME_COLUMN))
+                        .setEmail(resultSet.getString(EMAIL_COLUMN))
+                        .setPassword(resultSet.getString(PASSWORD_COLUMN))
+                        .setRole(UserRole.valueOf(resultSet.getString(ROLE_COLUMN)))
+                        .setStatus(UserStatus.valueOf(resultSet.getString(STATUS_COLUMN)))
+                        .setPhoneNumber(resultSet.getString(PHONE_COLUMN))
+                        .getInstance();
+                userList.add(user);
+            }
+        } catch (SQLException e){
+            LOGGER.error("Exception was thrown: " + e);
+        }
+
+        return userList;
     }
 
     protected static Product constructProductByResultSet(ResultSet resultSet) {
@@ -82,6 +116,7 @@ public class ConstructorDAO {
                     product.setStatus(ProductStatus.valueOf(resultSet.getString(PRODUCT_STATUS)));
                     product.setPath(resultSet.getString(PATH));
                     product.setId(resultSet.getInt(GOOD_ID));
+                    product.setModel(resultSet.getString(MODEL));
                     name = ProductName.valueOf(resultSet.getString(NAME_CATEGORY));
                 }
 
@@ -93,7 +128,7 @@ public class ConstructorDAO {
                 }
             }
         } catch (SQLException e) {
-            //todo
+            LOGGER.error("Exception was thrown: " + e);
         }
         return product;
     }
@@ -119,6 +154,7 @@ public class ConstructorDAO {
                     product.setId(resultSet.getInt(GOOD_ID));
                     product.setCount(resultSet.getInt(COUNT));
                     product.setBrand(resultSet.getString(NAME));
+                    product.setModel(resultSet.getString(MODEL));
                     product.setPrice(resultSet.getDouble(PRICE));
                     product.setStatus(ProductStatus.valueOf(resultSet.getString(PRODUCT_STATUS)));
                     product.setPath(resultSet.getString(PATH));
@@ -136,7 +172,7 @@ public class ConstructorDAO {
                 }
             }
         } catch (SQLException e) {
-            //todo
+            LOGGER.error("Exception was thrown: " + e);
         }
         return allProducts;
     }
@@ -150,6 +186,7 @@ public class ConstructorDAO {
         String value = null;
         ProductName name = null;
         Map<String, String> characteristics = new HashMap<>();
+
         int currentIdProduct = 0;
         int currentIdOrder = 0;
 
@@ -158,32 +195,40 @@ public class ConstructorDAO {
                 int orderId = resultSet.getInt(ID_ORDER_COLUMN);
                 if (currentIdOrder != orderId) {
                     if (currentIdOrder != 0) {
-                        order = new Order();
                         order.setProducts(allProducts);
                         orderList.add(order);
                     }
                     order = new Order();
                     order.setIdOrder(orderId);
-                    order.setUserID(resultSet.getInt(ID_USER_COLUMN));
                     order.setAmount(resultSet.getInt(AMOUNT_COLUMN));
                     order.setDeliveryOption(resultSet.getString(DELIVERY_COLUMN));
                     order.setDate(resultSet.getDate(DATE_COLUMN));
-                    order.setStatusOrder(StatusOrder.valueOf(resultSet.getString(STATUS_COLUMN)));
+                    order.setStatusOrder(StatusOrder.valueOf(resultSet.getString(STATUS_ORDER)));
                     order.setAddress(resultSet.getString(ADDRESS_COLUMN));
+                    User user = new User.UserBuilder()
+                            .setUserId(resultSet.getInt(ID_COLUMN))
+                            .setName(resultSet.getString(USERNAME_COLUMN))
+                            .setSurname(resultSet.getString(SURNAME_COLUMN))
+                            .setEmail(resultSet.getString(EMAIL_COLUMN))
+                            .setPassword(resultSet.getString(PASSWORD_COLUMN))
+                            .setRole(UserRole.valueOf(resultSet.getString(ROLE_COLUMN)))
+                            .setStatus(UserStatus.valueOf(resultSet.getString(STATUS)))
+                            .setPhoneNumber(resultSet.getString(PHONE_COLUMN))
+                            .getInstance();
+                    order.setUser(user);
                     currentIdOrder = orderId;
                 }
 
                 int productId = resultSet.getInt(GOOD_ID);
                 if (currentIdProduct != productId) {
-                    System.out.println(currentIdProduct);
                     if (currentIdProduct!= 0) {
                         product = ProductFactory.getProduct(name, product, characteristics);
                         allProducts.add(product);
-                        System.out.println();
                     }
                     product = new Product();
                     product.setId(resultSet.getInt(GOOD_ID));
                     product.setCount(resultSet.getInt(COUNT));
+                    product.setModel(resultSet.getString(MODEL));
                     product.setBrand(resultSet.getString(NAME));
                     product.setPrice(resultSet.getDouble(PRICE));
                     product.setStatus(ProductStatus.valueOf(resultSet.getString(PRODUCT_STATUS)));
@@ -204,10 +249,8 @@ public class ConstructorDAO {
                 }
             }
         } catch (SQLException e) {
-            System.out.println(e);
-            //todo
+            LOGGER.error("Exception was thrown: " + e);
         }
-        System.out.println(orderList);
         return orderList;
     }
 

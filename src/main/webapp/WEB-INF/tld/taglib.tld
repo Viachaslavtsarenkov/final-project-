@@ -9,15 +9,13 @@
     <short-name>pagination</short-name>
     <uri>/WEB-INF/tld/taglib.tld</uri>
     <tag>
-        <name>list</name>
-        <tag-class>by.tsarenkov.shop.service.PaginationTag</tag-class>
+        <name>basket</name>
+        <tag-class>by.tsarenkov.shop.tag.BasketProductTag</tag-class>
         <body-content>empty</body-content>
         <attribute>
-            <name>list</name>
+            <name>count</name>
             <required>true</required>
             <rtexprvalue>true</rtexprvalue>
         </attribute>
     </tag>
-    <!-- Invoke 'Generate' action to add tags or functions -->
-
 </taglib>

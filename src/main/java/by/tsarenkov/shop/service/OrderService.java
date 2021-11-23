@@ -12,11 +12,17 @@ import java.util.Map;
 
 public interface OrderService {
 
-    boolean addNewOrder(int idUser, String address,
-                        String deliveryOption, double amount,
-                        List<Product> products)
+    boolean addNewOrder(Order order)
             throws ServiceException;
-    List<Order> getAllOrders() throws ServiceException;
+    List<Order> getAllOrders(int start, int end) throws ServiceException;
+    int getCountAllOrders() throws ServiceException;
+
+    List<Order> getAllOrdersByStatus(StatusOrder statusOrder, int start, int end) throws ServiceException;
+    int getCountAllOrdersByStatus(StatusOrder statusOrder) throws ServiceException;
+
+    List<Order> getOrdersByName(String name, int start, int end) throws ServiceException;
+    int getCountOrdersByName(String name) throws  ServiceException;
+
     List<Order> getAllUserOrders(int idUser) throws ServiceException;
     boolean changeOrderStatus(int idOrder, StatusOrder status) throws ServiceException;
     Order getUserOrder(int userId) throws ServiceException;

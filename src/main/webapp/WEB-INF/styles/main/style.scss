@@ -1,0 +1,163 @@
+$background-dark-color: black;
+$background-light-color:#FFFFFF;
+$text-dark-color:black;
+$text-headline-light: #818181;
+$font-content: Arial Bold;
+
+* {
+    margin: 0;
+}
+
+body {
+    margin: 0 auto;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: normal;
+    line-height: 1.15;
+    letter-spacing: 0.15em;
+  }
+
+
+h2, h3 {
+    color: $text-dark-color;
+    font-family: $font-content;
+    font-weight: 500;
+}
+.wrapper {
+    margin: 0 auto;
+    width: 1350px;
+}
+
+.inf {
+    background-image: url(img/main/header_bg.jpg);
+    width: 1350px;
+    height: 700px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.inf_content {
+    width: 500px;
+    height: 600px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    text-align:center;
+}
+
+h2 {
+    color:white;
+    font-size: 28pt;
+}
+
+
+.inf_action {
+    width: 160px;
+    height: 55px;
+    color: white;
+    font-size: 16pt;
+    border: 2px solid white;
+    background: transparent;
+    margin: 0 auto;
+}
+
+.inf_action:hover {
+    background: white;
+    transition: 500ms;
+    color: black;
+}
+
+.products {
+    margin-top: 30px;
+    margin-bottom: 30px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    flex-wrap: wrap;
+
+    div {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        text-align: justify;
+        align-items:flex-end;
+
+        h2 {
+            margin-top: 25px;
+            color: wheat;
+            text-align: center;
+            width: 100%;
+        }
+
+    }
+
+    .show_btn {
+        color: white;
+        margin: 40px;
+        padding: 10px;
+        border: 2px solid white;
+    }
+
+    .show_btn:hover {
+        background: white;
+        transition: 500ms;
+        color: black;
+    }
+}
+
+.mobile {
+    background-image: url(img/main/mobile.jpg);
+    width: 500px;
+    height: 500px;
+
+}
+
+.laptop {
+    background-image: url(img/main/laptop.png);
+    width: 800px;
+    height: 500px;
+}
+
+.tablet {
+    background-image: url(img/main/tablet.png);
+    width: 800px;
+    height: 500px;
+    margin-top: 30px;
+}
+
+.ebook {
+    margin-top: 30px;
+    background-image: url(img/main/ebook.jpg);
+    width: 500px;
+    height: 500px;
+}
+
+
+.about_store {
+    height: 400px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    text-align: center;
+    align-items: center;
+
+    div{
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        height: 120px;
+
+        img {
+            width: 70px;
+            height: 70px;
+        }
+    }
+
+    h2 {
+        color:black;
+    }
+
+}
+

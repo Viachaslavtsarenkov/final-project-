@@ -1,4 +1,4 @@
-package by.tsarenkov.shop.service.validator;
+package by.tsarenkov.shop.validator;
 
 import by.tsarenkov.shop.bean.UserRegistrationInfo;
 
@@ -30,7 +30,6 @@ public class UserInfoValidator {
     }
 
     public UserInfoValidator() {
-
     }
 
     public UserInfoValidator(UserRegistrationInfo user) {

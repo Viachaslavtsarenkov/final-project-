@@ -1,0 +1,35 @@
+$background-dark-color: black;
+$background-light-color:#FFFFFF;
+$text-dark-color:black;
+$text-headline-light: #818181;
+$font-content: Arial Bold;
+
+* {
+    margin: 0;
+}
+
+body {
+    margin: 0 auto;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: normal;
+    line-height: 1.15;
+}
+
+.personal {
+  display: flex;
+  flex-direction: row;
+  min-height: 500px;
+  width: 700px;
+  margin: 30px auto;
+  border-radius: 3px;
+  box-shadow: 0 2px 17px #3C93D5;
+  
+  .personal_inf{
+    margin: 140px 100px;
+  }
+
+  .orders {
+    margin-top: 60px;
+  }
+}

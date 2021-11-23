@@ -12,7 +12,6 @@ import java.util.Objects;
 
 public class Smartphone extends Product implements Serializable {
 
-    private String model;
     private String operationSystem;
     private double diagonal;
     private int RAM;
@@ -27,11 +26,10 @@ public class Smartphone extends Product implements Serializable {
     }
 
     public Smartphone(SmartphoneBuilder builder) {
-        super(builder.id, builder.brand,
+        super(builder.id, builder.brand, builder.model,
                 builder.count, builder.price,
                 builder.status, builder.path);
 
-        this.model = builder.model;
         this.operationSystem = builder.operationSystem;
         this.diagonal = builder.diagonal;
         this.ROM = builder.ROM;
@@ -42,14 +40,6 @@ public class Smartphone extends Product implements Serializable {
         this.countPixelFrontCamera = builder.countPixelFrontCamera;
         this.countPixelBackCamera = builder.countPixelBackCamera;
 
-    }
-
-    public String getModel() {
-        return model;
-    }
-
-    public void setModel(String model) {
-        this.model = model;
     }
 
     public String getOperationSystem() {
@@ -141,13 +131,12 @@ public class Smartphone extends Product implements Serializable {
                 && countCores == phone.countCores
                 && countPixelFrontCamera == phone.countPixelFrontCamera
                 && countPixelBackCamera == phone.countPixelBackCamera
-                && model.equals(phone.model)
                 && operationSystem.equals(phone.operationSystem);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(model, operationSystem
+        return Objects.hash(operationSystem
                 , diagonal, RAM, ROM, countSimCard
                 , CPU, countCores, countPixelFrontCamera
                 , countPixelBackCamera);
@@ -156,7 +145,6 @@ public class Smartphone extends Product implements Serializable {
     @Override
     public String toString() {
         return "Smartphone{" +
-                "model='" + model + '\'' +
                 ", operationSystem='" + operationSystem + '\'' +
                 ", diagonal=" + diagonal +
                 ", RAM=" + RAM +
@@ -188,20 +176,153 @@ public class Smartphone extends Product implements Serializable {
         private int countPixelBackCamera;
 
 
-        public SmartphoneBuilder(int id, String brand,
-                                 int count, double price,
-                                 ProductStatus status, String path) {
+        public SmartphoneBuilder() { }
+
+        public int getId() {
+            return id;
+        }
+
+        public SmartphoneBuilder setId(int id) {
             this.id = id;
+            return this;
+        }
+
+        public String getBrand() {
+            return brand;
+        }
+
+        public SmartphoneBuilder setBrand(String brand) {
             this.brand = brand;
-            this.count = count;
-            this.path = path;
+            return this;
+        }
+
+        public double getPrice() {
+            return price;
+        }
+
+        public SmartphoneBuilder setPrice(double price) {
             this.price = price;
+            return this;
+        }
+
+        public int getCount() {
+            return count;
+        }
+
+        public SmartphoneBuilder setCount(int count) {
+            this.count = count;
+            return this;
+        }
+
+        public ProductStatus getStatus() {
+            return status;
+        }
+
+        public SmartphoneBuilder setStatus(ProductStatus status) {
             this.status = status;
+            return this;
+        }
+
+        public String getPath() {
+            return path;
+        }
+
+        public SmartphoneBuilder setPath(String path) {
+            this.path = path;
+            return this;
+        }
+
+        public String getModel() {
+            return model;
+        }
+
+        public SmartphoneBuilder setModel(String model) {
+            this.model = model;
+            return this;
+        }
+
+        public String getOperationSystem() {
+            return operationSystem;
+        }
+
+        public SmartphoneBuilder setOperationSystem(String operationSystem) {
+            this.operationSystem = operationSystem;
+            return this;
+        }
+
+        public double getDiagonal() {
+            return diagonal;
+        }
+
+        public SmartphoneBuilder setDiagonal(double diagonal) {
+            this.diagonal = diagonal;
+            return this;
+        }
+
+        public int getRAM() {
+            return RAM;
+        }
+
+        public SmartphoneBuilder setRAM(int RAM) {
+            this.RAM = RAM;
+            return this;
+        }
+
+        public int getROM() {
+            return ROM;
+        }
+
+        public SmartphoneBuilder setROM(int ROM) {
+            this.ROM = ROM;
+            return this;
+        }
+
+        public int getCountSimCard() {
+            return countSimCard;
+        }
+
+        public SmartphoneBuilder setCountSimCard(int countSimCard) {
+            this.countSimCard = countSimCard;
+            return this;
+        }
+
+        public int getCPU() {
+            return CPU;
+        }
+
+        public SmartphoneBuilder setCPU(int CPU) {
+            this.CPU = CPU;
+            return this;
+        }
+
+        public int getCountCores() {
+            return countCores;
+        }
+
+        public SmartphoneBuilder setCountCores(int countCores) {
+            this.countCores = countCores;
+            return this;
+        }
+
+        public int getCountPixelFrontCamera() {
+            return countPixelFrontCamera;
+        }
+
+        public SmartphoneBuilder setCountPixelFrontCamera(int countPixelFrontCamera) {
+            this.countPixelFrontCamera = countPixelFrontCamera;
+            return this;
+        }
+
+        public int getCountPixelBackCamera() {
+            return countPixelBackCamera;
+        }
+
+        public SmartphoneBuilder setCountPixelBackCamera(int countPixelBackCamera) {
+            this.countPixelBackCamera = countPixelBackCamera;
+            return this;
         }
 
         public SmartphoneBuilder setCharacteristics(Map<String, String> characteristics) {
-            this.model = characteristics
-                    .get(SmartphoneCharacteristic.MODEL.toString());
             this.ROM = Integer.parseInt(characteristics
                     .get(SmartphoneCharacteristic.ROM.toString()));
             this.RAM = Integer.parseInt(characteristics

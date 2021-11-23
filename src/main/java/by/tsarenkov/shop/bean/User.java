@@ -8,7 +8,7 @@ import java.util.Objects;
 
 public class User implements Serializable {
 
-    public int userId;
+    private int userId;
     private String name;
     private String surname;
     private UserRole role;
@@ -19,6 +19,17 @@ public class User implements Serializable {
 
     public User() {
 
+    }
+
+    public User(UserBuilder builder) {
+        this.userId = builder.userId;
+        this.name = builder.name;
+        this.surname = builder.surname;
+        this.role = builder.role;
+        this.email = builder.email;
+        this.password = builder.password;
+        this. status = builder.status;
+        this.phoneNumber = builder.phoneNumber;
     }
 
     public int getUserId() {
@@ -121,5 +132,94 @@ public class User implements Serializable {
                 ", status='" + status + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
                 '}';
+    }
+
+    public static class UserBuilder {
+        private int userId;
+        private String name;
+        private String surname;
+        private UserRole role;
+        private String email;
+        private String password;
+        private UserStatus status;
+        private String phoneNumber;
+
+        public UserBuilder() {}
+
+        public int getUserId() {
+            return userId;
+        }
+
+        public UserBuilder setUserId(int userId) {
+            this.userId = userId;
+            return this;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public UserBuilder setName(String name) {
+            this.name = name;
+            return this;
+        }
+
+        public String getSurname() {
+            return surname;
+        }
+
+        public UserBuilder setSurname(String surname) {
+            this.surname = surname;
+            return this;
+        }
+
+        public UserRole getRole() {
+            return role;
+        }
+
+        public UserBuilder setRole(UserRole role) {
+            this.role = role;
+            return this;
+        }
+
+        public String getEmail() {
+            return email;
+        }
+
+        public UserBuilder setEmail(String email) {
+            this.email = email;
+            return this;
+        }
+
+        public String getPassword() {
+            return password;
+        }
+
+        public UserBuilder setPassword(String password) {
+            this.password = password;
+            return this;
+        }
+
+        public UserStatus getStatus() {
+            return status;
+        }
+
+        public UserBuilder setStatus(UserStatus status) {
+            this.status = status;
+            return this;
+        }
+
+        public String getPhoneNumber() {
+            return phoneNumber;
+        }
+
+        public UserBuilder setPhoneNumber(String phoneNumber) {
+            this.phoneNumber = phoneNumber;
+            return this;
+        }
+
+        public User getInstance() {
+            return new User(this);
+        }
     }
 }

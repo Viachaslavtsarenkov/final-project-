@@ -1,5 +1,6 @@
 package by.tsarenkov.shop.controller;
 
+import by.tsarenkov.shop.bean.User;
 import by.tsarenkov.shop.controller.impl.*;
 
 import java.util.HashMap;
@@ -10,15 +11,14 @@ public class CommandProvider {
     private Map<CommandName, Command> commands = new HashMap<>();
 
     public CommandProvider() {
+        commands.put(CommandName.GOTOREGISTRATIONPAGE, new GoToRegistrationPage());
         commands.put(CommandName.REGISTRATION, new GoToMainPage());
         commands.put(CommandName.ACTIVATION, new ActivationAccount());
         commands.put(CommandName.LOGIN, new Login());
-
-        commands.put(CommandName.GOTOMAINPAGE, new GoToMainPage());
-        commands.put(CommandName.GOTOREGISTRATIONPAGE, new GoToRegistrationPage());
         commands.put(CommandName.SAVENEWUSER, new SaveNewUser());
-
         commands.put(CommandName.GOTOPERSONALPAGE, new GoToPersonalPage());
+        commands.put(CommandName.LOGOUT, new LogOut());
+        commands.put(CommandName.GOTOMAINPAGE, new GoToMainPage());
         commands.put(CommandName.CHANGELANGUAGE, new ChangeLanguage());
         commands.put(CommandName.SAVENEWPRODUCT, new SaveProduct());
         commands.put(CommandName.PRODUCTVIEW, new ProductsView());
@@ -29,10 +29,13 @@ public class CommandProvider {
         commands.put(CommandName.SAVECHANGEDEBOOK, new SaveProduct());
         commands.put(CommandName.DELETEPRODUCTFROMBASKET, new DeleteProductFromBasket());
         commands.put(CommandName.GOTOBASKETPAGE, new GoToBasketPage());
-
+        commands.put(CommandName.ALLUSERVIEW, new UsersView());
         commands.put(CommandName.GOTOORDERPAGE, new GoToOrderPage());
         commands.put(CommandName.ADDNEWORDER, new AddNewOrder());
-        commands.put(CommandName.ORDERVIEW, new OrderView());
+        commands.put(CommandName.ORDERSVIEW, new OrdersView());
+        commands.put(CommandName.CHANGEUSERSTATUS, new ChangeUserStatus());
+        commands.put(CommandName.CHANGEORDERSTATUS, new ChangeOrderStatus());
+        commands.put(CommandName.PARTICULARORDERVIEW, new ParticularOrderView());
     }
 
     public Command takeCommand(String name) {

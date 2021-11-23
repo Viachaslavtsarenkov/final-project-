@@ -9,7 +9,6 @@ import java.util.Map;
 import java.util.Objects;
 
 public class Laptop extends Product implements Serializable {
-    private String model;
     private String type;
     private double diagonal;
     private String typeProcessor;
@@ -27,10 +26,9 @@ public class Laptop extends Product implements Serializable {
     }
 
     public Laptop(LaptopBuilder builder) {
-        super(builder.id, builder.brand,
+        super(builder.id, builder.brand, builder.model,
                 builder.count, builder.price,
                 builder.status, builder.path);
-        this.model = builder.model;
         this.type = builder.type;
         this.diagonal = builder.diagonal;
         this.typeProcessor = builder.typeProcessor;
@@ -42,14 +40,6 @@ public class Laptop extends Product implements Serializable {
         this.typeGraphicsCard = builder.typeGraphicsCard;
         this.graphicsCard = builder.graphicsCard;
         this.screenExtension = builder.screenExtension;
-    }
-
-    public String getModel() {
-        return model;
-    }
-
-    public void setModel(String model) {
-        this.model = model;
     }
 
     public String getType() {
@@ -163,7 +153,6 @@ public class Laptop extends Product implements Serializable {
                 && ROM == laptop.ROM && RAM == laptop.RAM
                 && Double.compare(laptop.bluetoothVersion, bluetoothVersion) == 0
                 && countUSBPort == laptop.countUSBPort
-                && model.equals(laptop.model)
                 && type.equals(laptop.type)
                 && typeProcessor.equals(laptop.typeProcessor)
                 && serialProcessor.equals(laptop.serialProcessor)
@@ -174,7 +163,7 @@ public class Laptop extends Product implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), model, type, diagonal
+        return Objects.hash(super.hashCode(), type, diagonal
                 , typeProcessor, serialProcessor, countCores
                 , ROM, RAM, bluetoothVersion, countUSBPort
                 , typeGraphicsCard, graphicsCard, screenExtension);
@@ -183,7 +172,6 @@ public class Laptop extends Product implements Serializable {
     @Override
     public String toString() {
         return "Laptop{" +
-                "model='" + model + '\'' +
                 ", type='" + type + '\'' +
                 ", diagonal=" + diagonal +
                 ", typeProcessor='" + typeProcessor + '\'' +
@@ -219,20 +207,12 @@ public class Laptop extends Product implements Serializable {
         private double price;
         private int count;
 
-        public LaptopBuilder(int id, String brand,
-                                         int count, double price,
-                                         ProductStatus status, String path) {
-            this.id = id;
-            this.brand = brand;
-            this.count = count;
-            this.path = path;
-            this.price = price;
-            this.status = status;
+
+
+        public LaptopBuilder() {
         }
 
         public LaptopBuilder setCharacteristics(Map<String, String> characteristics) {
-            this.model  = characteristics
-                    .get(LaptopCharacteristic.MODEL.toString());
             this.type = characteristics
                     .get(LaptopCharacteristic.TYPE.toString());
             this.diagonal = Double.parseDouble(characteristics
@@ -255,6 +235,168 @@ public class Laptop extends Product implements Serializable {
                     .get(LaptopCharacteristic.GRAPHICS_CARD.toString());
             this.screenExtension = characteristics
                     .get(LaptopCharacteristic.SCREEN_EXTENSION.toString());
+            return this;
+        }
+
+        public int getId() {
+            return id;
+        }
+
+        public LaptopBuilder setId(int id) {
+            this.id = id;
+            return this;
+        }
+
+        public String getBrand() {
+            return brand;
+        }
+
+        public LaptopBuilder setBrand(String brand) {
+            this.brand = brand;
+            return this;
+        }
+
+        public String getModel() {
+            return model;
+        }
+
+        public LaptopBuilder setModel(String model) {
+            this.model = model;
+            return this;
+        }
+
+        public String getType() {
+            return type;
+        }
+
+        public LaptopBuilder setType(String type) {
+            this.type = type;
+            return this;
+        }
+
+        public double getDiagonal() {
+            return diagonal;
+        }
+
+        public LaptopBuilder setDiagonal(double diagonal) {
+            this.diagonal = diagonal;
+            return this;
+        }
+
+        public String getTypeProcessor() {
+            return typeProcessor;
+        }
+
+        public LaptopBuilder setTypeProcessor(String typeProcessor) {
+            this.typeProcessor = typeProcessor;
+            return this;
+        }
+
+        public String getSerialProcessor() {
+            return serialProcessor;
+        }
+
+        public LaptopBuilder setSerialProcessor(String serialProcessor) {
+            this.serialProcessor = serialProcessor;
+            return this;
+        }
+
+        public int getROM() {
+            return ROM;
+        }
+
+        public LaptopBuilder setROM(int ROM) {
+            this.ROM = ROM;
+            return this;
+        }
+
+        public int getRAM() {
+            return RAM;
+        }
+
+        public LaptopBuilder setRAM(int RAM) {
+            this.RAM = RAM;
+            return this;
+        }
+
+        public double getBluetoothVersion() {
+            return bluetoothVersion;
+        }
+
+        public LaptopBuilder setBluetoothVersion(double bluetoothVersion) {
+            this.bluetoothVersion = bluetoothVersion;
+            return this;
+        }
+
+        public int getCountUSBPort() {
+            return countUSBPort;
+        }
+
+        public LaptopBuilder setCountUSBPort(int countUSBPort) {
+            this.countUSBPort = countUSBPort;
+            return this;
+        }
+
+        public String getTypeGraphicsCard() {
+            return typeGraphicsCard;
+        }
+
+        public LaptopBuilder setTypeGraphicsCard(String typeGraphicsCard) {
+            this.typeGraphicsCard = typeGraphicsCard;
+            return this;
+        }
+
+        public String getGraphicsCard() {
+            return graphicsCard;
+        }
+
+        public LaptopBuilder setGraphicsCard(String graphicsCard) {
+            this.graphicsCard = graphicsCard;
+            return this;
+        }
+
+        public String getScreenExtension() {
+            return screenExtension;
+        }
+
+        public LaptopBuilder setScreenExtension(String screenExtension) {
+            this.screenExtension = screenExtension;
+            return this;
+        }
+
+        public ProductStatus getStatus() {
+            return status;
+        }
+
+        public LaptopBuilder setStatus(ProductStatus status) {
+            this.status = status;
+            return this;
+        }
+
+        public String getPath() {
+            return path;
+        }
+
+        public LaptopBuilder setPath(String path) {
+            this.path = path;
+            return this;
+        }
+
+        public double getPrice() {
+            return price;
+        }
+
+        public LaptopBuilder setPrice(double price) {
+            this.price = price;
+            return this;
+        }
+
+        public int getCount() {
+            return count;
+        }
+
+        public LaptopBuilder setCount(int count) {
+            this.count = count;
             return this;
         }
 

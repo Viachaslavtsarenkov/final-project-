@@ -1,8 +1,6 @@
 package by.tsarenkov.shop.bean.characteristic;
 
 public enum LaptopCharacteristic {
-    BRAND,
-    MODEL,
     TYPE,
     DIAGONAL,
     TYPE_PROCESSOR,

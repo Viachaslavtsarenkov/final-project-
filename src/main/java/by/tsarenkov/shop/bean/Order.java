@@ -5,32 +5,35 @@ import by.tsarenkov.shop.service.ProductService;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
 public class Order implements Serializable {
 
     private int idOrder;
-    private double price;
+    private User user;
+    private double amount;
     private String deliveryOption;
     private StatusOrder statusOrder;
     private String address;
-    private int userId;
     private List<Product> products;
+    private Date date;
 
     public Order() {
         products = new ArrayList<>();
     }
 
-    public Order(int idOrder, int userId, String address,
+    public Order(int idOrder, User user, String address,
                  String deliveryOption,
-                  double amount, StatusOrder statusOrder) {
+                  double amount, StatusOrder statusOrder, Date date) {
         this.idOrder = idOrder;
-        this.userId = userId;
+        this.user = user;
         this.deliveryOption = deliveryOption;
         this.statusOrder = statusOrder;
         this.address = address;
-        this.price = price;
+        this.amount = amount;
+        this.date = date;
         products = new ArrayList<>();
     }
 
@@ -42,19 +45,19 @@ public class Order implements Serializable {
         this.idOrder = idOrder;
     }
 
-    public double getPrice() {
-        return price;
+    public double getAmount() {
+        return amount;
     }
 
-    public void setPrice(double price) {
-        this.price = price;
+    public void setAmount(double price) {
+        this.amount = price;
     }
 
     public String getDeliveryOption() {
         return deliveryOption;
     }
 
-    public void setDelivery_option(String delivery_option) {
+    public void setDeliveryOption(String delivery_option) {
         this.deliveryOption = delivery_option;
     }
 
@@ -74,12 +77,28 @@ public class Order implements Serializable {
         this.address = address;
     }
 
-    public int getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserID(int userID) {
-        this.userId= userID;
+    public void setProducts(List<Product> products) {
+        this.products = products;
+    }
+
+    public List<Product> getProducts() {
+        return products;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 
     public void addProduct(Product product) {
@@ -97,8 +116,8 @@ public class Order implements Serializable {
         Order order = (Order) o;
 
         return idOrder == order.idOrder &&
-                Double.compare(order.price, price) == 0 &&
-                userId == order.userId &&
+                Double.compare(order.amount, amount) == 0 &&
+                user == order.user &&
                 Objects.equals(deliveryOption, order.deliveryOption) &&
                 statusOrder == order.statusOrder &&
                 Objects.equals(address, order.address);
@@ -107,19 +126,19 @@ public class Order implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(idOrder,
-                price, deliveryOption,
-                statusOrder, address, userId, products);
+                amount, deliveryOption,
+                statusOrder, address, user, products);
     }
 
     @Override
     public String toString() {
         return "Order{" +
                 "idOrder=" + idOrder +
-                ", price=" + price +
+                ", amount=" + amount +
                 ", deliveryOption='" + deliveryOption + '\'' +
                 ", statusOrder=" + statusOrder +
                 ", address='" + address + '\'' +
-                ", userId=" + userId +
+                ", user=" + user +
                 ", products=" + products +
                 '}';
     }

@@ -7,17 +7,23 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+
 public class ChangeLanguage implements Command {
 
-    private static final String MAIN_PAGE_PATH = "/WEB-INF/jsp/main.jsp";
     private static final String LOCALE = "local";
+    private static final String PATH = "controller?command=";
+    private static final String PAGE = "page";
+    private final String LANG_ERROR_MSG = "Some problems with changing language";
 
     public ChangeLanguage() {};
 
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+    public void execute(HttpServletRequest request, HttpServletResponse response)
+            throws IOException, ServletException {
         request.getSession(true).setAttribute(LOCALE,
                 request.getParameter(LOCALE));
-        request.getRequestDispatcher(MAIN_PAGE_PATH).forward(request, response);
+        String command = (String) request.getSession().getAttribute(PAGE);
+        response.sendRedirect(PATH + command);
+
     }
 }

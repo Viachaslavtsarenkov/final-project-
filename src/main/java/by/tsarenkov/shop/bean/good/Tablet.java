@@ -9,7 +9,6 @@ import java.util.Map;
 import java.util.Objects;
 
 public class Tablet extends Product implements Serializable {
-    private String model;
     private String operationSystem;
     private double diagonal;
     private int RAM;
@@ -20,25 +19,16 @@ public class Tablet extends Product implements Serializable {
     public Tablet() {}
 
     public Tablet(TabletBuilder builder) {
-        super(builder.id, builder.brand,
+        super(builder.id, builder.brand, builder.model,
                 builder.count, builder.price,
                 builder.status, builder.path);
 
-        this.model = builder.model;
         this.operationSystem = builder.operationSystem;
         this.diagonal = builder.diagonal;
         this.RAM = builder.RAM;
         this.ROM = builder.ROM;
         this.typeUSB = builder.typeUSB;
         this.processor = builder.processor;
-    }
-
-    public String getModel() {
-        return model;
-    }
-
-    public void setModel(String model) {
-        this.model = model;
     }
 
     public String getOperationSystem() {
@@ -98,7 +88,6 @@ public class Tablet extends Product implements Serializable {
         Tablet tablet = (Tablet) o;
         return Double.compare(tablet.diagonal, diagonal) == 0
                 && RAM == tablet.RAM && ROM == tablet.ROM
-                && Objects.equals(model, tablet.model)
                 && Objects.equals(operationSystem, tablet.operationSystem)
                 && Objects.equals(typeUSB, tablet.typeUSB)
                 && Objects.equals(processor, tablet.processor);
@@ -106,7 +95,7 @@ public class Tablet extends Product implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), model, operationSystem,
+        return Objects.hash(super.hashCode(), operationSystem,
                 diagonal, RAM, ROM, typeUSB, processor);
     }
 
@@ -125,20 +114,126 @@ public class Tablet extends Product implements Serializable {
         private String typeUSB;
         private String processor;
 
-        public TabletBuilder(int id, String brand,
-                             int count, double price,
-                             ProductStatus status, String path) {
+        public TabletBuilder() { }
+
+        public int getId() {
+            return id;
+        }
+
+        public TabletBuilder setId(int id) {
             this.id = id;
+            return this;
+        }
+
+        public String getBrand() {
+            return brand;
+        }
+
+        public TabletBuilder setBrand(String brand) {
             this.brand = brand;
-            this.count = count;
-            this.path = path;
+            return this;
+        }
+
+        public double getPrice() {
+            return price;
+        }
+
+        public TabletBuilder setPrice(double price) {
             this.price = price;
+            return this;
+        }
+
+        public int getCount() {
+            return count;
+        }
+
+        public TabletBuilder setCount(int count) {
+            this.count = count;
+            return this;
+        }
+
+        public ProductStatus getStatus() {
+            return status;
+        }
+
+        public TabletBuilder setStatus(ProductStatus status) {
             this.status = status;
+            return this;
+        }
+
+        public String getPath() {
+            return path;
+        }
+
+        public TabletBuilder setPath(String path) {
+            this.path = path;
+            return this;
+        }
+
+        public String getModel() {
+            return model;
+        }
+
+        public TabletBuilder setModel(String model) {
+            this.model = model;
+            return this;
+        }
+
+        public String getOperationSystem() {
+            return operationSystem;
+        }
+
+        public TabletBuilder setOperationSystem(String operationSystem) {
+            this.operationSystem = operationSystem;
+            return this;
+        }
+
+        public double getDiagonal() {
+            return diagonal;
+        }
+
+        public TabletBuilder setDiagonal(double diagonal) {
+            this.diagonal = diagonal;
+            return this;
+        }
+
+        public int getRAM() {
+            return RAM;
+        }
+
+        public TabletBuilder setRAM(int RAM) {
+            this.RAM = RAM;
+            return this;
+        }
+
+        public int getROM() {
+            return ROM;
+        }
+
+        public TabletBuilder setROM(int ROM) {
+            this.ROM = ROM;
+            return this;
+        }
+
+        public String getTypeUSB() {
+            return typeUSB;
+        }
+
+        public TabletBuilder setTypeUSB(String typeUSB) {
+            this.typeUSB = typeUSB;
+            return this;
+        }
+
+        public String getProcessor() {
+            return processor;
+        }
+
+        public TabletBuilder setProcessor(String processor) {
+            this.processor = processor;
+            return this;
         }
 
         public TabletBuilder setCharacteristics(Map<String, String> characteristics) {
-            this.model = characteristics
-                    .get(TabletCharacteristic.MODEL.toString());
             this.ROM = Integer.parseInt(characteristics
                     .get(TabletCharacteristic.ROM.toString()));
             this.RAM = Integer.parseInt(characteristics

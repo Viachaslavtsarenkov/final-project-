@@ -6,10 +6,12 @@ import by.tsarenkov.shop.bean.status.UserStatus;
 import by.tsarenkov.shop.dao.DAOException;
 import by.tsarenkov.shop.dao.DAOProvider;
 import by.tsarenkov.shop.dao.UserDAO;
-import by.tsarenkov.shop.service.EmailService;
+import by.tsarenkov.shop.util.EmailService;
 import by.tsarenkov.shop.service.ServiceException;
 import by.tsarenkov.shop.service.UserService;
-import by.tsarenkov.shop.service.validator.UserInfoValidator;
+import by.tsarenkov.shop.validator.UserInfoValidator;
+
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
@@ -21,18 +23,27 @@ public class UserServiceImpl implements UserService {
     public UserServiceImpl() {}
 
     @Override
+    public User getUserById(int id) throws ServiceException {
+        try {
+            return USER_DAO.getUserById(id);
+        } catch (DAOException e) {
+            throw new ServiceException(e);
+        }
+    }
+
+    @Override
     public User authorization(String login, String password) throws ServiceException{
         User user = null;
         try {
             user =  USER_DAO.authorization(login, password);
         } catch (DAOException e) {
-            throw new ServiceException(e);
+            throw new ServiceException(e.getMessage());
         }
         if (user.getStatus() == UserStatus.NO_ACTIVATED) {
-            throw new ServiceException("User is not activated");
+            throw new ServiceException("error.user.notActivated");
         }
         if (user.getStatus() == UserStatus.BLOCKED) {
-            throw new ServiceException("User is blocked");
+            throw new ServiceException("error.user.blocked");
         }
         return user;
     }
@@ -43,15 +54,20 @@ public class UserServiceImpl implements UserService {
         UserInfoValidator validator = new UserInfoValidator(user);
         Map<String, String> validation = validator.validate() ;
 
+        try {
+            if (USER_DAO.findUser(user.getEmail())) {
+                validation.put("email", "error.email.inuse");
+            }
+        } catch (DAOException e) {
+            //todo
+        }
+
         if (validation == null || validation.size() == 0 ) {
             try {
                 code = generateCode();
-                if (USER_DAO.findUser(user.getEmail())) {
-                    validation.put("email", "Email is already in use");
-                } else {
-                    USER_DAO.registration(user, code);
-                    EmailService.sendRegistrationMessage(user.getEmail(), code);
-                }
+                USER_DAO.registration(user, code);
+                EmailService.sendRegistrationMessage(user.getEmail(), code);
+
             } catch (DAOException e) {
                  throw new ServiceException(e);
             }
@@ -63,12 +79,28 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean activateAccount(String login, String code) throws ServiceException {
         try {
-            USER_DAO.activateAccount(login, code);
+            return USER_DAO.activateAccount(login, code);
         } catch (DAOException e) {
             throw new ServiceException();
         }
+    }
 
-        return true;
+    @Override
+    public List<User> getAllUsers() throws ServiceException {
+        try {
+            return USER_DAO.getAllUsers();
+        } catch (DAOException e) {
+            throw new ServiceException(e);
+        }
+    }
+
+    @Override
+    public boolean changeUserStatus(int id, UserStatus status) throws ServiceException {
+        try {
+            return USER_DAO.changeUserStatus(id, status);
+        } catch (DAOException e) {
+            throw new ServiceException();
+        }
     }
 
     private static String generateCode() {

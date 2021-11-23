@@ -14,14 +14,16 @@ public class Product implements Serializable {
     private ProductStatus status;
     private String path;
     private double price;
+    private String model;
 
     public Product() {}
 
-    public Product(int id, String brand,
+    public Product(int id, String brand, String model,
                    int count, double price,
                    ProductStatus status, String path) {
         this.id = id;
         this.brand = brand;
+        this.model = model;
         this.count = count;
         this.price = price;
         this.path = path;
@@ -74,6 +76,14 @@ public class Product implements Serializable {
 
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    public String getModel() {
+        return model;
+    }
+
+    public void setModel(String model) {
+        this.model = model;
     }
 
     @Override

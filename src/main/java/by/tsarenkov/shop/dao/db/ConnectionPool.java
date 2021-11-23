@@ -56,9 +56,9 @@ public final class ConnectionPool {
                 connectionQueue.add(pooledConnection);
             }
         } catch (SQLException e) {
-            //throw new ConnectionPoolException("SQLException in ConnectionPool", e);
+            LOGGER.error("Pool wasn't initialized", e);
         } catch (ClassNotFoundException e) {
-            //throw new ConnectionPoolException("Can't find database driver class", e);
+            LOGGER.error("Pool wasn't initialized", e);
         }
     }
 
@@ -71,7 +71,7 @@ public final class ConnectionPool {
             closeConnectionsQueue(givenAwayConQueue);
             closeConnectionsQueue(connectionQueue);
         } catch (SQLException e) {
-            LOGGER.error("Connection wasn't closed");
+            LOGGER.error("Connection wasn't closed", e);
         }
     }
 
@@ -83,7 +83,7 @@ public final class ConnectionPool {
             }
             connection = connectionQueue.take();
         } catch (InterruptedException e) {
-            //throw new ConnectionPoolException("Error connecting to the source");
+            LOGGER.error("Connection wasn't taken", e);
         }
         return connection;
     }

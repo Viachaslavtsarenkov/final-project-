@@ -1,0 +1,55 @@
+$background-dark-color: black;
+$background-light-color:#F5F6F7;
+$text-dark-color:black;
+
+* {
+    margin: 0;
+}
+
+body {
+    margin: 0 auto;
+    width: 1500px;
+    font-size: 18px;
+    font-style: normal;
+    font-family: 'Roboto';
+    font-weight: normal;
+    line-height: 140%;
+  }
+
+.wrapper {
+    margin: 0 auto;
+    width: 1500px;
+}
+
+.personal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 500px;
+  width: 700px;
+  margin: 30px auto;
+  border-radius: 3px;
+  box-shadow: 0 2px 17px #3C93D5;
+  padding: 40px;
+  
+  .personal_inf{
+    margin: 140px 100px;
+  }
+
+  p{
+    padding: 5px;
+  }
+  
+  .orders {
+    margin-top: 60px;
+  }
+  
+  h3 {
+    margin: 20px auto;
+  }
+
+  .goods {
+    color:red;
+    margin: 15px auto;
+  }
+}

@@ -1,50 +1,42 @@
 package by.tsarenkov.shop.tag;
 
-
-import by.tsarenkov.shop.bean.Product;
+import by.tsarenkov.shop.dao.impl.SQLProductDAO;
+import org.apache.log4j.Logger;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.tagext.TagSupport;
 import java.io.IOException;
-import java.util.List;
 
-public class PaginationTag extends TagSupport {
+public class BasketProductTag extends TagSupport {
 
-    private PaginationTag list;
-    private int currentPage;
-    private int countPage = 1;
-    private int countElements = 6;
-    private List<Product> products;
+    private static final Logger LOGGER = Logger.getLogger(BasketProductTag.class);
 
-    public PaginationTag() {}
+    private int count;
 
-    public PaginationTag(List<Product> products) {
-        this.products = products;
-        this.currentPage = 1;
-        this.countPage = products.size() / countElements;
+    public BasketProductTag() {}
+
+    public int getCount() {
+        return count;
     }
 
-
-    public List<Product> getProducts() {
-        return products.subList(1, 6);
+    public void setCount(int count) {
+        this.count = count;
     }
 
-    public void setList(PaginationTag list) {
-        this.list = list;
-    }
 
     public int doStartTag() throws JspException {
-
+        String str = " <div class='basket_tag'>\n" +
+                "<img src='img/cart-black.svg'>\n" +
+                "<p class='count_products'>"+ count +"</p>\n" +
+                "</div>";
         try {
             JspWriter out = pageContext.getOut();
-            for(int i = countPage; i < countPage; ++i) {
-                out.write("<b>" + products.get(i).getId() + "</b>");
-            }
+            out.write(str);
         } catch (IOException e) {
-
+            LOGGER.error("Cannot write the tag: " + e);
         }
-        return SKIP_BODY;
+       return SKIP_BODY;
     }
 
 

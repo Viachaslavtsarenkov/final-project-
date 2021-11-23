@@ -1,8 +1,6 @@
 package by.tsarenkov.shop.bean.characteristic;
 
 public enum TabletCharacteristic {
-    BRAND,
-    MODEL,
     OPERATION_SYSTEM,
     DIAGONAL,
     RAM,

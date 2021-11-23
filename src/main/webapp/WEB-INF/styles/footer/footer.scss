@@ -1,0 +1,32 @@
+
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.wrapper {
+    margin: 0 auto;
+    width: 1350px;
+}
+
+footer {
+    color: white;
+    height: 150px;
+    background-image: url("img/footer.jpg");
+    bottom: 0;
+}
+
+.lang {
+    margin-left: 100px;
+    padding-top:70px;
+
+    a {
+        color: white
+    }
+
+    a:hover {
+        cursor: pointer;
+    }
+}
+
