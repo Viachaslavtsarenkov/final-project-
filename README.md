@@ -49,14 +49,14 @@
 
 ## Components used for the project:
 
-Java 8;
-Maven;
-Git;
-JavaEE: Servlet, JSP, JSTL;
-Server / Servlet container: Tomcat 9;
-Database: PostgreSQL;
-JDBC;
-Logger: SLF4J.
+- Java 8
+- Maven;
+- Git;
+- JavaEE: Servlet, JSP, JSTL;
+- Server / Servlet container: Tomcat 9;
+- Database: MySQL;
+- JDBC;
+- Logger: Log4j.
 
 
 
