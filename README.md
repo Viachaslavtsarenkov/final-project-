@@ -18,8 +18,8 @@
 ### other
 - change language
 
-The subsystem customer is provided with the following options
-## Orders
+### The subsystem customer is provided with the following options
+### Orders
 - Place an order
 - Cancel order
 - View user's orders
