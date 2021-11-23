@@ -3,7 +3,7 @@
 ## The subsystem administrator is provided with the following options:
 ### Orders
 - View orders
-- Find orders by user's name
+- Find orders by customer
 - Change status of order
 
 ### Products
