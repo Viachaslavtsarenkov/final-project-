@@ -1,5 +1,3 @@
-# final-project-
-
 # Online store is individual task for Epam Systems
 
 ## The subsystem administrator is provided with the following options:
