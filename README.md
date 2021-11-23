@@ -30,7 +30,7 @@
 - 
 ### Basket
 - Add a product to basket
-- Delette a product from basket
+- Delete a product from basket
 - View product from basket
 
 ### other
