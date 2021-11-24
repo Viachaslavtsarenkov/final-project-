@@ -16,7 +16,7 @@
 - Change user status
 
 ### other
-- change language
+- switch language
 
 ### The subsystem customer is provided with the following options
 ### Orders
