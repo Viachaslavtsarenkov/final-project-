@@ -54,7 +54,7 @@
 - Git;
 - JavaEE: Servlet, JSP, JSTL;
 - Server / Servlet container: Tomcat 9;
-- Database: PostgreSQL;
+- Database: MySQL;
 - JDBC;
 - Logger: Log4j.
 
