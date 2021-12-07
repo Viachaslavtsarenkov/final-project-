@@ -27,7 +27,6 @@
 ### Products
 - View produts
 - Search product by name
-- 
 ### Basket
 - Add a product to basket
 - Delete a product from basket
