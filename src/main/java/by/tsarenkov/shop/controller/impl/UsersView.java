@@ -19,6 +19,8 @@ public class UsersView implements Command {
     private static final  String USER_LIST = "userList";
     private static final ServiceProvider PROVIDER = ServiceProvider.getInstance();
     private final UserService USER_SERVICE = PROVIDER .getUserService();
+    private static final String LANG_PAGE = "langpage";
+    private static String COMMAND_PAGE = "alluserview";
 
     public UsersView() {}
 
@@ -31,12 +33,12 @@ public class UsersView implements Command {
 
         try {
             userList = USER_SERVICE.getAllUsers();
-            System.out.println(userList);
             request.setAttribute(USER_LIST, userList);
             dispatcher = request.getRequestDispatcher(PageStorage.USERS_PAGE_PATH.getPATH());
         } catch (ServiceException e) {
             dispatcher = request.getRequestDispatcher(PageStorage.ERROR_PAGE_PATH.getPATH());
         }
+        request.setAttribute(LANG_PAGE, COMMAND_PAGE);
         dispatcher.forward(request, response);
     }
 }

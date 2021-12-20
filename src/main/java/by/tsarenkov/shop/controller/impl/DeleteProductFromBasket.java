@@ -38,7 +38,6 @@ public class DeleteProductFromBasket implements Command {
                 int idUser = Integer.parseInt(session.getAttribute(ID_USER_ATTR).toString());
                 SERVICE.deleteProduct(idProduct, idUser);
                 count = SERVICE.getCountProduct(idUser);
-                System.out.println(count + "     coooount");
             } else {
                 Cookie[] cookies = request.getCookies();
                 response.addCookie(SERVICE.deleteProductFromCoolies(cookies, idProduct));
@@ -48,6 +47,7 @@ public class DeleteProductFromBasket implements Command {
         } catch (ServiceException e) {
             response.sendRedirect(PageStorage.ERROR_PAGE_PATH.getPATH());
         }
-        response.sendRedirect(request.getSession().getAttribute(PAGE).toString());
+        System.out.println("controller?command=" + request.getParameter("langpage").toString());
+        response.sendRedirect("controller?command=" + request.getParameter("langpage").toString());
     }
 }

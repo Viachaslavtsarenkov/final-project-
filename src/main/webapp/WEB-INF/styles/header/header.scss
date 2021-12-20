@@ -4,6 +4,10 @@ $text-dark-color:black;
 $text-headline-light: #818181;
 $font-content: Arial Bold;
 
+input {
+  outline: none;
+}
+
 .user_panel {
     width: 100vw;
     position: fixed;

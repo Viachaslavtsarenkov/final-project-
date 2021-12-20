@@ -3,7 +3,6 @@
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <html>
 <head>
-    <title>Title</title>
     <style>
         <%@include file='../../styles/products/products.css' %>
     </style>
@@ -85,6 +84,7 @@
                                     <input type="hidden" name="command" value="deleteproductfrombasket"/>
                                     <input type="hidden" name="id" value="<jsp:getProperty name="product" property="id"/>"/>
                                     <input type="hidden" name="name" value="tablet"/>
+                                    <input type="hidden" name="langpage" value="${requestScope.langpage.toString()}"/>
                                     <input type="submit" class="show_product_btn"
                                            value="<fmt:message bundle="${loc}" key="local.button.removeCart"/>"/>
                                 </form>

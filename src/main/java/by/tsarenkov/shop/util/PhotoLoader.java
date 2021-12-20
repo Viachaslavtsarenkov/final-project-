@@ -42,6 +42,6 @@ public class PhotoLoader {
         for (int i = 0; i < 10; i++) {
             code.append(SYMBOLS.charAt(rnd.nextInt(SYMBOLS.length())));
         }
-        return code.toString() + ".png";
+        return code + ".png";
     }
 }

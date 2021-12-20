@@ -20,7 +20,8 @@ public class ParticularOrderView implements Command {
     private final OrderService SERVICE = PROVIDER.getOrderService();
     private static final String ORDER = "orderInf";
     private static final String ID_ORDER = "id";
-    private static final String PAGE = "page";
+    private static final String LANG_PAGE = "langpage";
+    private static final String COMMAND = "particularorderview&id=";
 
     public ParticularOrderView() {}
 
@@ -33,12 +34,11 @@ public class ParticularOrderView implements Command {
         try {
             order = SERVICE.getOrder(id);
             request.setAttribute(ORDER, order);
-            request.getSession().setAttribute(PAGE,"particularorderview&id="+id);
+            request.getSession().setAttribute(LANG_PAGE, COMMAND + id);
             requestDispatcher = request.getRequestDispatcher(PageStorage.PARTICULAR_ORDER_PAGE_PATH.getPATH());
         } catch (ServiceException e) {
             requestDispatcher = request.getRequestDispatcher(PageStorage.ERROR_PAGE_PATH.getPATH());
         }
-
         requestDispatcher.forward(request, response);
     }
 }

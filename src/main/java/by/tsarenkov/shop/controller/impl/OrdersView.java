@@ -28,7 +28,8 @@ public class OrdersView implements Command {
     private static final String CURRENT_PAGE = "page";
     private static final String COUNT_PAGE = "countPage";
     private static final String STATUS = "status";
-    private static final String PAGE = "page";
+    private static final String LANG_PAGE = "langpage";
+    private static String command_page = "ordersview&";
     private static final String SEARCH = "search";
     private static final String CRITERION = "criterionOrder";
 
@@ -52,9 +53,7 @@ public class OrdersView implements Command {
         String searchName = null;
         StatusOrder statusOrder = null;
 
-        if (request.getParameter(CURRENT_PAGE) != null) {
-            page = Integer.parseInt(request.getParameter(CURRENT_PAGE));
-        }
+        page = Integer.parseInt(request.getParameter(CURRENT_PAGE));
 
         try {
           switch (criterion) {
@@ -65,6 +64,7 @@ public class OrdersView implements Command {
                   statusOrder = StatusOrder.valueOf(request.getParameter(STATUS).toUpperCase());
                   countAll = SERVICE.getCountAllOrdersByStatus(statusOrder);
                   request.setAttribute(STATUS, statusOrder);
+                  command_page = command_page + String.format("%s=%s&", STATUS, statusOrder.toString().toLowerCase());
                   break;
               case USER:
                   searchName = request.getParameter(SEARCH) + "%";
@@ -77,13 +77,12 @@ public class OrdersView implements Command {
         }
 
         countPages =  (int) Math.ceil(countAll / 8);
-        if (page == 1) {
-            countElements = (int)Math.min(countAll, 8);
-        } else if (page != countPages){
+        if (page != countPages) {
             countElements = 8;
         } else {
-            countElements = (int)countAll - (page - 1) * 8;
+            countElements = (int)countAll % 8;
         }
+
         int start = (page - 1) * 8 + 1;
 
         try {
@@ -107,7 +106,9 @@ public class OrdersView implements Command {
             requestDispatcher = request.getRequestDispatcher(PageStorage.ERROR_PAGE_PATH.getPATH());
         }
 
-        request.getSession().setAttribute(PAGE,"ordersview&page=" + page);
+        System.out.println(orders);
+        request.setAttribute(LANG_PAGE,command_page + String.format("%s=%s&%s=%s&%s=%s",
+                        CURRENT_PAGE, page, COUNT_PAGE, countPages, CRITERION, criterion));
         requestDispatcher.forward(request, response);
     }
 }

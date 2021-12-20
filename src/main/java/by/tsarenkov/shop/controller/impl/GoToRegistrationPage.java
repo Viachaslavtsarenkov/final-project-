@@ -14,6 +14,8 @@ import java.io.IOException;
 public class GoToRegistrationPage implements Command {
 
     private static final String ROLE = "role";
+    private static final String LANG_PAGE = "langpage";
+    private static final String COMMAND_PAGE = "gotoregistrationpage";
 
     public GoToRegistrationPage() {
     }
@@ -24,10 +26,10 @@ public class GoToRegistrationPage implements Command {
         RequestDispatcher dispatcher = null;
         if (session.getAttribute(ROLE).equals(UserRole.GUEST.toString())) {
             dispatcher = request.getRequestDispatcher(PageStorage.REGISTRATION_PAGE_PATH.getPATH());
-
         } else {
             dispatcher = request.getRequestDispatcher(PageStorage.MAIN_PAGE_PATH.getPATH());
         }
+        request.setAttribute(LANG_PAGE, COMMAND_PAGE);
         dispatcher.forward(request, response);
 
     }

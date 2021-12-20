@@ -2,6 +2,7 @@ package by.tsarenkov.shop.controller.impl;
 
 import by.tsarenkov.shop.bean.status.UserStatus;
 import by.tsarenkov.shop.controller.Command;
+import by.tsarenkov.shop.service.PageStorage;
 import by.tsarenkov.shop.service.ServiceException;
 import by.tsarenkov.shop.service.ServiceProvider;
 import by.tsarenkov.shop.service.UserService;
@@ -23,13 +24,13 @@ public class ChangeUserStatus implements Command {
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         RequestDispatcher dispatcher = null;
 
-        UserStatus status = UserStatus.valueOf(request.getParameter(STATUS));
+        UserStatus status = UserStatus.valueOf(request.getParameter(STATUS).toUpperCase());
         int id = Integer.parseInt(request.getParameter(ID_ATTR));
         try {
             USER_SERVICE.changeUserStatus(id, status);
-            response.sendRedirect("controller?command=gotopersonalpage&id=" + id);
+            response.sendRedirect("controller?command=gotopersonalpage&user=" + id);
         } catch (ServiceException e) {
-            //todo
+            response.sendRedirect(PageStorage.ERROR_PAGE_PATH.getPATH());
         }
     }
 

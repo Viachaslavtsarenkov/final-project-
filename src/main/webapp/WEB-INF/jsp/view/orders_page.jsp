@@ -6,6 +6,9 @@
     <style>
         <%@include file='../../styles/products/products.css' %>
     </style>
+    <title>
+        <fmt:message bundle="${loc}" key="local.header.orders"/>
+    </title>
 </head>
     <body>
         <c:choose>
@@ -21,6 +24,7 @@
                         <form class="search" action="controller?command=ordersview" method="post">
                             <input type="text" class="search_field" name="search">
                             <input type="hidden" name="criterionOrder" value="user">
+                            <input type="hidden" name="page" value="1">
                             <input type="submit" value="Поиск" class="search_btn">
                         </form>
                     </c:if>

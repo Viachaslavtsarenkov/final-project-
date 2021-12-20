@@ -21,7 +21,7 @@ public class GoToOrderPage implements Command {
     private static final String ID_USER_ATTR = "user";
     private static final String ROLE_ATTR = "role";
     private static final String ORDER = "order";
-
+    private static final String LANG_PAGE = "langpage";
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response)
@@ -42,6 +42,7 @@ public class GoToOrderPage implements Command {
         } catch (ServiceException e) {
             response.sendRedirect(PageStorage.ERROR_PAGE_PATH.getPATH());
         }
+        //todo add switch lang
         dispatcher.forward(request, response);
     }
 }

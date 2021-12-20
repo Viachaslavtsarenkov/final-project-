@@ -80,6 +80,7 @@
                                             <input type="hidden" name="id"
                                                    value="${product.id}"/>
                                             <input type="hidden" name="name" value="ebook"/>
+                                            <input type="hidden" name="langpage" value="${requestScope.langpage.toString()}"/>
                                             <input type="submit" class="show_product_btn"
                                                    value="<fmt:message bundle="${loc}" key="local.button.removeCart"/>"/>
                                         </form>

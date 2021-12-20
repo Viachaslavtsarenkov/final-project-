@@ -62,6 +62,7 @@ public class SQLProductDAO extends CreatorDAO implements ProductDAO {
             throw new DAOException(e);
         } finally {
             POOL.closeConnection(connection, preparedStatement);
+            POOL.returnConnectionToPool(connection);
         }
         return true;
     }
@@ -97,6 +98,7 @@ public class SQLProductDAO extends CreatorDAO implements ProductDAO {
             throw new DAOException(e);
         } finally {
             POOL.returnConnectionToPool(connection, preparedStatement);
+            POOL.returnConnectionToPool(connection);
         }
         return true;
     }
@@ -118,15 +120,14 @@ public class SQLProductDAO extends CreatorDAO implements ProductDAO {
             resultSet = preparedStatement.executeQuery();
             products = constructAllProductByResultSet(resultSet);
         } catch (SQLException e) {
-
             LOGGER.error("Cannot get all products " + e);
             throw new DAOException(e);
 
         } finally {
-            POOL.returnConnectionToPool(connection);
             if (preparedStatement != null) {
-                POOL.returnConnectionToPool(connection, preparedStatement);
+                POOL.returnConnectionToPool(connection, preparedStatement, resultSet);
             }
+            POOL.returnConnectionToPool(connection);
         }
         return products;
     }
@@ -144,12 +145,11 @@ public class SQLProductDAO extends CreatorDAO implements ProductDAO {
             resultSet = preparedStatement.getResultSet();
             resultSet.next();
             return resultSet.getInt(COUNT);
-
         } catch (SQLException e) {
             LOGGER.error("Cannot get count of all products " + e);
             throw new DAOException(e);
         } finally {
-            POOL.returnConnectionToPool(connection);
+            POOL.returnConnectionToPool(connection, preparedStatement, resultSet);
         }
     }
 
@@ -172,9 +172,8 @@ public class SQLProductDAO extends CreatorDAO implements ProductDAO {
             throw new DAOException(e);
 
         } finally {
-            POOL.returnConnectionToPool(connection);
             if (preparedStatement != null) {
-                POOL.returnConnectionToPool(connection, preparedStatement);
+                POOL.returnConnectionToPool(connection, preparedStatement, resultSet);
             }
         }
         return products;
@@ -197,7 +196,7 @@ public class SQLProductDAO extends CreatorDAO implements ProductDAO {
             LOGGER.error("Cannot get count of the list of the products by name " + e);
             throw new DAOException(e);
         } finally {
-            POOL.returnConnectionToPool(connection);
+            POOL.returnConnectionToPool(connection,preparedStatement, resultSet);
         }
     }
 
@@ -221,7 +220,6 @@ public class SQLProductDAO extends CreatorDAO implements ProductDAO {
             if (resultSet != null) {
                 POOL.returnConnectionToPool(connection, preparedStatement, resultSet);
             }
-            POOL.returnConnectionToPool(connection);
         }
         return product;
     }

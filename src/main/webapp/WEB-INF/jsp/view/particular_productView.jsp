@@ -2,7 +2,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
-    <title>Title</title>
+    <title>
+        ${requestScope.product.brand} ${requestScope.product.model}
+    </title>
     <style>
         <%@include file='../../styles/products/products.css' %>
     </style>

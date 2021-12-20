@@ -10,12 +10,18 @@
     <body>
         <footer class="wrapper">
             <diV class="lang">
-                <a href="controller?command=changelanguage&local=en">
-                    <fmt:message bundle="${loc}" key="local.button.en"/>
-                </a> |
-                <a href="controller?command=changelanguage&local=ru">
-                    <fmt:message bundle="${loc}" key="local.button.ru"/>
-                </a>
+                <form action="controller" method="post">
+                    <input type="hidden" name="command" value="changelanguage">
+                    <input type="hidden" name="langpage" value="${requestScope.langpage.toString()}">
+                    <input type="hidden" name="local" value="ru">
+                    <input type="submit" value="rus">
+                </form>
+                <form action="controller" method="post">
+                    <input type="hidden" name="command" value="changelanguage">
+                    <input type="hidden" name="langpage" value="${requestScope.langpage.toString()}">
+                    <input type="hidden" name="local" value="en">
+                    <input type="submit" value="eng">
+                </form>
             </diV>
         </footer>
     </body>

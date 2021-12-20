@@ -6,6 +6,9 @@
     <style>
         <%@include file='../../styles/style.css' %>
     </style>
+    <title>
+        <fmt:message bundle="${loc}" key="local.header.basket"/>
+    </title>
 </head>
 <body>
     <c:choose>
@@ -28,7 +31,7 @@
                                 <input type="hidden" name="command" value="deleteproductfrombasket"/>
                                 <input type="hidden" name="id"
                                        value="${requestScope.basketList.get(i).id}"/>
-                                <input type="hidden" name="name" value="ebook"/>
+                                <input type="hidden" name="langpage" value="${requestScope.langpage.toString()}"/>
                                 <input type="submit" class="show_product_btn"
                                        value="<fmt:message bundle="${loc}" key="local.button.removeCart"/>"/>
                             </form>

@@ -18,7 +18,6 @@ public class SaveProductInBasket implements Command{
     private static final String ROLE_ATTR = "role";
     private static final String NAME = "name";
     private static final String PRODUCT_PAGE = "controller?command=particularebookview&name=name_product&id=";
-    private static final String PRODUCT_NAME = "name_product";
     private static final String PRODUCT_PREFIX = "product-";
     private static final String COUNT = "count";
     private static final String PAGE = "page";
@@ -48,7 +47,7 @@ public class SaveProductInBasket implements Command{
                 ++count;
             }
             request.getSession().setAttribute(COUNT, count);
-            response.sendRedirect(request.getSession().getAttribute(PAGE).toString());
+            response.sendRedirect(PRODUCT_PAGE + idProduct);
         } catch (ServiceException e) {
             requestDispatcher = request.getRequestDispatcher(PageStorage.ERROR_PAGE_PATH.getPATH());
             requestDispatcher.forward(request, response);

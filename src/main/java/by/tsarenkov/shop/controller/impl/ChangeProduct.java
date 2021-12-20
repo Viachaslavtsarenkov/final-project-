@@ -3,6 +3,7 @@ package by.tsarenkov.shop.controller.impl;
 import by.tsarenkov.shop.bean.Product;
 import by.tsarenkov.shop.bean.ProductName;
 import by.tsarenkov.shop.controller.Command;
+import by.tsarenkov.shop.service.PageStorage;
 import by.tsarenkov.shop.service.ProductService;
 import by.tsarenkov.shop.service.ServiceException;
 import by.tsarenkov.shop.service.ServiceProvider;
@@ -21,7 +22,6 @@ public class ChangeProduct implements Command {
     private static final String NAME = "name";
     private static final String PRODUCT = "product";
     private static final String PRODUCT_INPUT_PAGE = "/WEB-INF/jsp/input_page/?_input_page.jsp";
-    private static final String ERROR_PAGE = "error.jsp";
 
     public ChangeProduct() {}
     @Override
@@ -36,7 +36,7 @@ public class ChangeProduct implements Command {
             requestDispatcher = request
                     .getRequestDispatcher(PRODUCT_INPUT_PAGE.replace("?", name.toString().toLowerCase()));
         } catch (ServiceException e) {
-            response.sendRedirect(ERROR_PAGE);
+            response.sendRedirect(PageStorage.ERROR_PAGE_PATH.getPATH());
         }
         requestDispatcher.forward(request, response);
     }

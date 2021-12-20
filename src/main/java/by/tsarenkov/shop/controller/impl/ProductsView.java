@@ -30,6 +30,9 @@ public class ProductsView implements Command {
     private static final String COUNT_PAGE = "countPage";
     private static final String CRITERION = "criterion";
     private static final String SEARCH = "search";
+    private static final String LANG_PAGE = "langpage";
+    private static final String PAGE = "page";
+    private static String COMMAND_PAGE = "productview&";
 
     private int page = 1;
     private int countElements = 8;
@@ -48,13 +51,14 @@ public class ProductsView implements Command {
         ProductName name = null;
         String searchName = null;
         List<Product> currentProducts = null;
+        page = Integer.parseInt(request.getParameter(PAGE));
         try {
             switch (criterion) {
                 case ALL:
                     name = ProductName.valueOf(request
                             .getParameter(NAME).toUpperCase());
                     request.setAttribute(NAME, name.toString().toLowerCase());
-                    request.setAttribute(NAME, name.toString().toLowerCase());
+                    COMMAND_PAGE = COMMAND_PAGE + String.format("%s=%s&", NAME, name.toString().toLowerCase());
                     countAll = PRODUCT_SERVICE.getCountAllProducts(name);
                     request.setAttribute(NAME, name.toString().toLowerCase());
                     break;
@@ -69,19 +73,14 @@ public class ProductsView implements Command {
             response.sendRedirect(PageStorage.ERROR_PAGE_PATH.getPATH());
         }
 
+
         countPages =  (int) Math.ceil(countAll / 8);
-        if (page == 1) {
-            countElements = (int)Math.min(countAll, 8);
-        } else if (page != countPages) {
+        if (page != countPages) {
             countElements = 8;
         } else {
-            countElements = (int)countAll - (page - 1) * 8;
+            countElements = (int)countAll % 8;
         }
         int start = (page - 1) * 8 + 1;
-
-        if (request.getParameter(CURRENT_PAGE) != null) {
-            page = Integer.parseInt(request.getParameter(CURRENT_PAGE));
-        }
 
         try {
             switch (criterion) {
@@ -96,15 +95,16 @@ public class ProductsView implements Command {
                 case STATUS:
                     break;
             }
-
         } catch (ServiceException e) {
-            requestDispatcher = request.getRequestDispatcher(PageStorage.ERROR_PAGE_PATH.getPATH());
+            response.sendRedirect(PageStorage.ERROR_PAGE_PATH.getPATH());
         }
 
         request.setAttribute(PRODUCT_ATTR, currentProducts);
         request.setAttribute(CURRENT_PAGE, page);
         request.setAttribute(COUNT_PAGE,countPages);
         request.setAttribute(CRITERION, criterion);
+        request.setAttribute(LANG_PAGE,COMMAND_PAGE + String.format("%s=%s&%s=%s&%s=%s",
+                        CURRENT_PAGE, page, COUNT_PAGE, countPages, CRITERION, criterion));
         requestDispatcher = request.getRequestDispatcher(PageStorage.PRODUCTS_PAGE_PATH.getPATH());
         requestDispatcher.forward(request, response);
     }

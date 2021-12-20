@@ -14,7 +14,7 @@ public class SQLQueryStorage {
     public static final String GET_ALL_USERS = "SELECT * FROM user where user_role = 'CUSTOMER'";
     public static final String ACTIVATION_USER = "UPDATE user SET status = ? WHERE email = ? " +
             "AND code = ? AND status = 'NO_ACTIVATED'";
-    public static final String AUTHORIZATION = "SELECT * FROM ffff user WHERE email = ? AND password = ?";
+    public static final String AUTHORIZATION = "SELECT * FROM user WHERE email = ? AND password = ?";
     public static final String CHANGE_USER_STATUS = "UPDATE user SET status = ? WHERE id_user = ?";
 
 
@@ -31,7 +31,7 @@ public class SQLQueryStorage {
             "from (SELECT goods_id, row_number() over(ORDER BY goods_id) AS RowNumber FROM store.goods\n" +
             "inner join store.categories\n" +
             "on id_category = categories_id_category\n" +
-            "where name_category = ?) as k\n" +
+            "where name_category = ? and status = 'SUPPLIED') as k\n" +
             "where k.rownumber between ? and ?) as table1\n" +
             "on goods_characteristic.goods_goods_id = table1.goods_id\n" +
             "inner join goods\n" +
@@ -122,8 +122,8 @@ public class SQLQueryStorage {
             "VALUES(?,?,?,?,?,?)";
 
     public static final  String ADD_ORDER_PRODUCT = "INSERT INTO goods_order" +
-            "(orders_id_order, goods_goods_id)" +
-            "VALUES(?,?)";
+            "(orders_id_order, goods_goods_id, price)" +
+            "VALUES(?,?,?)";
 
     public static final String GET_ALL_ORDERS = "select * from goods_order \n" +
             "inner join (\n" +

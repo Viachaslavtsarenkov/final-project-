@@ -23,7 +23,7 @@ public class GoToBasketPage implements Command {
     private static final String ROLE_ATTR = "role";
     private static final String BASKET_LIST = "basketList";
     private static final String SUM = "sum";
-    private static final String PAGE = "page";
+    private static final String LANG_PAGE = "langpage";
 
     public GoToBasketPage() {};
 
@@ -51,7 +51,7 @@ public class GoToBasketPage implements Command {
         }
         request.setAttribute(BASKET_LIST, products);
         request.setAttribute(SUM, sum);
-        request.getSession().setAttribute(PAGE, "controller?command=gotobasketpage");
+        request.setAttribute(LANG_PAGE, "gotobasketpage");
         requestDispatcher = request.getRequestDispatcher(PageStorage.BASKET_PAGE_PATH.getPATH());
         requestDispatcher.forward(request, response);
     }

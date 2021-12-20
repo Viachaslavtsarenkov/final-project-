@@ -91,7 +91,7 @@
                         </c:if>
                         <br>
                         <input class="input_btn" type="submit"
-                               value="<fmt:message bundle="${loc}" key="local.button.signIn"/>"/>
+                               value="<fmt:message bundle="${loc}" key="local.button.registration"/>"/>
                     </form>
                 </div>
                 <div class="join_us">

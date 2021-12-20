@@ -59,7 +59,7 @@ public class UserServiceImpl implements UserService {
                 validation.put("email", "error.email.inuse");
             }
         } catch (DAOException e) {
-            //todo
+            throw new ServiceException(e);
         }
 
         if (validation == null || validation.size() == 0 ) {

@@ -28,8 +28,6 @@ public class SaveNewUser implements Command {
     private static final String REPEATED_PASSWORD = "repeated-password";
     private static final String ERROR_VALIDATION = "errorValidation";
     private static final String USER_DATA = "user";
-
-    // todo redirect
     private static final String LOGIN_PAGE_REDIRECT = "controller?command=gotopersonalpage";
 
 

@@ -25,6 +25,7 @@ public class AddNewOrder implements Command {
     private static final String ADDRESS = "address";
     private static final String DELIVERY = "delivery";
     private static final String PAGE = "page";
+    private static final String COUNT = "count";
     private static final String REDIRECT = "controller?command=gotopersonalpage&user=";
 
     public AddNewOrder() {
@@ -55,7 +56,7 @@ public class AddNewOrder implements Command {
             order.setProducts(products);
             order.setAmount(amount);
             order.setDate(new Date());
-            System.out.println(order);
+            request.getSession().setAttribute(COUNT, 0);
             ORDER_SERVICE.addNewOrder(order);
             request.getSession().setAttribute(PAGE, REDIRECT + user.getUserId());
             BASKET_SERVICE.clearBasket(user.getUserId());

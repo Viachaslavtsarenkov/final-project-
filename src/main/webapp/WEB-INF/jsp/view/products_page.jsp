@@ -4,7 +4,9 @@
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <html>
     <head>
-        <title>Title</title>
+        <title>
+            <fmt:message bundle="${loc}" key="local.header.${requestScope.name}s"/>
+        </title>
         <style>
             <%@include file='../../styles/products/products.css' %>
         </style>
@@ -102,7 +104,7 @@
                <div class="btn_navigation">
                    <c:if test="${requestScope.page != 1}">
                        <a style="color:black"
-                          href="controller?command=productview&name=${requestScope.name}&page=${requestScope.page - 1}"><</a>
+                          href="controller?command=productview&name=${requestScope.name}&page=${requestScope.page - 1}&criterion=${requestScope.criterion}"><</a>
                    </c:if>
                    <c:forEach var="i" begin="1" end="${requestScope.countPage}" step="1">
                        <c:choose>

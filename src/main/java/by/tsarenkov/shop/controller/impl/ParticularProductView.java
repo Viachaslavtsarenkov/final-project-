@@ -27,6 +27,8 @@ public class ParticularProductView implements Command {
     private static final String BASKET_ATTR = "basket";
     private static final String ID_USER_ATTR = "user";
     private static final String ROLE_ATTR = "role";
+    private static final String LANG_PAGE = "langpage";
+    private static final String COMMAND = "particularebookview&id=";
     private static final String PAGE = "page";
 
     public ParticularProductView() {}
@@ -51,12 +53,12 @@ public class ParticularProductView implements Command {
             } else if (!UserRole.ADMIN.toString().equals(session.getAttribute(ROLE_ATTR).toString())) {
                 request.setAttribute(BASKET_ATTR, BASKET_SERVICE.checkProductInCookies(cookies, id));
             }
+            request.setAttribute(LANG_PAGE, COMMAND + id);
+            request.setAttribute(PAGE, COMMAND + id);
             requestDispatcher = request.getRequestDispatcher(PageStorage.PARTICULAR_PRODUCT_PAGE_PATH.getPATH());
         } catch (ServiceException e) {
-
             requestDispatcher = request.getRequestDispatcher(ERROR_PAGE);
         }
-        request.getSession().setAttribute(PAGE, "controller?command=particularebookview&id=" + id);
         requestDispatcher.forward(request, response);
     }
 }

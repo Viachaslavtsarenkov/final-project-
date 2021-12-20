@@ -50,9 +50,9 @@ public class SQLOrderDAO extends CreatorDAO implements OrderDAO {
             for(Product product : order.getProducts()) {
                 preparedStatement.setLong(1, result);
                 preparedStatement.setInt(2, product.getId());
+                preparedStatement.setDouble(3, product.getPrice());
                 preparedStatement.executeUpdate();
             }
-
         } catch (SQLException e) {
             LOGGER.error("Cannot add a new order " + e);
             throw new DAOException(e);
@@ -102,7 +102,7 @@ public class SQLOrderDAO extends CreatorDAO implements OrderDAO {
             LOGGER.error("Cannot get count of all orders" + e);
             throw new DAOException(e);
         } finally {
-            POOL.returnConnectionToPool(connection);
+            POOL.returnConnectionToPool(connection, preparedStatement, resultSet);
         }
     }
 
@@ -148,7 +148,7 @@ public class SQLOrderDAO extends CreatorDAO implements OrderDAO {
             LOGGER.error("Cannot get count of all orders" + e);
             throw new DAOException(e);
         } finally {
-            POOL.returnConnectionToPool(connection);
+            POOL.returnConnectionToPool(connection, preparedStatement, resultSet);
         }
     }
 
@@ -218,7 +218,7 @@ public class SQLOrderDAO extends CreatorDAO implements OrderDAO {
             LOGGER.error("Cannot get count of all orders by status" + e);
             throw new DAOException(e);
         } finally {
-            POOL.returnConnectionToPool(connection);
+            POOL.returnConnectionToPool(connection, preparedStatement, resultSet);
         }
     }
 

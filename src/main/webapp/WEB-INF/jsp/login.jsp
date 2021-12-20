@@ -4,6 +4,7 @@
 <html>
     <head>
         <title>
+            <fmt:message bundle="${loc}" key="login.login.text"/>
         </title>
         <meta charset="UTF-8" />
         <style>

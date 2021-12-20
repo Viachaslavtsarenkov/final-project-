@@ -1,3 +1,7 @@
+input {
+  outline: none;
+}
+
 .user_panel {
   width: 100vw;
   position: fixed;

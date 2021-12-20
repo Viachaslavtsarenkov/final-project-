@@ -1,6 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<fmt:setLocale value="${sessionScope.local}" scope="session"/>
+<fmt:setBundle basename="locale" var="loc" scope="session"/>
 <html>
 <head>
     <style>
@@ -33,55 +35,55 @@
                             </a>
                             <ul>
                                 <li>
-                                    <a href="controller?command=productview&name=laptop&criterion=all">
+                                    <a href="controller?command=productview&name=laptop&criterion=all&page=1">
                                         <fmt:message bundle="${loc}" key="local.header.laptops"/>
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="controller?command=productview&name=tablet&criterion=all">
+                                    <a href="controller?command=productview&name=tablet&criterion=all&page=1">
                                         <fmt:message bundle="${loc}" key="local.header.tablets"/>
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="controller?command=productview&name=ebook&criterion=all">
+                                    <a href="controller?command=productview&name=ebook&criterion=all&page=1">
                                         <fmt:message bundle="${loc}" key="local.header.ebooks"/>
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="controller?command=productview&name=smartphone&criterion=all">
+                                    <a href="controller?command=productview&name=smartphone&criterion=all&page=1">
                                         <fmt:message bundle="${loc}" key="local.header.smartphone"/>
                                     </a>
                                 </li>
                             </ul>
                         </li>
                         <li>
-                            <a href="controller?command=ordersview&page=1&criterionOrder=all">
+                            <a href="controller?command=ordersview&page=1&criterionOrder=all&page=1">
                                 <fmt:message bundle="${loc}" key="local.header.orders"/>
                             </a>
                             <ul>
                                 <li>
-                                    <a href="controller?command=ordersview&page=1&name=laptop&criterionOrder=status&status=new">
-                                        NEW
+                                    <a href="controller?command=ordersview&page=1&name=laptop&criterionOrder=status&status=new&page=1">
+                                        <fmt:message bundle="${loc}" key="orders.status.new"/>
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="controller?command=ordersview&page=1&name=laptop&criterionOrder=status&status=RECEIVED">
-                                        RECEIVED
+                                    <a href="controller?command=ordersview&page=1&name=laptop&criterionOrder=status&status=RECEIVED&page=1">
+                                        <fmt:message bundle="${loc}" key="orders.status.received"/>
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="controller?command=ordersview&page=1&name=laptop&criterionOrder=status&status=SENT">
-                                        SENT
+                                    <a href="controller?command=ordersview&page=1&name=laptop&criterionOrder=status&status=SENT&page=1">
+                                        <fmt:message bundle="${loc}" key="orders.status.sent"/>
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="controller?command=ordersview&page=1&name=laptop&criterionOrder=status&status=PROCESSED">
-                                         PROCESSED
+                                    <a href="controller?command=ordersview&page=1&name=laptop&criterionOrder=status&status=PROCESSED&page=1">
+                                        <fmt:message bundle="${loc}" key="orders.status.processed"/>
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="controller?command=ordersview&page=1&name=laptop&criterionOrder=status&status=CANCELED">
-                                        CANCELED
+                                    <a href="controller?command=ordersview&page=1&name=laptop&criterionOrder=status&status=CANCELED&page=1">
+                                        <fmt:message bundle="${loc}" key="orders.status.canceled"/>
                                     </a>
                                 </li>
                             </ul>

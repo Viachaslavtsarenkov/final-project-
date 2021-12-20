@@ -21,8 +21,7 @@ public class Login implements Command {
     private static final String ROLE = "role";
     private static final String ACTION = "attr";
     private static final String LOGIN_ERROR = "loginError";
-    private static final String COUNT = "count";
-    private static final String PAGE = "page";
+    private static final String LANG_PAGE = "langpage";
 
     private static final ServiceProvider PROVIDER = ServiceProvider.getInstance();
     private final UserService USER_SERVICE = PROVIDER.getUserService();
@@ -44,21 +43,18 @@ public class Login implements Command {
             session.setAttribute(ACTION, true);
             session.setAttribute(USER, user.getUserId());
             session.setAttribute(ROLE, user.getRole());
-            request.getSession().setAttribute(PAGE,"gotomainpage");
+            request.setAttribute(LANG_PAGE,"gotomainpage");
             if (user.getRole() == UserRole.CUSTOMER) {
                 Cookie[] cookies = BASKET_SERVICE.transferProductsFromCookie(request.getCookies(), user.getUserId());
                 for(Cookie cookie: cookies) {
                     response.addCookie(cookie);
                 }
             }
-
             response.sendRedirect("controller?command=gotomainpage");
         } catch (ServiceException e) {
             request.setAttribute(LOGIN_ERROR, e.getMessage());
             requestDispatcher = request.getRequestDispatcher(PageStorage.LOGIN_PAGE_PATH.getPATH());
             requestDispatcher.forward(request, response);
         }
-
     }
-
 }

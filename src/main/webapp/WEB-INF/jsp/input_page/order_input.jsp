@@ -6,6 +6,9 @@
     <style>
         <%@include file='../../styles/products/products.css' %>
     </style>
+    <title>
+        <fmt:message bundle="${loc}" key="order.checkout"/>
+    </title>
 </head>
     <body>
     <c:choose>
@@ -26,6 +29,7 @@
                 <label>
                     <fmt:message bundle="${loc}" key="product.characteristic.brand"/>
                 </label>
+                <fmt:message bundle="${loc}" key="order.deliveryOption"/>
                 <select name="delivery">
                     <option name="bycourier" value="courier">
                         <fmt:message bundle="${loc}" key="order.courier"/>
@@ -49,7 +53,7 @@
                     </a>
                 </c:forEach>
                 <label class="sum">
-                    Стоимость заказа:
+                    <fmt:message bundle="${loc}" key="order.cost"/>
                     ${requestScope.sum}
                 </label>
                 <input class="show_product_btn" type="submit" name="save"

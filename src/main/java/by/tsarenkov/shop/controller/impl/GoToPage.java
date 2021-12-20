@@ -17,7 +17,6 @@ public class GoToPage implements Command {
 
     public GoToPage() {}
 
-
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         String file = request.getParameter(PAGE).toUpperCase(Locale.ROOT);

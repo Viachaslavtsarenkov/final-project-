@@ -24,7 +24,9 @@ public class GoToPersonalPage implements Command {
     private static final String ROLE_ATTR = "role";
     private static final String USER_INF = "userInf";
     private static final String ORDER_LIST = "userOrderList";
-    private static final String PAGE = "page";
+    private static final String LANG_PAGE = "langpage";
+    private static final String COMMAND = "gotopersonalpage&user=";
+
 
     public GoToPersonalPage() {
 
@@ -38,9 +40,8 @@ public class GoToPersonalPage implements Command {
         List<Order> orderList = null;
         User user = null;
         int id = 0;
-        System.out.println(role);
-
         if (role == UserRole.GUEST) {
+            request.setAttribute(LANG_PAGE, COMMAND);
             requestDispatcher = request.getRequestDispatcher(PageStorage.LOGIN_PAGE_PATH.getPATH());
         } else {
             if (role == UserRole.CUSTOMER) {
@@ -53,12 +54,12 @@ public class GoToPersonalPage implements Command {
                 user = USER_SERVICE.getUserById(id);
                 request.setAttribute(USER_INF , user);
                 request.setAttribute(ORDER_LIST, orderList);
+                request.setAttribute(LANG_PAGE, COMMAND + id);
                 requestDispatcher = request.getRequestDispatcher(PageStorage.PERSONAL_PAGE_PATH.getPATH());
             } catch (ServiceException e) {
                 response.sendRedirect(PageStorage.ERROR_PAGE_PATH.getPATH());
             }
         }
-        request.getSession().setAttribute(PAGE, "gotopersonalpage");
         requestDispatcher.forward(request, response);
     }
 }

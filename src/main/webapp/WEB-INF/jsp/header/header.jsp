@@ -4,7 +4,6 @@
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <fmt:setLocale value="${sessionScope.local}" scope="session"/>
 <fmt:setBundle basename="locale" var="loc" scope="session"/>
-
 <style>
     <%@include file='../../styles/header/header.css' %>
 </style>
@@ -13,7 +12,7 @@
         <div class="wrapper">
             <div>
                 <a href="controller?command=gotomainpage">
-                    <img src="img/logo.png">
+                    <img src="img/logo.png" width="30px" height="30px">
                 </a>
             </div>
             <p class="name">Black & White</p>
@@ -21,7 +20,9 @@
                 <form class="search" action="controller?command=productview" method="post">
                     <input type="text" class="search_field" name="search">
                     <input type="hidden" name="criterion" value="name">
-                    <input type="submit" value="Поиск" class="search_btn">
+                    <input type="hidden" name="page" value="1">
+                    <input type="submit"
+                           value=" <fmt:message bundle="${loc}" key="local.button.search"/>" class="search_btn">
                 </form>
                 <a href="controller?command=gotopersonalpage">
                     <img src="img/icon_login.svg" width="32px" height="20px">
@@ -41,22 +42,22 @@
         <nav>
             <ul class="menu">
                 <li>
-                    <a href="controller?command=productview&name=ebook&criterion=all">
+                    <a href="controller?command=productview&name=ebook&criterion=all&page=1">
                         <fmt:message bundle="${loc}" key="local.header.ebooks"/>
                     </a>
                 </li>
                 <li>
-                    <a href="controller?command=productview&name=smartphone&criterion=all">
+                    <a href="controller?command=productview&name=smartphone&criterion=all&page=1">
                         <fmt:message bundle="${loc}" key="local.header.smartphone"/>
                     </a>
                 </li>
                 <li>
-                    <a href="controller?command=productview&name=tablet&criterion=all">
+                    <a href="controller?command=productview&name=tablet&criterion=all&page=1">
                         <fmt:message bundle="${loc}" key="local.header.tablets"/>
                     </a>
                 </li>
                 <li>
-                    <a href="controller?command=productview&name=laptop&criterion=all">
+                    <a href="controller?command=productview&name=laptop&criterion=all&page=1">
                         <fmt:message bundle="${loc}" key="local.header.laptops"/>
                     </a>
                 </li>

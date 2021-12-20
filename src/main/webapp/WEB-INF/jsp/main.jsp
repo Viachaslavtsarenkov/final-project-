@@ -4,6 +4,7 @@
 <html>
     <head>
         <title>
+            Black & White
         </title>
         <style>
             <%@include file='../styles/main/style.css' %>
@@ -34,7 +35,7 @@
                     <h2>
                         <fmt:message bundle="${loc}" key="local.header.smartphone"/>
                     </h2>
-                    <a class="show_btn" href="controller?command=productview&name=smartphone&criterion=all">
+                    <a class="show_btn" href="controller?command=productview&name=smartphone&criterion=all&page=1">
                         <fmt:message bundle="${loc}" key="local.button.seeMore"/>
                     </a>
                 </div>
@@ -42,7 +43,7 @@
                     <h2>
                         <fmt:message bundle="${loc}" key="local.header.laptops"/>
                     </h2>
-                    <a class="show_btn" href="controller?command=productview&name=laptop&criterion=all">
+                    <a class="show_btn" href="controller?command=productview&name=laptop&criterion=all&page=1">
                         <fmt:message bundle="${loc}" key="local.button.seeMore"/>
                     </a>
                 </div>
@@ -51,7 +52,7 @@
                     <h2>
                         <fmt:message bundle="${loc}" key="local.header.tablets"/>
                     </h2>
-                    <a class="show_btn" href="controller?command=productview&name=tablet&criterion=all">
+                    <a class="show_btn" href="controller?command=productview&name=tablet&criterion=all&page=1">
                         <fmt:message bundle="${loc}" key="local.button.seeMore"/>
                     </a>
                 </div>
@@ -60,7 +61,7 @@
                     <h2>
                         <fmt:message bundle="${loc}" key="local.header.ebooks"/>
                     </h2>
-                    <a class="show_btn" href="controller?command=productview&name=ebook&criterion=all">
+                    <a class="show_btn" href="controller?command=productview&name=ebook&criterion=all&page=1">
                         <fmt:message bundle="${loc}" key="local.button.seeMore"/>
                     </a>
                 </div>

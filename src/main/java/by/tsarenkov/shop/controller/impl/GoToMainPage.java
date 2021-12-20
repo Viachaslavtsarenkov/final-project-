@@ -22,9 +22,10 @@ public class GoToMainPage implements Command {
     private static final String COUNT = "count";
     private static final String ID_USER_ATTR = "user";
     private static final String ROLE_ATTR = "role";
+    private static final String LANG_PAGE = "langpage";
+    private static final String COMMAND_PAGE = "gotomainpage";
 
     public GoToMainPage() {
-
     }
 
     @Override
@@ -46,6 +47,7 @@ public class GoToMainPage implements Command {
             response.sendRedirect(PageStorage.ERROR_PAGE_PATH.getPATH());
         }
         session.setAttribute(COUNT, count);
+        request.setAttribute(LANG_PAGE, COMMAND_PAGE);
         RequestDispatcher dispatcher = request.getRequestDispatcher(PageStorage.MAIN_PAGE_PATH.getPATH());
         dispatcher.forward(request, response);
     }

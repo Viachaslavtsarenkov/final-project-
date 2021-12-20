@@ -12,8 +12,7 @@ public class ChangeLanguage implements Command {
 
     private static final String LOCALE = "local";
     private static final String PATH = "controller?command=";
-    private static final String PAGE = "page";
-    private final String LANG_ERROR_MSG = "Some problems with changing language";
+    private static final String LANG_PAGE = "langpage";
 
     public ChangeLanguage() {};
 
@@ -22,8 +21,8 @@ public class ChangeLanguage implements Command {
             throws IOException, ServletException {
         request.getSession(true).setAttribute(LOCALE,
                 request.getParameter(LOCALE));
-        String command = (String) request.getSession().getAttribute(PAGE);
+        String command = request.getParameter(LANG_PAGE);
+        System.out.println(command);
         response.sendRedirect(PATH + command);
-
     }
 }
